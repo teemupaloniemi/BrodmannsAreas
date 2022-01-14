@@ -1,6 +1,5 @@
 # pohja
 
-Pohja kevään 2022 harjoitustöiden GIT-repoille
+Ohjelma antaa mahdollisuuden opiskella ja lajitella Brodmannin alueita.
 
-Lue käyttöohjeet TIMistä: <https://tim.jyu.fi/view/kurssit/tie/ohj2/tyokalut/git/ohj2git#fork>
 
