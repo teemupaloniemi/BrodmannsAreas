@@ -22,17 +22,21 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              	  <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#close" text="Close" />
+                  <MenuItem fx:id="menuPrintSearch" mnemonicParsing="false" onAction="#handlePrint" text="Print Search..." />
+                  <MenuItem fx:id="menuPrintArea" mnemonicParsing="false" onAction="#handlePrint" text="Print Area..." />
+                  <MenuItem fx:id="menuSave" mnemonicParsing="false" onAction="#save" text="Save" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#delete" text="Delete..." />
+                  <MenuItem fx:id="menuNewArea" mnemonicParsing="false" onAction="#newArea" text="New Area..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="menuHelp" mnemonicParsing="false" onAction="#help" text="About" />
             </items>
           </Menu>
         </menus>
@@ -41,7 +45,7 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" BorderPane.alignment="CENTER">
          <children>
-            <Button maxHeight="-Infinity" mnemonicParsing="false" onAction="#muokkaa" text="Edit">
+            <Button maxHeight="-Infinity" mnemonicParsing="false" onAction="#edit" text="Edit">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -59,7 +63,7 @@
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Name">
@@ -85,7 +89,7 @@
             <TextField editable="false" GridPane.columnIndex="1" />
             <TextField editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextArea fx:id="functionText" editable="false" onInputMethodTextChanged="#haku" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextArea fx:id="functionText" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
          <padding>
             <Insets left="10.0" right="10.0" />
@@ -113,17 +117,17 @@
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </padding>
                   </TextField>
-                  <Button mnemonicParsing="false" onAction="#haku" text="Search" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#search" text="Search" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                   </Button>
-                  <CheckBox mnemonicParsing="false" onAction="#ehtoEka" text="Location">
+                  <CheckBox mnemonicParsing="false" onAction="#conditionL" text="Location">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                   </CheckBox>
-                  <CheckBox mnemonicParsing="false" onAction="#ehtoToka" text="Function" GridPane.columnIndex="1">
+                  <CheckBox mnemonicParsing="false" onAction="#conditionF" text="Function" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
@@ -138,7 +142,7 @@
             </GridPane>
          </top>
          <center>
-            <ListView fx:id="areaText" onInputMethodTextChanged="#haku" BorderPane.alignment="CENTER" />
+            <ListView fx:id="areaText" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </center>
