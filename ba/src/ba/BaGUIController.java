@@ -4,6 +4,8 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 
 import javafx.fxml.FXML;
@@ -21,7 +23,7 @@ public class BaGUIController {
        
     @FXML private ListView<?> areaText;
     
-    @FXML private TextArea functionText;
+    @FXML private ListChooser<?> functionText;
     
     @FXML private MenuItem menuClose;
 
@@ -41,26 +43,77 @@ public class BaGUIController {
         ModalController.showModal(BaGUIController.class.getResource("EditView.fxml"), "New Area", null, "");
     }
 
+    // Alla testi tekstit tulostuksille, lopullisessa toteutuksessa totetutetaan haun avulla
+    final String testiAlue = ("Brodmann's area 2                          \r\n"
+                            + "    Location: Primary somatosensory cortex \r\n"
+                            + "    Neighbours: 1,4,5,7,40                 \r\n"
+                            + "    Functions: Localize pain               \r\n"
+                            + "               Localize touch and vibration\r\n"
+                            + "               Localize temperature        \r\n"
+                            + "               Sense of fingers            \r\n"
+                            + "               Sense of body               \r\n"
+                            + "               Move hands                  \r\n"
+                            + "               Move mouth and tongue       \r\n"
+                            + "               Swallowing                  \r\n"
+                            + "               Anticipate pain             \r\n"
+                            + "               Anticipate tickling         \r\n"
+                            + "               Mirror neurons                  ");
+
+    final String testiHaku = ("Brodmann's area 1                          \r\n"  
+                            + "    Location: Primary somatosensory cortex \r\n"  
+                            + "    Neighbours: 2,3,5                      \r\n"  
+                            + "    Functions: Localize pain               \r\n"  
+                            + "               Localize touch and vibration\r\n"  
+                            + "               Localize temperature        \r\n"  
+                            + "               Sense of fingers            \r\n"  
+                            + "               Sense of body               \r\n"  
+                            + "               Move hands                  \r\n"  
+                            + "               Move mouth and tongue       \r\n"  
+                            + "               Swallowing                  \r\n"  
+                            + "               Anticipate pain             \r\n"  
+                            + "               Anticipate tickling         \r\n"  
+                            + "               Mirror neurons              \r\n"
+                            + "-------------------------------------------\r\n"
+                            + "Brodmann's area 2                          \r\n"
+                            + "    Location: Primary somatosensory cortex \r\n"
+                            + "    Neighbours: 1,4,5,7,40                 \r\n"
+                            + "    Functions: Localize pain               \r\n"
+                            + "               Localize touch and vibration\r\n"
+                            + "               Localize temperature        \r\n"
+                            + "               Sense of fingers            \r\n"
+                            + "               Sense of body               \r\n"
+                            + "               Move hands                  \r\n"
+                            + "               Move mouth and tongue       \r\n"
+                            + "               Swallowing                  \r\n"
+                            + "               Anticipate pain             \r\n"
+                            + "               Anticipate tickling         \r\n"
+                            + "               Mirror neurons              \r\n"
+                            + "-------------------------------------------\r\n"
+                            + "Brodmann's area 3                          \r\n"
+                            + "    Location: Primary somatosensory cortex \r\n"
+                            + "    Neighbours: 1,4,5                      \r\n"
+                            + "    Functions: Localize pain               \r\n"
+                            + "               Localize touch and vibration\r\n"
+                            + "               Localize temperature        \r\n"
+                            + "               Sense of fingers            \r\n"
+                            + "               Sense of body               \r\n"
+                            + "               Move hands                  \r\n"
+                            + "               Move mouth and tongue       \r\n"
+                            + "               Swallowing                  \r\n"
+                            + "               Anticipate pain             \r\n"
+                            + "               Anticipate tickling         \r\n"
+                            + "               Mirror neurons                  ");
+    
     
     //Tämä vain testinä että tulostus toimii TODO: ohjelma joka hakee tarvittavat tiedot tulostusta varten
-    @FXML private void handlePrint() {
-        PrintViewController.print("Brodmann's area 2                          \r\n"
-                                + "    Location: Primary somatosensory cortex \r\n"
-                                + "    Neighbours: 1,4,5,7,40                 \r\n"
-                                + "    Functions: Localize pain               \r\n"
-                                + "               Localize touch and vibration\r\n"
-                                + "               Localize temperature        \r\n"
-                                + "               Sense of fingers            \r\n"
-                                + "               Sense of body               \r\n"
-                                + "               Move hands                  \r\n"
-                                + "               Move mouth and tongue       \r\n"
-                                + "               Swallowing                  \r\n"
-                                + "               Anticipate pain             \r\n"
-                                + "               Anticipate tickling         \r\n"
-                                + "               Mirror neurons                  ");
+    @FXML private void handlePrintArea() {
+        PrintViewController.print(testiAlue);
     } 
 
-
+    @FXML private void handlePrintSearch() {   
+        PrintViewController.print(testiHaku);
+    }                                        
+    
     @FXML void save() {
         huomautus("Tallennetaan, ei toimi vielä!");
     }
