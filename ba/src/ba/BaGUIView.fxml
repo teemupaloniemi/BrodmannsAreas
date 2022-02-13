@@ -85,9 +85,9 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <TextField text="Brodmann's Area 2 " GridPane.columnIndex="1" />
-            <TextField text="Primary Somatosensory Cortex" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField text="1,4,5,7,40" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField editable="false" text="Brodmann's Area 2 " GridPane.columnIndex="1" />
+            <TextField editable="false" text="Primary Somatosensory Cortex" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField editable="false" text="1,4,5,7,40" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ListChooser fx:id="functionText" editable="true" rivit="Localize pain &#10;Localize touch and vibration &#10;Localize temperature &#10;Sense of fingers &#10;Sense of body &#10;Move hands &#10;Move mouth and tongue&#10;Swallowing&#10;Anticipate pain&#10;Anticipate tickling&#10;Mirror neurons&#10;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
          <padding>

@@ -6,11 +6,11 @@ import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
+
 /**
- * Tulostuksen hoitava luokka
- * 
- * @author vesal
- * @version 4.1.2016
+ * Tulostus luokka
+ * @author Teemu
+ * @version 13.2.2022
  */
 public class PrintViewController implements ModalControllerInterface<String> {
     @FXML TextArea printTextArea;

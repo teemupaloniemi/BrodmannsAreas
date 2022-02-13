@@ -43,7 +43,7 @@ public class BaGUIController {
         ModalController.showModal(BaGUIController.class.getResource("EditView.fxml"), "New Area", null, "");
     }
 
-    // Alla testi tekstit tulostuksille, lopullisessa toteutuksessa totetutetaan haun avulla
+    // Nämä ovat malli tekstit tulostuksille, lopullisessa toteutuksessa haetaan tiedostoista
     final String testiAlue = ("Brodmann's area 2                          \r\n"
                             + "    Location: Primary somatosensory cortex \r\n"
                             + "    Neighbours: 1,4,5,7,40                 \r\n"
@@ -58,6 +58,7 @@ public class BaGUIController {
                             + "               Anticipate pain             \r\n"
                             + "               Anticipate tickling         \r\n"
                             + "               Mirror neurons                  ");
+    
 
     final String testiHaku = ("Brodmann's area 1                          \r\n"  
                             + "    Location: Primary somatosensory cortex \r\n"  
@@ -146,6 +147,7 @@ public class BaGUIController {
         ModalController.showModal(BaGUIController.class.getResource("EditView.fxml"), "Edit Area", null, "");
     }
     
+    
     @FXML void help() {
         avustus();
     }
@@ -153,7 +155,7 @@ public class BaGUIController {
  //Muut toteutukset  
     
     /**
-     * Näytetään ohjelman suunnitelma erillisessä selaimessa.
+     * Näytetään ohjelman suunnitelma selaimessa.
      */
     private void avustus() {
         Desktop desktop = Desktop.getDesktop();
@@ -167,8 +169,9 @@ public class BaGUIController {
         }
     }
     
+    
     /**
-     * Tulostetaan huomautus dialogi tekstin kanssa
+     * Tulostetaan huomautus-dialogi halutun tekstin kanssa
      * @param text tulostettava teksti
      */
     public static void huomautus(String text) {
