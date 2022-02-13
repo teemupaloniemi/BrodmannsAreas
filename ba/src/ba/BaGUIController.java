@@ -39,7 +39,7 @@ public class BaGUIController {
 
     @FXML private MenuItem menuSave;
     
-    @FXML void newArea() {
+    @FXML void handleNewArea() {
         ModalController.showModal(BaGUIController.class.getResource("EditView.fxml"), "New Area", null, "");
     }
 
@@ -111,53 +111,98 @@ public class BaGUIController {
         PrintViewController.print(testiAlue);
     } 
 
+    
     @FXML private void handlePrintSearch() {   
         PrintViewController.print(testiHaku);
     }                                        
+   
     
-    @FXML void save() {
-        huomautus("Tallennetaan, ei toimi vielä!");
+    @FXML void handleSave() {
+        save();
     }
 
 
-    @FXML void close() {
-        huomautus("Tallennetaan ja poistutaan, ei toimi vielä!");
+    @FXML void handleClose() {
+        close();
     }
 
-    @FXML void delete() {
+
+    @FXML void handleDelete() {
+        delete();
+    }
+    
+
+    @FXML void handleConditionF() {
+        conditionF();
+    }
+
+    
+    @FXML void handleConditionL() {
+        conditionL();
+    }
+
+    
+    @FXML void handleSearch() {
+        search();
+    }
+    
+    
+    @FXML void handleEdit() {
+        edit();
+    }
+    
+   
+
+    @FXML void handleHelp() {
+        help();
+    }
+//===============================================================================================
+ //Muut toteutukset  
+    
+    /**
+     * tuhotaan valittu alue
+     */
+    public void delete() {
         huomautus("poistetaan valittu alue, Ei toimi vielä!");
     }
     
-    @FXML void conditionF() {
-        huomautus("En osaa vielä päättää!");
-    }
-
-
-    @FXML void conditionL() {
-        huomautus("En osaa vielä päättää!");
-    }
-
     
-    @FXML void search() {
+    /**
+     * valitaan hakuehdoksi funktio
+     */
+    public void conditionF() {
+        huomautus("En osaa vielä päättää!");
+    }
+    
+    
+    /**
+     * valitaan hakuehdoksi sijainti
+     */
+    public void conditionL() {
+        huomautus("En osaa vielä päättää!");
+    }
+    
+    
+    /**
+     * haetaan kauehdon ja hakuentän tiedoilla sopivat tiedot
+     */
+    public void search() {
         huomautus("Hakukone ei toimi vielä!");
     }
     
     
-    @FXML void edit() {
+    /**
+     * muokataan valittua aluetta
+     */
+    public void edit() {
         ModalController.showModal(BaGUIController.class.getResource("EditView.fxml"), "Edit Area", null, "");
     }
     
     
-    @FXML void help() {
-        avustus();
-    }
- //===============================================================================================
- //Muut toteutukset  
-    
     /**
      * Näytetään ohjelman suunnitelma selaimessa.
      */
-    private void avustus() {
+    public void help() {
         Desktop desktop = Desktop.getDesktop();
         try {
             URI uri = new URI("https://tim.jyu.fi/view/kurssit/tie/ohj2/2022k/ht/tealjapa");
@@ -167,6 +212,23 @@ public class BaGUIController {
         } catch (IOException e) {
             return;
         }
+    }
+    
+    
+    /**
+     * tallennetaan ja poistutaan sovelluksesta
+     */
+    public void close() {
+        huomautus("Tallennetaan ja poistutaan, ei toimi vielä!");
+    }
+    
+
+    /**
+     * tallennetaan kaikki tallennettavissa olevat tiedot,
+     * muokattava tai lisättävä alue hyppää listaan
+     */
+    public void save() {
+        huomautus("Tallennetaan, ei toimi vielä!");
     }
     
     

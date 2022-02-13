@@ -21,21 +21,21 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              	  <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#close" text="Close" />
+              	  <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#handleClose" text="Close" />
                   <MenuItem fx:id="menuPrintSearch" mnemonicParsing="false" onAction="#handlePrintSearch" text="Print Search..." />
                   <MenuItem fx:id="menuPrintArea" mnemonicParsing="false" onAction="#handlePrintArea" text="Print Area..." />
-                  <MenuItem fx:id="menuSave" mnemonicParsing="false" onAction="#save" text="Save" />
+                  <MenuItem fx:id="menuSave" mnemonicParsing="false" onAction="#handleSave" text="Save" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-                  <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#delete" text="Delete..." />
-                  <MenuItem fx:id="menuNewArea" mnemonicParsing="false" onAction="#newArea" text="New Area..." />
+                  <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#handleDelete" text="Delete..." />
+                  <MenuItem fx:id="menuNewArea" mnemonicParsing="false" onAction="#handleNewArea" text="New Area..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem fx:id="menuHelp" mnemonicParsing="false" onAction="#help" text="About" />
+              <MenuItem fx:id="menuHelp" mnemonicParsing="false" onAction="#handleHelp" text="About" />
             </items>
           </Menu>
         </menus>
@@ -116,17 +116,17 @@
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </padding>
                   </TextField>
-                  <Button mnemonicParsing="false" onAction="#search" text="Search" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#handleSearch" text="Search" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                   </Button>
-                  <CheckBox mnemonicParsing="false" onAction="#conditionL" text="Location">
+                  <CheckBox mnemonicParsing="false" onAction="#handleConditionL" text="Location">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                   </CheckBox>
-                  <CheckBox mnemonicParsing="false" onAction="#conditionF" text="Function" GridPane.columnIndex="1">
+                  <CheckBox mnemonicParsing="false" onAction="#handleConditionF" text="Function" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
