@@ -150,7 +150,6 @@ public class BaGUIController {
     @FXML void handleEdit() {
         edit();
     }
-    
    
 
     @FXML void handleHelp() {
