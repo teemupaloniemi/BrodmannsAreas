@@ -32,12 +32,15 @@ public class BaGUIController {
     @FXML private MenuItem menuHelp;
    
     @FXML private MenuItem menuNewArea;
+    
+    @FXML private MenuItem menuNewFunction;
 
     @FXML private MenuItem menuPrintArea;
 
     @FXML private MenuItem menuPrintSearch;
 
     @FXML private MenuItem menuSave;
+
     
     @FXML void handleNewArea() {
         ModalController.showModal(BaGUIController.class.getResource("EditView.fxml"), "New Area", null, "");
@@ -116,6 +119,11 @@ public class BaGUIController {
         PrintViewController.print(testiHaku);
     }                                        
    
+    
+    @FXML private void handleNewFunction() {
+        AddFunctionController.addFunction();
+    }
+    
     
     @FXML void handleSave() {
         save();

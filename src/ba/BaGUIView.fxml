@@ -32,6 +32,7 @@
             <items>
                   <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#handleDelete" text="Delete..." />
                   <MenuItem fx:id="menuNewArea" mnemonicParsing="false" onAction="#handleNewArea" text="New Area..." />
+                  <MenuItem fx:id="menuNewFunction" mnemonicParsing="false" onAction="#handleNewFunction" text="New Function..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
