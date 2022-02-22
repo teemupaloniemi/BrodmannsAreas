@@ -1,4 +1,4 @@
-package ba;
+package fxBa;
 
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
@@ -63,7 +63,7 @@ public class AddFunctionController implements ModalControllerInterface<String> {
      * Lisätään uusi funktio tiedostoon 
      */
     @FXML public static void newFunction() {
-        ba.BaGUIController.huomautus("Ei osata lisätä vielä!");
+        fxBa.BaGUIController.huomautus("Ei osata lisätä vielä!");
     }
 
 }
