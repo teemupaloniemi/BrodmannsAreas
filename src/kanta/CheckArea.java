@@ -41,7 +41,14 @@ public class CheckArea {
                                "Verbal fluency",                      
                                "Lexical search",                      
                                "Phonemes",                            
-                               "Grammar" };                          
+                               "Grammar", 
+                               "Attend to speech", 
+                               "Syntactic working memory", 
+                               "Working memory",         
+                               "Episodic memory", 
+                               "Declarative memory", 
+                               "Mirror other's movements", 
+                               "Speech programs" };                          
          return functions[i];            
      }                                   
 }                                        

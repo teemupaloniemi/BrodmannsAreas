@@ -51,7 +51,7 @@ public class Function {
      * täytetään oikealta näytäävällä tiedolla
      */
     public void fillFunctionInfo() {
-        int i = rand(0,4);
+        int i = rand(0,11);
         this.name = getFunction(i);  
         this.fid  = i;
     }

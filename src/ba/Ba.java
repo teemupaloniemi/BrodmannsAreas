@@ -24,7 +24,7 @@ public class Ba {
      * @return alueiden lukumäärän
      */
     public int getLocationCount() {
-        return locations.getSize();
+        return this.locations.getSize();
     }
 
 
@@ -33,7 +33,7 @@ public class Ba {
      * @throws TilaException jos tila loppuu
      */
     public void add(Area area) throws TilaException {
-         areas.add(area);
+         this.areas.add(area);
     }
     
     
@@ -42,7 +42,7 @@ public class Ba {
      * @throws TilaException jos tila loppuu
      */
     public void add(Location location) throws TilaException {
-         locations.add(location);
+         this.locations.add(location);
     }
     
     

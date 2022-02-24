@@ -174,7 +174,7 @@ public class BaGUIController implements Initializable {
          }
          return l;
      }
-    
+     
     
     /**
      * @param Anum Alueen tunnusnumero
