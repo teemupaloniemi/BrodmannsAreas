@@ -1,7 +1,6 @@
 package ba;
 
 import java.io.PrintStream;
-import static kanta.CheckArea.*;
 
 /** 
  * Tietää sijainnin kentät: lid, nimi                
@@ -16,18 +15,10 @@ import static kanta.CheckArea.*;
  */
 public class Location {
 
-    private int    lid  =  0;
+    private int    lid  =  -1;
     private String name = "";
     
     private static int nextLid = 0;
-    
-    
-    /**
-     * Alustetaan uusi alue
-     */
-    public Location() {
-        //
-    }
     
     
     /**
@@ -49,6 +40,13 @@ public class Location {
     /**
      * Annetaan uudelle alueelle uniikki id
      * @return viitteen sijaintiin
+     * @example
+     * <pre name="test">
+     * Location a1 = new Location();
+     * Location a2 = new Location();
+     * a1.register().getLid() != -1 === true;
+     * a2.register().getLid() != a1.getLid() === true;
+     * </pre>
      */
     public Location register() {
         this.lid = nextLid;  
@@ -66,12 +64,12 @@ public class Location {
     
     
     /**
-     * täytetään oikealta näytäävällä tiedollai
+     * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
      * @return viite sijaintiin
      */
     public Location fillLocationInfo() {
-        int i = rand(0, 4);
-        this.name = getLocation(i);  
+        int i = kanta.CheckArea.rand(0, 4);
+        this.name = kanta.CheckArea.getLocation(i);  
         return this;
     }
     

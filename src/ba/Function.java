@@ -1,7 +1,8 @@
 package ba;
 
 import java.io.PrintStream;
-import static kanta.CheckArea.*;
+
+import kanta.CheckArea;
 
 /** 
  * Tietää toimiinnon kentät: fid, nimi             
@@ -16,10 +17,10 @@ import static kanta.CheckArea.*;
  */
 public class Function {
 
-    private int    fid  =  0;
+    private int    fid  =  -1;
     private String name = "";
     
-    private static int nextFid = 1;
+    private static int nextFid = 0;
     
     
     /**
@@ -32,13 +33,37 @@ public class Function {
     
     /**
      * Annetaan uudelle alueelle uniikki id
+     * @return viite tetävään
+     * @example
+     * <pre name="test">
+     * Function f1 = new Function();
+     * Function f2 = new Function();
+     * f1.register().getFid() != -1 === true;
+     * f2.register().getFid() != f1.getFid() === true;
+     * </pre>
      */
-    public void register() {
+    public Function register() {
         this.fid = nextFid;  
         nextFid++;
+        return this;
+    }
+    
+    
+    /**
+     * @return tehtävän id
+     */
+    public int getFid() {
+        return this.fid;
     }
     
    
+    /**
+     * @return palautetaan tehtävän nimi
+     */
+    public String getName() {
+        return this.name;
+    }
+    
     /**
      * @param out tulostus tietovirta
      */
@@ -48,12 +73,12 @@ public class Function {
     
     
     /**
-     * täytetään oikealta näytäävällä tiedolla
+     * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
+     * @return viite tehtävään
      */
-    public void fillFunctionInfo() {
-        int i = rand(0,11);
-        this.name = getFunction(i);  
-        this.fid  = i;
+    public Function fillFunctionInfo() {
+        this.name = CheckArea.getFunction(this.fid);  
+        return this;
     }
     
     

@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -31,10 +32,10 @@ import ba.TilaException;
 public class BaGUIController implements Initializable {
        
     @FXML private ListView<?> areaText;
-    @FXML private ListChooser<?> chooserFunctions;
     @FXML private ListChooser<Area> chooserAreas;
     @FXML private TextField nameText;
     @FXML private TextField locationText;
+    @FXML private TextArea functionsText;
     @FXML private MenuItem menuClose;
     @FXML private MenuItem menuDelete;
     @FXML private MenuItem menuHelp;
@@ -127,7 +128,6 @@ public class BaGUIController implements Initializable {
      */
     protected void reset() {
         this.chooserAreas.clear();
-        this.chooserFunctions.clear();
         this.chooserAreas.addSelectionListener(e -> write());
     }
 
@@ -138,8 +138,8 @@ public class BaGUIController implements Initializable {
     protected void write() {
         Area selectedArea = this.chooserAreas.getSelectedObject();
         if (selectedArea == null) return;
-        this.nameText.setText(selectedArea.getName());
         try {
+            this.nameText.setText(selectedArea.getName());
             this.locationText.setText(ba.getLocation(selectedArea.getLid()).getName());
         } catch (IndexOutOfBoundsException e) {
             Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
@@ -152,7 +152,9 @@ public class BaGUIController implements Initializable {
     */
     protected void newArea() {
         Area a = new Area().register().fillAreaInfo();
-        try { this.ba.add(a); }
+        try { 
+            this.ba.add(a); 
+        }
         catch (TilaException e) {
             Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
             return;
@@ -168,7 +170,9 @@ public class BaGUIController implements Initializable {
      */
      protected Location newLocation() {
          Location l = new Location().register().fillLocationInfo();
-         try { this.ba.add(l); } 
+         try { 
+             this.ba.add(l); 
+         } 
          catch (TilaException e) { 
              Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
          }

@@ -7,26 +7,37 @@ package ba;
  */
 public class Functions {
         
-     private static final int MAX       = 15;
+     private static final int MAX       = 5;
      private int              lkm       = 0; 
      private Function[]       functions = new Function[MAX];
-
-     
-     /**
-      * Alustetaan uusi alueisto
-      */
-     public Functions() {
-         //
-     }
      
      
-     /**
-      * Lisätään uusi alue aluistoon
-      * @param function alue joka lisätään
-      * @throws TilaException poikkeus jos taulukko täynnä
-      */
+    /**
+     * Lisätään uusi alue aluistoon
+     * @param function alue joka lisätään
+     * @throws TilaException poikkeus jos taulukko täynnä
+     * @example
+     * <pre name="test">
+     * #THROWS TilaException 
+     * Functions functions = new Functions();
+     * Function a1 = new Function(), a2 = new Function();
+     * functions.getSize() === 0;
+     * functions.add(a1); functions.getSize() === 1;
+     * functions.add(a2); functions.getSize() === 2;
+     * functions.add(a1); functions.getSize() === 3;
+     * functions.get(0) === a1;
+     * functions.get(1) === a2;
+     * functions.get(2) === a1;
+     * functions.get(1) == a1 === false;
+     * functions.get(1) == a2 === true;
+     * functions.get(3) === a1; #THROWS IndexOutOfBoundsException 
+     * functions.add(a1); functions.getSize() === 4;
+     * functions.add(a1); functions.getSize() === 5;
+     * functions.add(a1); #THROWS TilaException
+     * </pre>
+     */
      public void add(Function function) throws TilaException {
-         if (this.lkm >= this.functions.length) throw new TilaException("Alkioita jo maksimi määrä.");
+         if (this.lkm >= this.functions.length) throw new TilaException("Alkioita jo maksimi määrä f.");
          this.functions[lkm] = function;
          this.lkm++;
      }
@@ -35,7 +46,7 @@ public class Functions {
      /**
       * @return paljonko alkiota 
       */
-     public int getLkm() {
+     public int getSize() {
          return this.lkm;
      }
      
@@ -45,8 +56,7 @@ public class Functions {
       * @return halutun alkion
       */
      public Function get(int i) {
-         if (i < 0 || lkm <= i)
-             throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+         if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("Laiton indeksi f: " + i);
          return functions[i];
      }
      
@@ -58,27 +68,18 @@ public class Functions {
      public static void main(String args[]) {
          Functions functions = new Functions();
 
-         Function function  = new Function(); 
-         Function function2 = new Function();
-         
-         function.register();
-         function.fillFunctionInfo();
-         function2.register();
-         function2.fillFunctionInfo();
-
          try {
-             functions.add(function);
-             functions.add(function2);
+             functions.add(new Function().register().fillFunctionInfo());
+             functions.add(new Function().register().fillFunctionInfo());
          } catch (TilaException e) {
              System.out.println(e.getMessage());
          }
 
-         System.out.println("============= Jäsenet testi =================");
+         System.out.println("============= Function testi =================");
          
-         for (int i = 0; i < functions.getLkm(); i++) {
-             Function f = functions.get(i);
-             System.out.println("Jäsen nro: " + i);
-             f.print(System.out);
+         for (int i = 0; i < functions.getSize(); i++) {
+             System.out.println("Teht. nro: " + i);
+             functions.get(i).print(System.out);
          }
      }
 }

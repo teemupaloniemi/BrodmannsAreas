@@ -11,26 +11,37 @@ package ba;
  */
 public class Locations {
     
-    private static final int MAX       = 30;
+    private static final int MAX       = 5;
     private int              lkm       = 0; 
     private Location[]       locations = new Location[MAX];
-
-    
-    /**
-     * Alustetaan uusi alueisto
-     */
-    public Locations() {
-        //
-    }
     
     
     /**
      * Lisätään uusi alue aluistoon
      * @param location alue joka lisätään
      * @throws TilaException poikkeus jos taulukko täynnä
+     * @example
+     * <pre name="test">
+     * #THROWS TilaException 
+     * Locations locations = new Locations();
+     * Location a1 = new Location(), a2 = new Location();
+     * locations.getSize() === 0;
+     * locations.add(a1); locations.getSize() === 1;
+     * locations.add(a2); locations.getSize() === 2;
+     * locations.add(a1); locations.getSize() === 3;
+     * locations.get(0) === a1;
+     * locations.get(1) === a2;
+     * locations.get(2) === a1;
+     * locations.get(1) == a1 === false;
+     * locations.get(1) == a2 === true;
+     * locations.get(3) === a1; #THROWS IndexOutOfBoundsException 
+     * locations.add(a1); locations.getSize() === 4;
+     * locations.add(a1); locations.getSize() === 5;
+     * locations.add(a1); #THROWS TilaException
+     * </pre>
      */
     public void add(Location location) throws TilaException {
-        if (this.lkm >= this.locations.length) throw new TilaException("Alkioita jo maksimi määrä.");
+        if (this.lkm >= this.locations.length) throw new TilaException("Alkioita jo maksimi määrä l.");
         this.locations[lkm] = location;
         this.lkm++;
     }
@@ -50,7 +61,7 @@ public class Locations {
      * @throws IndexOutOfBoundsException jos kutsitaan laittomalla indeksillä
      */
     public Location get(int i) throws IndexOutOfBoundsException {
-        if (i < 0 || lkm <= i) throw new IndexOutOfBoundsException("laiton indeksi: " + i);
+        if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("laiton indeksi l: " + i);
         return locations[i];
     }
     

@@ -4,43 +4,34 @@ import java.io.PrintStream;
 import static kanta.CheckArea.*;
 
 /**
- * Tietää alueen kentät: aid, nimi, lid 
- * TODO: Osaa tarkastaa tietyn kentän oikeellisuuden    
- * TODO: Osaa muuttaa "1|BA01|1|" - merkkijonon alueen tiedoiksi                                      
- * TODO: Osaa antaa merkkijonona i:n kentän tiedon      
- * TODO: Osaa laittaa merkkijonon i:neksi kentäksi      
  * 
  * @author Teemu
  * @version 21.2.2022
- *
  */
 public class Area {
 
-    private int    aid  =  0;
+    private int    aid  =  -1;
     private String name = "";
     private int    lid  =  0;
     
-    private static int nextAid = 1;
-    
-    
-    /**
-     * Alustetaan uusi alue
-     */
-    public Area() {
-        //
-    }
-    
+    private static int nextAid = 0;
     
     /**
      * Annetaan uudelle alueelle uniikki id
      * @return alueen viite
+     * @example
+     * <pre name="test">
+     * Area a1 = new Area();
+     * Area a2 = new Area();
+     * a1.register().getAid() != -1 === true;
+     * a2.register().getAid() != a1.getAid() === true;
+     * </pre>
      */
     public Area register() {
         this.aid = nextAid;  
         nextAid++;
         return this;
-    }
-    
+    } 
     
     
     /**
@@ -52,7 +43,15 @@ public class Area {
     
     
     /**
-     * @return palautetaan alue id
+     * @return palautetaan alueen nimi
+     */
+    public String getName() {
+        return this.name;
+    } 
+    
+    
+    /**
+     * @return palautetaan sijainti id
      */
     public int getLid() {
         return this.lid;
@@ -63,18 +62,17 @@ public class Area {
     /**
      * alustetaan lid
      * @param lid uusi sijainti id
+     * @return alueen viite
+     * @example
+     * <pre name="test">
+     * new Area().setLid(1).getLid() === 1;
+     * new Area().setLid(3).getLid() === 3;
+     * </pre>
      */
-    public void setLid(int lid) {
+    public Area setLid(int lid) {
        this.lid = lid;
-    }
-    
-    
-    /**
-     * @return palautetaan alueen nimi
-     */
-    public String getName() {
-        return this.name;
-    }    
+       return this;
+    }  
     
    
     /**
@@ -82,15 +80,13 @@ public class Area {
      * @return alueen viite
      */
     public Area print(PrintStream out) {
-        out.println("|id: "+ this.aid);
-        out.println("|name: " + this.name);
-        out.println("|location: " + this.lid);
+        out.println(this.aid + "|" + this.name + "|" + this.lid);
         return this;
     }
     
     
     /**
-     * täytetään oikealta näytäävällä tiedolla
+     * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
      * @return alueen viite
      */
     public Area fillAreaInfo() {

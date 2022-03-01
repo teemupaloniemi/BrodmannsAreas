@@ -31,6 +31,24 @@ public class Ba {
     /**
      * @param area lisattava alue
      * @throws TilaException jos tila loppuu
+     * @example
+     * <pre name="test">
+     * #THROWS TilaException
+     * Ba ba = new Ba();
+     * Area a1 = new Area(), a2 = new Area();
+     * a1.register(); a2.register();
+     * ba.getAreaCount() === 0;
+     * ba.add(a1); ba.getAreaCount() === 1;
+     * ba.add(a2); ba.getAreaCount() === 2;
+     * ba.add(a1); ba.getAreaCount() === 3;
+     * ba.getArea(0) === a1;
+     * ba.getArea(1) === a2;
+     * ba.getArea(2) === a1;
+     * ba.getArea(3) === a1; #THROWS IndexOutOfBoundsException 
+     * ba.add(a1); ba.getAreaCount() === 4;
+     * ba.add(a1); ba.getAreaCount() === 5;
+     * ba.add(a1); #THROWS TilaException
+     * </pre>
      */
     public void add(Area area) throws TilaException {
          this.areas.add(area);
@@ -63,6 +81,7 @@ public class Ba {
     public Location getLocation(int i) throws IndexOutOfBoundsException {
         return locations.get(i);
     }
+    
     
     
     /**
