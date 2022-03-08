@@ -24,14 +24,6 @@ public class Function {
     
     
     /**
-     * Alustetaan uusi alue
-     */
-    public Function() {
-        //
-    }
-    
-    
-    /**
      * Annetaan uudelle alueelle uniikki id
      * @return viite tetävään
      * @example
@@ -63,6 +55,7 @@ public class Function {
     public String getName() {
         return this.name;
     }
+
     
     /**
      * @param out tulostus tietovirta
@@ -77,7 +70,7 @@ public class Function {
      * @return viite tehtävään
      */
     public Function fillFunctionInfo() {
-        this.name = CheckArea.getFunction(this.fid);  
+        this.name = CheckArea.getFunction(CheckArea.rand(0,7));  
         return this;
     }
     

@@ -13,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -21,6 +20,8 @@ import fi.jyu.mit.fxgui.ModalController;
 
 import ba.Area;
 import ba.Ba;
+import ba.Function;
+import ba.Lf;
 import ba.Location;
 import ba.TilaException;
 
@@ -35,7 +36,7 @@ public class BaGUIController implements Initializable {
     @FXML private ListChooser<Area> chooserAreas;
     @FXML private TextField nameText;
     @FXML private TextField locationText;
-    @FXML private TextArea functionsText;
+    @FXML private ListChooser<Function> chooserFunctions;
     @FXML private MenuItem menuClose;
     @FXML private MenuItem menuDelete;
     @FXML private MenuItem menuHelp;
@@ -61,7 +62,7 @@ public class BaGUIController implements Initializable {
    
     
     @FXML private void handleNewFunction() {
-        AddFunctionController.addFunction();
+        newFunction();
     }
     
     
@@ -141,6 +142,9 @@ public class BaGUIController implements Initializable {
         try {
             this.nameText.setText(selectedArea.getName());
             this.locationText.setText(ba.getLocation(selectedArea.getLid()).getName());
+            var funcs = this.ba.findFunctionIDs(selectedArea.getLid());
+            this.chooserFunctions.clear();
+            for (int i = 0; i < funcs.size(); i++) this.chooserFunctions.add(funcs.get(i).getName(), funcs.get(i));
         } catch (IndexOutOfBoundsException e) {
             Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
         }
@@ -171,12 +175,23 @@ public class BaGUIController implements Initializable {
      protected Location newLocation() {
          Location l = new Location().register().fillLocationInfo();
          try { 
-             this.ba.add(l); 
+             this.ba.add(l);
          } 
          catch (TilaException e) { 
              Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
          }
          return l;
+     }
+     
+     
+     /**
+      * Adding new function
+      */
+     public void newFunction() {
+         Function f = new Function().register().fillFunctionInfo();
+         this.ba.add(f);
+         this.ba.add(new Lf(this.chooserAreas.getSelectedObject().getLid(),f.getFid()));
+         write();
      }
      
     

@@ -8,7 +8,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
@@ -53,6 +52,11 @@
                </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#handleNewArea" text="New Area" />
+            <Button mnemonicParsing="false" onAction="#handleNewFunction" text="New Function">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
    </bottom>
@@ -148,7 +152,7 @@
             </Label>
             <TextField fx:id="nameText" editable="false" text="Brodmann's Area 2 " GridPane.columnIndex="1" />
             <TextField fx:id="locationText" editable="false" text="Primary Somatosensory Cortex" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextArea fx:id="functionsText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ListChooser fx:id="chooserFunctions" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <padding>
             <Insets left="10.0" right="10.0" />

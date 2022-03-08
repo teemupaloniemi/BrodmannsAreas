@@ -10,7 +10,7 @@ public class TilaException extends Exception {
     /**
      * 
      */
-    private static final long serialVersionUID = 1L;
+    public static final long serialVersionUID = 1L;
 
     /**
      * Poikkeuksen muodostaja jolle tuodaan poikkeuksessa
