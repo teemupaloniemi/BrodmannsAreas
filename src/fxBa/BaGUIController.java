@@ -119,8 +119,8 @@ public class BaGUIController implements Initializable {
      * @param ba luotavat aivot
      */
     public void setBa(Ba ba) {
-        this.ba = ba;
-        write();
+        this.ba = ba; // luodaan uusi 
+        write(); // päivitetään käyttöliittymä
     }
     
     
@@ -128,8 +128,8 @@ public class BaGUIController implements Initializable {
      * Alustetaan aluevalikko uusilla tiedoilla
      */
     protected void reset() {
-        this.chooserAreas.clear();
-        this.chooserAreas.addSelectionListener(e -> write());
+        this.chooserAreas.clear(); // tyhjennetään käyttöliittymän alue lista 
+        this.chooserAreas.addSelectionListener(e -> write()); // kun valitaan alue, päivitetään käyttöliittymä sen tiedoilla
     }
 
 
@@ -137,16 +137,16 @@ public class BaGUIController implements Initializable {
      * Näytetään alueen tiedot
      */
     protected void write() {
-        Area selectedArea = this.chooserAreas.getSelectedObject();
-        if (selectedArea == null) return;
+        Area selectedArea = this.chooserAreas.getSelectedObject(); // otetaan listasta valittu alue
+        if (selectedArea == null) return; // jos tyhjä niin häippästään
         try {
-            this.nameText.setText(selectedArea.getName());
-            this.locationText.setText(ba.getLocation(selectedArea.getLid()).getName());
-            var funcs = this.ba.findFunctionIDs(selectedArea.getLid());
-            this.chooserFunctions.clear();
-            for (int i = 0; i < funcs.size(); i++) this.chooserFunctions.add(funcs.get(i).getName(), funcs.get(i));
-        } catch (IndexOutOfBoundsException e) {
-            Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
+            this.nameText.setText(selectedArea.getName()); // Valitun alueen nimi
+            this.locationText.setText(ba.getLocation(selectedArea.getLid()).getName()); // Valitun alueen sijainnin nimi 
+            var funcs = this.ba.findFunctionIDs(selectedArea.getLid()); // pyydetään etsimään funktiot joita sijainnilla on
+            this.chooserFunctions.clear(); // tyhjennetään funktio lista käyttöliittymässä
+            for (int i = 0; i < funcs.size(); i++) this.chooserFunctions.add(funcs.get(i).getName(), funcs.get(i)); // Lisätään pyydetyt funktiot käyttöliittymään
+        } catch (IndexOutOfBoundsException e) { // jos ongelmia niin näytetään mitä 
+            Dialogs.showMessageDialog("Ongelmia: " + e.getMessage()); // jos ei löydy
         }
     }
     
@@ -155,16 +155,16 @@ public class BaGUIController implements Initializable {
     * lisäään uusi alue 
     */
     protected void newArea() {
-        Area a = new Area().register().fillAreaInfo();
+        Area a = new Area().register().fillAreaInfo(); // TODO: oikeasti käyttäjä antaa tiedot
         try { 
-            this.ba.add(a); 
+            this.ba.add(a); // pyydetään ba luokkaa lisäämään alue alueistoon
         }
-        catch (TilaException e) {
+        catch (TilaException e) { // jos ongelmia häippästään
             Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
             return;
         }
-        a.setLid(newLocation().getLid());
-        setIndex(a.getAid());
+        a.setLid(newLocation().getLid()); // annetaan alueelle sijainti TODO: oikeasti käyttäjä antaa tämän
+        setIndex(a.getAid()); // asetetaan aluelistan indeksi alueelle
     }
     
     
@@ -173,14 +173,14 @@ public class BaGUIController implements Initializable {
      * @return uuden sijainnin viitteen
      */
      protected Location newLocation() {
-         Location l = new Location().register().fillLocationInfo();
+         Location l = new Location().register().fillLocationInfo(); // TODO: oikeasti käyttäjä antaa tiedot
          try { 
-             this.ba.add(l);
+             this.ba.add(l); // pyydetään ba luokkaa lisäämään sijainti sijainti-listaan
          } 
-         catch (TilaException e) { 
+         catch (TilaException e) { // jos ongelmia näyetään mitä
              Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
          }
-         return l;
+         return l; // palautetaan luotu sijainti
      }
      
      
@@ -188,10 +188,10 @@ public class BaGUIController implements Initializable {
       * Adding new function
       */
      public void newFunction() {
-         Function f = new Function().register().fillFunctionInfo();
-         this.ba.add(f);
-         this.ba.add(new Lf(this.chooserAreas.getSelectedObject().getLid(),f.getFid()));
-         write();
+         Function f = new Function().register().fillFunctionInfo(); // TODO: oikeasti käyttäjä antaa tiedot
+         this.ba.add(f); // pyydetään ba luokkaa lisäämään tehtävä tehtävä-listaan
+         this.ba.add(new Lf(this.chooserAreas.getSelectedObject().getLid(),f.getFid())); //luodaan uusi sijainti-tehtävä pari
+         write(); // päivitetään käyttöliittymä
      }
      
     
@@ -199,14 +199,14 @@ public class BaGUIController implements Initializable {
      * @param Anum Alueen tunnusnumero
      */
     protected void setIndex(int Anum) {
-        this.chooserAreas.clear();
-        int index = 0;
-        for (int i = 0; i < ba.getAreaCount(); i++) {
-            Area area = ba.getArea(i);
-            if (area.getAid() == Anum) index = i;
-            this.chooserAreas.add(area.getName(), area);
+        this.chooserAreas.clear(); // tyhjennetään alueiden lista käyttöliittymästä
+        int index = 0; // alkuindeksi
+        for (int i = 0; i < ba.getAreaCount(); i++) {  // käydään alueet läpi
+            Area area = ba.getArea(i); // alue jonka kohdalla ollaan käymässä läpi 
+            if (area.getAid() == Anum) index = i; // jos täsmää, alustetaan indeksi alueiston indeksin mukaan
+            this.chooserAreas.add(area.getName(), area); // päivitetään käyttöliittymä
         }
-        this.chooserAreas.setSelectedIndex(index);
+        this.chooserAreas.setSelectedIndex(index); // ja hypätään listassa äsken tarkistettuun kohtaan
      }
     
     
