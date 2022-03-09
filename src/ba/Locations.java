@@ -11,18 +11,16 @@ package ba;
  */
 public class Locations {
     
-    private static final int MAX       = 5;
-    private int              lkm       = 0; 
-    private Location[]       locations = new Location[MAX];
+    private int koko          = 5;
+    private int lkm           = 0; 
+    private Location[] locations = new Location[koko];
     
     
     /**
      * Lisätään uusi alue aluistoon
      * @param location alue joka lisätään
-     * @throws TilaException poikkeus jos taulukko täynnä
      * @example
-     * <pre name="test">
-     * #THROWS TilaException 
+     * <pre name="test"> 
      * Locations locations = new Locations();
      * Location a1 = new Location(), a2 = new Location();
      * locations.getSize() === 0;
@@ -37,13 +35,21 @@ public class Locations {
      * locations.get(3) === a1; #THROWS IndexOutOfBoundsException 
      * locations.add(a1); locations.getSize() === 4;
      * locations.add(a1); locations.getSize() === 5;
-     * locations.add(a1); #THROWS TilaException
      * </pre>
      */
-    public void add(Location location) throws TilaException {
-        if (this.lkm >= this.locations.length) throw new TilaException("Alkioita jo maksimi määrä l.");
+    public void add(Location location) {
+        if (this.lkm >= this.locations.length) this.kasvata();
         this.locations[lkm] = location;
         this.lkm++;
+    }
+    
+    
+    private void kasvata() {
+        this.koko *= 2;
+        Location[] n = new Location[koko];
+        for (int i = 0; i < this.getSize(); i++) n[i] = this.get(i);
+        this.locations = n;
+        System.gc();
     }
     
     
@@ -81,13 +87,9 @@ public class Locations {
         location2.register();
         location2.fillLocationInfo();
 
-        try {
-            locations.add(location);
-            locations.add(location2);
-        } catch (TilaException e) {
-            System.out.println(e.getMessage());
-        }
-
+        locations.add(location);
+        locations.add(location2);
+            
         System.out.println("============= Jäsenet testi =================");
         
         for (int i = 0; i < locations.getSize(); i++) {
