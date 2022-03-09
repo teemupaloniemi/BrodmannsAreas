@@ -15,6 +15,7 @@ public class Ba {
     private final Locations locations = new Locations();
     private final ba.Functions functions = new ba.Functions();
     private final Lfs lfs = new Lfs();
+    private final Neighbours neighbours = new Neighbours();
         
     
     /**
@@ -43,10 +44,8 @@ public class Ba {
 
     /**
      * @param area lisattava alue
-     * @throws TilaException jos tila loppuu
      * @example
      * <pre name="test">
-     * #THROWS TilaException
      * Ba ba = new Ba();
      * Area a1 = new Area(), a2 = new Area();
      * a1.register(); a2.register();
@@ -60,19 +59,17 @@ public class Ba {
      * ba.getArea(3) === a1; #THROWS IndexOutOfBoundsException 
      * ba.add(a1); ba.getAreaCount() === 4;
      * ba.add(a1); ba.getAreaCount() === 5;
-     * ba.add(a1); #THROWS TilaException
      * </pre>
      */
-    public void add(Area area) throws TilaException {
+    public void add(Area area) {
          this.areas.add(area);
     }
     
     
     /**
      * @param location lisattava sijainti
-     * @throws TilaException jos tila loppuu
      */
-    public void add(Location location) throws TilaException {
+    public void add(Location location) {
          this.locations.add(location);
     }
     
@@ -89,7 +86,17 @@ public class Ba {
      * @param lf lisattava pari
      */
     public void add(Lf lf){
-         this.lfs.add(lf);
+        this.lfs.add(lf);
+    }
+    
+    
+    /**
+     * @param n lisattava pari
+     * @throws TilaException jos naapurit on jo olemassa
+     */
+    public void add(Neighbour n) throws TilaException {
+        if (neighbours.containsPair(n)) throw new TilaException("Nämä ovat jo naapurit!"); 
+        this.neighbours.add(n);
     }
     
     
@@ -140,6 +147,18 @@ public class Ba {
         for (int i = 0; i < ids.size(); i++) f.add(this.getFunction(ids.get(i)));
         return f;
     }
+    
+    
+    /**
+     * @param aid sijainti jonka tehtäviä etsitää
+     * @return tehtävät joita sijainti hoitaa 
+     */
+    public ArrayList<Area> findNeighbourIDs(int aid) {
+        ArrayList<Integer> ids = this.neighbours.findNeighbourIDs(aid);
+        ArrayList<Area> a = new ArrayList<Area>();
+        for (int i = 0; i < ids.size(); i++) a.add(this.getArea(ids.get(i)));
+        return a;
+    }
    
 
     /**
@@ -148,60 +167,55 @@ public class Ba {
      */
     public static void main(String args[]) {
         Ba ba = new Ba();
-        try {
-            Area a1     = new Area().register().fillAreaInfo();
-            Area a2     = new Area().register().fillAreaInfo();
-            
-            Location l1 = new Location().register().fillLocationInfo();
-            Location l2 = new Location().register().fillLocationInfo();
-            Location l3 = new Location().register().fillLocationInfo();
-            
-            Function f1 = new Function().register().fillFunctionInfo();
-            Function f2 = new Function().register().fillFunctionInfo();
-            Function f3 = new Function().register().fillFunctionInfo();
-            Function f4 = new Function().register().fillFunctionInfo();
-            Function f5 = new Function().register().fillFunctionInfo();
-            Function f6 = new Function().register().fillFunctionInfo();
-            
-            // Tämä pitäisi tapahtua automaattisesti kun lisätään funktio
-            Lf lf1 = new Lf(l1.getLid(), f1.getFid());
-            
-            Lf lf2 = new Lf(l2.getLid(), f2.getFid());
-            Lf lf3 = new Lf(l2.getLid(), f3.getFid());
-            Lf lf4 = new Lf(l2.getLid(), f4.getFid());
-            
-            Lf lf5 = new Lf(l3.getLid(), f5.getFid());
-            Lf lf6 = new Lf(l3.getLid(), f6.getFid());
-            
-            a1.setLid(l2.getLid());
-            a2.setLid(l3.getLid());
-            
-            ba.add(a1);
-            ba.add(a2);
-            
-            ba.add(l1);
-            ba.add(l2);
-            ba.add(l3);
-            
-            ba.add(f1);
-            ba.add(f2);
-            ba.add(f3);
-            ba.add(f4);
-            ba.add(f5);
-            ba.add(f6);
-            
-            // Tämä pitäisi tapahtua automaattisesti kun lisätään funktio
-            ba.add(lf1);
-            ba.add(lf2);
-            ba.add(lf3);
-            ba.add(lf4);
-            ba.add(lf5);
-            ba.add(lf6);
-            
-        } catch (TilaException e) {
-            e.printStackTrace();
-        }
+        Area a1     = new Area().register().fillAreaInfo();
+        Area a2     = new Area().register().fillAreaInfo();
         
+        Location l1 = new Location().register().fillLocationInfo();
+        Location l2 = new Location().register().fillLocationInfo();
+        Location l3 = new Location().register().fillLocationInfo();
+        
+        Function f1 = new Function().register().fillFunctionInfo();
+        Function f2 = new Function().register().fillFunctionInfo();
+        Function f3 = new Function().register().fillFunctionInfo();
+        Function f4 = new Function().register().fillFunctionInfo();
+        Function f5 = new Function().register().fillFunctionInfo();
+        Function f6 = new Function().register().fillFunctionInfo();
+        
+        // Tämä pitäisi tapahtua automaattisesti kun lisätään funktio
+        Lf lf1 = new Lf(l1.getLid(), f1.getFid());
+        
+        Lf lf2 = new Lf(l2.getLid(), f2.getFid());
+        Lf lf3 = new Lf(l2.getLid(), f3.getFid());
+        Lf lf4 = new Lf(l2.getLid(), f4.getFid());
+        
+        Lf lf5 = new Lf(l3.getLid(), f5.getFid());
+        Lf lf6 = new Lf(l3.getLid(), f6.getFid());
+        
+        a1.setLid(l2.getLid());
+        a2.setLid(l3.getLid());
+        
+        ba.add(a1);
+        ba.add(a2);
+        
+        ba.add(l1);
+        ba.add(l2);
+        ba.add(l3);
+        
+        ba.add(f1);
+        ba.add(f2);
+        ba.add(f3);
+        ba.add(f4);
+        ba.add(f5);
+        ba.add(f6);
+        
+        // Tämä pitäisi tapahtua automaattisesti kun lisätään funktio
+        ba.add(lf1);
+        ba.add(lf2);
+        ba.add(lf3);
+        ba.add(lf4);
+        ba.add(lf5);
+        ba.add(lf6);
+
         for (int i = 0; i < ba.getAreaCount(); i++) {
             int lid = ba.areas.get(i).getLid();
             ba.areas.get(i).print(System.out);

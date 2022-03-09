@@ -15,7 +15,6 @@ public class Functions {
      * @param function alue joka lisätään
      * @example
      * <pre name="test">
-     * #THROWS TilaException 
      * Functions functions = new Functions();
      * Function a1 = new Function(), a2 = new Function();
      * functions.getSize() === 0;
@@ -29,7 +28,6 @@ public class Functions {
      * functions.get(1) == a2 === true; 
      * functions.add(a1); functions.getSize() === 4;
      * functions.add(a1); functions.getSize() === 5;
-     * functions.add(a1); #THROWS TilaException
      * </pre>
      */
      public void add(Function function){
@@ -50,7 +48,7 @@ public class Functions {
       * @return halutun alkion
       */
      public Function get(int i) {
-         if (0 > i || i >= this.getSize()) throw new IndexOutOfBoundsException("Laiton indeksi f: " + i);
+         if (0 > i || i >= this.getSize()) throw new IndexOutOfBoundsException("Laiton indeksi fuktiota etsittäessä: " + i);
          return functions.get(i);
      }
      

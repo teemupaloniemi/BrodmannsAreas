@@ -37,15 +37,30 @@ public class CheckArea {
      * @return funktion nimen
      */
      public static String getFunction(int i) {
-         String[] functions = {"Semantic & phonological processing",  
+         String[] functions = {"Localize pain",
+                               "Localize touch and vibration",
+                               "Localize temperature",
+                               "Sense of fingers",
+                               "Sense of body",
+                               
+                               "Move hands",
+                               "Move mouth and tongue",
+                               "Swallowing",
+                               "Anticipate pain",
+                               "Anticipate tickling",
+                               
+                               "Mirror neurons",
+                               "Semantic & phonological processing",  
                                "Verbal fluency",                      
                                "Lexical search",                      
                                "Phonemes",                            
+                               
                                "Grammar", 
                                "Attend to speech", 
                                "Syntactic working memory", 
                                "Working memory",         
                                "Episodic memory", 
+                               
                                "Declarative memory", 
                                "Mirror other's movements", 
                                "Speech programs" };                          

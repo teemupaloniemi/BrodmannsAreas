@@ -98,3 +98,4 @@ public class Location {
         l3.print(System.out);
     }
 }
+

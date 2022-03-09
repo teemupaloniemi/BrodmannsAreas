@@ -45,7 +45,7 @@ public class Locations {
     
     
     private void kasvata() {
-        this.koko *= 2;
+        this.koko += 5;
         Location[] n = new Location[koko];
         for (int i = 0; i < this.getSize(); i++) n[i] = this.get(i);
         this.locations = n;

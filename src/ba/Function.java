@@ -70,7 +70,7 @@ public class Function {
      * @return viite tehtävään
      */
     public Function fillFunctionInfo() {
-        this.name = CheckArea.getFunction(CheckArea.rand(0,7));  
+        this.name = CheckArea.getFunction(CheckArea.rand(0,22));  
         return this;
     }
     
