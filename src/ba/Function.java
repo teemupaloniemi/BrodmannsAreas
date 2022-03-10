@@ -41,6 +41,12 @@ public class Function {
     }
     
     
+    @Override
+    public String toString() {
+        return this.getFid() + "|" + this.getName();
+    }
+    
+    
     /**
      * @return tehtävän id
      */
@@ -98,5 +104,6 @@ public class Function {
         f3.print(System.out);
         f3.fillFunctionInfo();
         f3.print(System.out);
+        
     }
 }

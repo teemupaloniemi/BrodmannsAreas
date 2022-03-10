@@ -1,5 +1,10 @@
 package ba;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 /**
  * Pitää yllä aluerekisteriä, eli osaa lisätä ja poistaa alueen                                 
  * TODO: Lukee ja kirjoittaa alue.dat tiedostoon        
@@ -14,7 +19,17 @@ public class Areas {
     private int    koko     = 5;
     private int    lkm      = 0; 
     private Area[] areas    = new Area[koko];
+    private boolean altered = false;
+    private String fileName = "area.dat";
     
+    
+    
+    /**
+     * @return palautetaan tiedoston nimi
+     */
+    public String getFileName() {
+        return this.fileName;
+    }
     
     /**
      * @return paljonko alkiota 
@@ -49,6 +64,7 @@ public class Areas {
         if (this.lkm >= this.areas.length) this.kasvata();
         this.areas[lkm] = area;
         this.lkm++;
+        altered = true;
     }
     
     
@@ -58,6 +74,7 @@ public class Areas {
         for (int i = 0; i < this.getSize(); i++) n[i] = this.areas[i];
         this.areas = n;
         System.gc();
+        altered = true;
     }
     
     
@@ -69,6 +86,25 @@ public class Areas {
         if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("Laiton indeksi a: " + i);
         return areas[i];
     }
+    
+    
+    /**
+     * tallennetaan tiedot
+     * @throws TilaException jos tallennuksessa ongelmia
+     */
+    public void save() throws TilaException {
+            if ( !altered ) return;
+            File file = new File("tiedostot//" + this.getFileName());
+            try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
+                for (int i = 0; i < this.getSize(); i++) {
+                    Area area = this.get(i);
+                    ps.println(area.toString());
+                }
+            } catch (FileNotFoundException e) {
+                throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
+            }
+            altered = false;
+        }
     
     
     /**
@@ -100,6 +136,12 @@ public class Areas {
         
         for (int i = 0; i < areas.getSize(); i++) {
             areas.get(i).print(System.out);
+        }
+        
+        try {
+            areas.save();
+        } catch (TilaException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -85,7 +85,7 @@
    <right>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <left>
-            <ListChooser fx:id="chooserNeighbours" rivit="Brodmann's Area 1&#10;Brodmann's Area 4&#10;Brodmann's Area 5 &#10;Brodmann's Area 7&#10;Brodmann's Area 40&#10;" BorderPane.alignment="CENTER" />
+            <ListChooser fx:id="chooserNeighbours" rivit="" BorderPane.alignment="CENTER" />
          </left>
          <top>
             <Label text="Neighbours" BorderPane.alignment="CENTER">
@@ -94,9 +94,6 @@
                </BorderPane.margin>
             </Label>
          </top>
-         <right>
-            <ListChooser fx:id="functionText1" editable="true" rivit="Semantic &amp; phonological processing  &#10;Verbal fluency &#10;Lexical search &#10;Phonemes &#10;Grammar &#10;Categories &#10;Sign language &#10;Reason &#10;Metaphors &#10;Digits &#10;Mirror movement neurons &#10;Response inhibition &#10;Mental rotation &#10;Aesthetic and music appreciation &#10;Modulate emotions " BorderPane.alignment="CENTER" />
-         </right>
       </BorderPane>
    </right>
    <center>
@@ -126,8 +123,8 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <TextField fx:id="nameText" editable="false" text="Brodmann's Area 2 " GridPane.columnIndex="1" />
-            <TextField fx:id="locationText" editable="false" text="Primary Somatosensory Cortex" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="nameText" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="locationText" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ListChooser fx:id="chooserFunctions" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <padding>
@@ -162,11 +159,9 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <TextArea prefHeight="200.0" prefWidth="200.0" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="areaDat" editable="false" prefWidth="235.0" />
+            <TextArea fx:id="locationDat" editable="false" prefWidth="235.0" />
+            <TextArea fx:id="functionDat" editable="false" prefWidth="235.0" />
          </children>
       </HBox>
    </top>

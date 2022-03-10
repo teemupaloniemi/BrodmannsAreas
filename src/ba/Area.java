@@ -58,6 +58,11 @@ public class Area {
     }
     
     
+    @Override
+    public String toString() {
+        return this.aid + "|" + this.name + "|" + this.lid;
+    }
+    
     
     /**
      * alustetaan lid

@@ -27,6 +27,14 @@ public class Ba {
     
     
     /**
+     * @return naapuriparien joukon lukumäärä
+     */
+    public int getNeighbourCount() {
+        return this.neighbours.getSize();
+    }
+    
+    
+    /**
      * @return alueiden lukumäärän
      */
     public int getLocationCount() {
@@ -88,6 +96,9 @@ public class Ba {
     public void add(Lf lf){
         this.lfs.add(lf);
     }
+    
+    
+    
     
     
     /**
@@ -160,6 +171,48 @@ public class Ba {
         return a;
     }
    
+    
+    /**
+     * Tallennetaan tiedot
+     * @throws TilaException jos tallennuksessa tapahtuu virheitä
+     */
+    public void save() throws TilaException {
+        // tallennetaan tiedot erikseen jotta yksi ei keskeytä muita
+        String errorMessage = "";
+        try {
+            this.areas.save();
+        } catch ( TilaException ex ) {
+            errorMessage = ex.getMessage();
+        }
+
+        try {
+            this.locations.save();
+        } catch ( TilaException ex ) {
+            errorMessage += ex.getMessage();
+        }
+        
+        try {
+            this.functions.save();
+        } catch ( TilaException ex ) {
+            errorMessage += ex.getMessage();
+        }
+        
+        try {
+            this.lfs.save();
+        } catch ( TilaException ex ) {
+            errorMessage += ex.getMessage();
+        }
+        
+        try {
+            this.neighbours.save();
+        } catch ( TilaException ex ) {
+            errorMessage += ex.getMessage();
+        }
+
+        if (errorMessage.length() != 0) throw new TilaException(errorMessage);
+    }
+
+    
 
     /**
      * Testiohjelma Ba-luokalle
@@ -226,5 +279,4 @@ public class Ba {
         }
         
     }
-
 }

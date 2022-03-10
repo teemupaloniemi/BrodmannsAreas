@@ -1,5 +1,10 @@
 package ba;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 /**
  * Pitää yllä sijaintirekisteriä eli osaa lisätä ja poistaa sijainteja                              
  * Lukee ja kirjoittaa location.dat tiedostoa      
@@ -14,6 +19,8 @@ public class Locations {
     private int koko          = 5;
     private int lkm           = 0; 
     private Location[] locations = new Location[koko];
+    private String fileName = "location.dat";
+    private boolean altered = false;
     
     
     /**
@@ -41,6 +48,7 @@ public class Locations {
         if (this.lkm >= this.locations.length) this.kasvata();
         this.locations[lkm] = location;
         this.lkm++;
+        this.altered = true;
     }
     
     
@@ -50,6 +58,7 @@ public class Locations {
         for (int i = 0; i < this.getSize(); i++) n[i] = this.get(i);
         this.locations = n;
         System.gc();
+        this.altered = true;
     }
     
     
@@ -70,6 +79,33 @@ public class Locations {
         if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("laiton indeksi l: " + i);
         return locations[i];
     }
+    
+    
+    /**
+     * @return palautetaan tiedostonimi
+     */
+    public String getFileName() {
+         return this.fileName;
+     }
+    
+    
+    /**
+     * tallennetaan tiedot
+     * @throws TilaException jos tallennuksessa ongelmia
+     */
+    public void save() throws TilaException {
+        if ( !altered ) return;
+        File file = new File("tiedostot//" + this.getFileName());
+        try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
+            for (int i = 0; i < this.getSize(); i++) {
+                Location location = this.get(i);
+                ps.println(location.toString());
+            }
+        } catch (FileNotFoundException e) {
+            throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
+        }
+        altered = false;
+    } 
     
     
     /**
@@ -101,6 +137,12 @@ public class Locations {
                 e.printStackTrace();
             }
             System.out.println("Jäsen nro: " + i);
+            
+            try {
+                locations.save();
+            } catch (TilaException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

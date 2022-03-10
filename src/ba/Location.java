@@ -63,6 +63,12 @@ public class Location {
     }
     
     
+    @Override
+    public String toString() {
+        return this.getLid() + "|" + this.getName();
+    }
+    
+    
     /**
      * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
      * @return viite sijaintiin

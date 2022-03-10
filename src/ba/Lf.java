@@ -22,6 +22,12 @@ public class Lf{
     }
 
     
+    @Override
+    public String toString() {
+        return this.getLocation() + "|" + this.getFunction();
+    }
+    
+    
     /**
      * Palautetaan sijainti id
      * @return sijainti id

@@ -1,5 +1,9 @@
 package ba;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /**
@@ -9,6 +13,8 @@ import java.util.ArrayList;
  */
 public class Functions {  
      private ArrayList<Function> functions = new ArrayList<Function>();
+     private boolean altered = false;
+     private String fileName = "function.dat";
      
     /**
      * Lisätään uusi alue aluistoon
@@ -32,6 +38,7 @@ public class Functions {
      */
      public void add(Function function){
          this.functions.add(function);
+         altered = true;
      }
      
      
@@ -54,6 +61,33 @@ public class Functions {
      
      
      /**
+      * @return palautetaan tiedostonimi
+      */
+     public String getFileName() {
+          return this.fileName;
+      }
+     
+     
+     /**
+      * tallennetaan tiedot
+      * @throws TilaException jos tallennuksessa ongelmia
+      */
+     public void save() throws TilaException {
+         if ( !altered ) return;
+         File file = new File("tiedostot//" + this.getFileName());
+         try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
+             for (int i = 0; i < this.getSize(); i++) {
+                 Function function = this.get(i);
+                 ps.println(function.toString());
+             }
+         } catch (FileNotFoundException e) {
+             throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
+         }
+         altered = false;
+     }   
+     
+     
+     /**
       * Testiohjelma alueille
       * @param args ei käytössä
       */
@@ -67,5 +101,11 @@ public class Functions {
          System.out.println("============= Function testi =================");
          
          for (int i = 0; i < functions.getSize(); i++) functions.get(i).print(System.out);
+         
+         try {
+            functions.save();
+        } catch (TilaException e) {
+            e.printStackTrace();
+        }
      }
 }
