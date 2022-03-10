@@ -1,13 +1,15 @@
 package ba;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
 /**
  * Pitää yllä aluerekisteriä, eli osaa lisätä ja poistaa alueen                                 
- * TODO: Lukee ja kirjoittaa alue.dat tiedostoon        
+ * Lukee ja kirjoittaa alue.dat tiedostoon        
  * Osaa etsiä alueita    
  *                   
  * @author Teemu
@@ -88,23 +90,47 @@ public class Areas {
     }
     
     
+
+    /**
+     * @param name hakemiston nimi josta luetaan
+     * @throws TilaException jos ongelmia hakemisessa
+     */
+    public void readFile(String name) throws TilaException {
+        String file = name + "\\" + this.getFileName();
+        File f = new File(file);
+        try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
+            while ( fi.hasNext() ) {
+                String s = fi.nextLine().trim();
+                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
+                Area area = new Area();
+                area.parse(s);
+                this.add(area);
+            }
+            this.get(0).setNextAid(this.get(this.getSize()-1).getAid()+1);  // muutetaa nextAid takisin
+        } catch ( FileNotFoundException e ) {
+            throw new TilaException("Ei saa luettua tiedostoa " + file);
+        }
+    }
+
+    
+    
     /**
      * tallennetaan tiedot
      * @throws TilaException jos tallennuksessa ongelmia
      */
     public void save() throws TilaException {
-            if ( !altered ) return;
-            File file = new File("tiedostot//" + this.getFileName());
-            try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
-                for (int i = 0; i < this.getSize(); i++) {
-                    Area area = this.get(i);
-                    ps.println(area.toString());
-                }
-            } catch (FileNotFoundException e) {
-                throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
+        if ( !altered ) return;
+        File file = new File("tiedostot//" + this.getFileName());
+        try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
+            for (int i = 0; i < this.getSize(); i++) {
+                Area area = this.get(i);
+                ps.println(area.toString());
             }
-            altered = false;
+        } catch (FileNotFoundException e) {
+            throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
         }
+        altered = false;
+    }
     
     
     /**

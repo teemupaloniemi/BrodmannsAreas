@@ -6,8 +6,8 @@ import java.io.PrintStream;
  * @author Teemu
  * @version 8.3.2022
  *
- */
-public class Lf{
+ */ 
+public class Lf {
     private final int location;
     private final int function;
        
@@ -18,7 +18,7 @@ public class Lf{
      */
     public Lf(int location, int function) {
         this.location = location; 
-        this.function = function;
+        this.function = function; 
     }
 
     

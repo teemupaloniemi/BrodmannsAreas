@@ -2,6 +2,7 @@ package ba;
 
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
 import kanta.CheckArea;
 
 /** 
@@ -54,6 +55,23 @@ public class Function {
         return this.fid;
     }
     
+    
+    /**
+     * asetetaan seuraava id uudeksi 
+     * @param i miksi id muutetaan
+     */
+    public void setNextFid(int i) {
+        nextFid = i;
+    }
+    
+    
+    /**
+     * @param fid asetetaan uusi id
+     */
+    public void setFid(int fid) {
+        this.fid = fid;
+    }
+    
    
     /**
      * @return palautetaan tehtävän nimi
@@ -78,6 +96,17 @@ public class Function {
     public Function fillFunctionInfo() {
         this.name = CheckArea.getFunction(CheckArea.rand(0,22));  
         return this;
+    }
+    
+    
+    /**
+     * muutetaan merkkijono luokan tiedoiksi
+     * @param s merkkijono jota tutkitaan
+     */
+    public void parse(String s) {
+        StringBuffer sb = new StringBuffer(s);
+        this.setFid(Mjonot.erota(sb, '|', this.getFid()));
+        this.name = Mjonot.erota(sb, '|', this.getName());
     }
     
     

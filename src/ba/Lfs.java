@@ -1,10 +1,14 @@
 package ba;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import fi.jyu.mit.ohj2.Mjonot;
 
 /**
  * @author Teemu
@@ -77,6 +81,41 @@ public class Lfs {
      }
     
     
+    /**
+     * @param name hakemiston nimi josta luetaan
+     * @throws TilaException jos ongelmia hakemisessa
+     */
+    public void readFile(String name) throws TilaException {
+        String file = name + "\\" + this.getFileName();
+        File f = new File(file);
+        try (Scanner fi = new Scanner(new FileInputStream(f))) { 
+            while ( fi.hasNext() ) {
+                String s = fi.nextLine().trim();
+                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
+                Lf lf = new Lf(this.parse(s, 1),  this.parse(s, 2));
+                this.add(lf);
+            }
+        } catch ( FileNotFoundException e ) {
+            throw new TilaException("Ei saa luettua tiedostoa " + file);
+        }
+    }
+    
+    
+    /**
+     * muutetaan merkkijono luokan tiedoiksi
+     * @param s merkkijono jota tutkitaan
+     * @param i halutu id paikka (Iivo --> 1 tai 2)
+     * @return halutun paikan id
+     */
+    public Integer parse(String s, int i) {
+        int[] pair = new int[2];
+        StringBuffer sb = new StringBuffer(s);
+        pair[0] = Integer.valueOf(Mjonot.erota(sb, '|'));
+        pair[1] = Integer.valueOf(Mjonot.erota(sb, '|'));
+        return pair[i-1];
+    }
+
+
     /**
      * tallennetaan tiedot
      * @throws TilaException jos tallennuksessa ongelmia

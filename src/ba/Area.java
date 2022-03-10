@@ -1,6 +1,9 @@
 package ba;
 
 import java.io.PrintStream;
+
+import fi.jyu.mit.ohj2.Mjonot;
+
 import static kanta.CheckArea.*;
 
 /**
@@ -33,6 +36,14 @@ public class Area {
         return this;
     } 
     
+    
+    /**
+     * muutetaan seuraavaa id numeroa
+     * @param i luku johon id vaihdetaan
+     */
+    public void setNextAid(int i) {
+        nextAid = i;
+    }
     
     /**
      * @return palautetaan alue id
@@ -79,6 +90,17 @@ public class Area {
        return this;
     }  
     
+    
+    /**
+     * alustetaan aid
+     * @param aid id joka annetaan
+     * @return palautetaan olioviite
+     */
+    public Area setAid(int aid) {
+        this.aid = aid;
+        return this;
+    }
+    
    
     /**
      * @param out tulostus tietovirta
@@ -100,7 +122,19 @@ public class Area {
         this.lid  = fakeLid;
         return this;
     }
-    
+
+
+    /**
+     * muutetaan merkkijono luokan tiedoiksi
+     * @param s merkkijono jota tutkitaan
+     */
+    public void parse(String s) {
+        StringBuffer sb = new StringBuffer(s);
+        this.setAid(Mjonot.erota(sb, '|', this.getAid()));
+        this.name = Mjonot.erota(sb, '|', this.getName());
+        this.setLid(Mjonot.erota(sb, '|', this.getLid()));
+    }
+
     
     /**
      * testataan luokan toimivuus

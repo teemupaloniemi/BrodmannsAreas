@@ -1,5 +1,6 @@
 package ba;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -11,11 +12,11 @@ import java.util.ArrayList;
  */
 public class Ba {
     
-    private final Areas areas = new Areas();
-    private final Locations locations = new Locations();
-    private final ba.Functions functions = new ba.Functions();
-    private final Lfs lfs = new Lfs();
-    private final Neighbours neighbours = new Neighbours();
+    private Areas areas = new Areas();
+    private Locations locations = new Locations();
+    private ba.Functions functions = new ba.Functions();
+    private Lfs lfs = new Lfs();
+    private Neighbours neighbours = new Neighbours();
         
     
     /**
@@ -31,6 +32,14 @@ public class Ba {
      */
     public int getNeighbourCount() {
         return this.neighbours.getSize();
+    }
+    
+    
+    /**
+     * @return tiedettävien tehtävien määrä  
+     */
+    public int getFunctionCount() {
+        return this.functions.getSize();
     }
     
     
@@ -99,6 +108,28 @@ public class Ba {
     
     
     
+    /**
+     * Lukee ba tiedot tiedostosta
+     * @throws TilaException jos lukeminen epäonnistuu
+     */
+    public void readFile() throws TilaException {
+        String name = "tiedostot";
+        File dir = new File(name);
+        dir.mkdir();
+        this.areas = new Areas(); // jos luetaan olemassa olevaan niin helpoin tyhjentää näin
+        this.functions = new Functions();
+        this.locations = new Locations();
+        this.lfs = new Lfs();
+        this.neighbours = new Neighbours();
+        System.gc();
+        
+        this.areas.readFile(name);
+        this.functions.readFile(name);
+        this.locations.readFile(name);
+        this.lfs.readFile(name);
+        this.neighbours.readFile(name);
+    }
+
     
     
     /**
@@ -136,6 +167,24 @@ public class Ba {
      */
     public Function getFunction(int fid) {
         return functions.get(fid);
+    }
+    
+    
+    /**
+     * @param i kuinka mones pari 
+     * @return yksi pari muiden joukosta
+     */
+    public Lf getLf(int i) {
+        return lfs.get(i);
+    }
+    
+    
+    /**
+     * @param i kuinka mones naapuripari 
+     * @return naapur pari joka haluttiin
+     */
+    public Neighbour getNeighbour(int i) {
+        return neighbours.get(i);
     }
     
     

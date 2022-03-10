@@ -1,9 +1,11 @@
 package ba;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
 /**
  * Pitää yllä sijaintirekisteriä eli osaa lisätä ja poistaa sijainteja                              
@@ -107,6 +109,27 @@ public class Locations {
         altered = false;
     } 
     
+    
+    /**
+     * @param name hakemiston nimi josta luetaan
+     * @throws TilaException jos ongelmia hakemisessa
+     */
+    public void readFile(String name) throws TilaException {
+        String file = name + "\\" + this.getFileName();
+        File f = new File(file);
+        try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
+            while ( fi.hasNext() ) {
+                String s = fi.nextLine().trim();
+                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
+                Location location = new Location();
+                location.parse(s);
+                this.add(location);
+            }
+            this.get(0).setNextLid(this.get(this.getSize()-1).getLid()+1);  // muutetaa nextAid takisin
+        } catch ( FileNotFoundException e ) {
+            throw new TilaException("Ei saa luettua tiedostoa " + file);
+        }
+    }
     
     /**
      * Testiohjelma alueille

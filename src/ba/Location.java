@@ -2,6 +2,8 @@ package ba;
 
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /** 
  * Tietää sijainnin kentät: lid, nimi                
  * Osaa tarkastaa tietyn kentän oikeellisuuden      
@@ -30,10 +32,28 @@ public class Location {
     
     
     /**
+     * muutetaan seuraavaa id numeroa
+     * @param i miksi muutetaan
+     */
+    public void setNextLid(int i) {
+        nextLid = i;
+    }
+    
+    
+    /**
      * @return sijainnin id
      */
     public int getLid() {
         return this.lid;
+    }
+    
+    
+    /**
+     * asetetaan uusi id
+     * @param lid asetetttava id
+     */
+    public void setLid(int lid) {
+        this.lid = lid;
     }
     
     
@@ -68,6 +88,16 @@ public class Location {
         return this.getLid() + "|" + this.getName();
     }
     
+    
+    /**
+     * muutetaan merkkijono luokan tiedoiksi
+     * @param s merkkijono jota tutkitaan
+     */
+    public void parse(String s) {
+        StringBuffer sb = new StringBuffer(s);
+        this.setLid(Mjonot.erota(sb, '|', this.getLid()));
+        this.name = Mjonot.erota(sb, '|', this.getName());
+    }
     
     /**
      * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla

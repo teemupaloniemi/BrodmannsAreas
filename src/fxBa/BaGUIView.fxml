@@ -162,6 +162,8 @@
             <TextArea fx:id="areaDat" editable="false" prefWidth="235.0" />
             <TextArea fx:id="locationDat" editable="false" prefWidth="235.0" />
             <TextArea fx:id="functionDat" editable="false" prefWidth="235.0" />
+            <TextArea fx:id="lfDat" editable="false" layoutX="612.0" layoutY="10.0" prefWidth="235.0" />
+            <TextArea fx:id="neighbourDat" editable="false" layoutX="612.0" layoutY="10.0" prefWidth="235.0" />
          </children>
       </HBox>
    </top>

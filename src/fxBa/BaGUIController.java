@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import kanta.CheckArea;
 import fi.jyu.mit.fxgui.Dialogs;
@@ -33,6 +34,14 @@ import ba.TilaException;
  *
  */
 public class BaGUIController implements Initializable {
+    
+    // Nämä vain apuna jotta näkee mitä tietoja olemassa
+    @FXML private TextArea functionDat;
+    @FXML private TextArea lfDat;
+    @FXML private TextArea areaDat;
+    @FXML private TextArea locationDat;
+    @FXML private TextArea neighbourDat;
+    //========================================//
        
     @FXML private ListView<?> areaText;
     @FXML private ListChooser<Area> chooserAreas;
@@ -101,7 +110,7 @@ public class BaGUIController implements Initializable {
 
     
     @FXML void handleSearch() {
-        search();
+        search(0);
     }
     
     
@@ -125,13 +134,68 @@ public class BaGUIController implements Initializable {
     private Ba ba;
     
     /**
-     * @param ba luotavat aivot
+     * @param ba luodaan Brodmannin alueet kanta
      */
     public void setBa(Ba ba) {
         this.ba = ba; // luodaan uusi 
-        write(); // päivitetään käyttöliittymä
+        this.readFile(); // haetaan tiedot 
+        this.taytaApukentat();
+        this.search(0);
+        this.write(); // päivitetään käyttöliittymä
+    }
+
+    
+    private void clearAll() {
+        this.areaDat.clear();
+        this.locationDat.clear();
+        this.functionDat.clear();
+        this.lfDat.clear();
+        this.neighbourDat.clear();
     }
     
+    private void taytaApukentat() {
+        this.clearAll();
+        
+        StringBuilder sb = new StringBuilder();
+        String s = System.lineSeparator();
+        
+        for (int i = 0; i < this.ba.getAreaCount(); i++) 
+            sb.append(this.ba.getArea(i).toString() + s);
+        this.areaDat.setText(sb.toString());
+        sb.setLength(0);
+        
+        for (int i = 0; i < this.ba.getLocationCount(); i++) 
+            sb.append(this.ba.getLocation(i).toString() + s);
+        this.locationDat.setText(sb.toString());
+        sb.setLength(0);
+        
+        for (int i = 0; i < this.ba.getFunctionCount(); i++) 
+            sb.append(this.ba.getFunction(i).toString() + s);
+        this.functionDat.setText(sb.toString());
+        sb.setLength(0);
+        
+        for (int i = 0; i < this.ba.getLfCount(); i++) 
+            sb.append(this.ba.getLf(i).toString() + s);
+        this.lfDat.setText(sb.toString());
+        sb.setLength(0);
+        
+        for (int i = 0; i < this.ba.getNeighbourCount(); i++) 
+            sb.append(this.ba.getNeighbour(i).toString() + s);
+        this.neighbourDat.setText(sb.toString());
+        sb.setLength(0);
+        
+        System.gc();
+    }
+    
+    
+    private void readFile() {
+        try {
+            this.ba.readFile();
+        } catch (TilaException e) {
+            Dialogs.showMessageDialog(e.getMessage());
+        }
+    }
+
     
     /**
      * Alustetaan aluevalikko uusilla tiedoilla
@@ -255,7 +319,8 @@ public class BaGUIController implements Initializable {
      */
     public String save() {
         try {
-            ba.save();
+            this.ba.save();
+            this.taytaApukentat();
             return null;
         } catch (TilaException ex) {
             Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
@@ -290,9 +355,17 @@ public class BaGUIController implements Initializable {
     
     /**
      * haetaan kauehdon ja hakuentän tiedoilla sopivat tiedot
+     * @param searchID id hakunumero
      */
-    public void search() {
-        huomautus("Hakukone ei toimi vielä!");
+    public void search(int searchID) {        
+        this.chooserAreas.clear();
+        int index = 0;
+        for (int i = 0; i < this.ba.getAreaCount(); i++) {
+            Area area = this.ba.getArea(i);
+            if (area.getAid() == searchID) index = i;
+            this.chooserAreas.add(area.getName(), area);
+        }
+        this.chooserAreas.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
     }
     
     
