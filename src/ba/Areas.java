@@ -111,8 +111,7 @@ public class Areas implements Tietorakenne {
                 area.parse(s);          // rivin tiedot uudeksi alueeksi alueistoon 
                 this.add(area);         //
             }
-            int newAid = this.get(this.getSize()-1).getAid()+1; // viimeisen alkion rekisterinumero jotta tiedetään mistä jatketaan
-            Area.setNextAid(newAid);  // muutetaa nextAid takisin mihin se jäi
+            Area.setNextAid(this.get(this.getSize()-1).getAid()+1);  // muutetaa nextAid takisin mihin se jäi
         } catch ( FileNotFoundException e ) {
             throw new TilaException("Ei saa luettua tiedostoa " + file); // tiedostoa ei löydy
         }

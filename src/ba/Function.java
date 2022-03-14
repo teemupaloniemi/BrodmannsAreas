@@ -50,6 +50,12 @@ public class Function {
     
     /**
      * @return tehtävän id
+     * @example
+     * <pre name="test">
+     * Function f1 = new Function();
+     * f1.setFid(199); 
+     * f1.getFid() === 199;
+     * </pre>
      */
     public int getFid() {
         return this.fid;
@@ -59,14 +65,28 @@ public class Function {
     /**
      * asetetaan seuraava id uudeksi 
      * @param i miksi id muutetaan
+     * @example
+     * <pre name="test">
+     * Function f1 = new Function();
+     * Function f2 = new Function();
+     * f1.register().getFid() != -1 === true;
+     * Function.setNextFid(2);
+     * f2.register().getFid() === 2;
+     * </pre>
      */
-    public void setNextFid(int i) {
+    public static void setNextFid(int i) {
         nextFid = i;
     }
     
     
     /**
      * @param fid asetetaan uusi id
+     * @example
+     * <pre name="test">
+     * Function f1 = new Function();
+     * f1.setFid(199); 
+     * f1.getFid() === 199;
+     * </pre>
      */
     public void setFid(int fid) {
         this.fid = fid;
@@ -75,6 +95,11 @@ public class Function {
    
     /**
      * @return palautetaan tehtävän nimi
+     * @example
+     * <pre name="test">
+     * Function f = new Function().parse("10|Grammar");
+     * f.getName() === "Grammar";
+     * </pre>
      */
     public String getName() {
         return this.name;
@@ -83,6 +108,15 @@ public class Function {
     
     /**
      * @param out tulostus tietovirta
+     * //@example
+     * //<pre name="test">
+     * //#import java.io.ByteArrayOutputStream;
+     * //ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+     * //Function f = new Function().fillFunctionInfo().register();
+     * //f.print(outContent);
+     * //outContent.toString() =R= "\\d\\+|[a-zA-Z]+" + System.lineSeparator();
+     * //</pre>
+     * Tee testit toimiviksi regexpilla
      */
     public void print(PrintStream out) {
         out.println(this.fid + "|" + this.name);
@@ -102,11 +136,20 @@ public class Function {
     /**
      * muutetaan merkkijono luokan tiedoiksi
      * @param s merkkijono jota tutkitaan
+     * @return olion viitteen 
+     * @example
+     * <pre name="test">
+     *   Function f = new Function();
+     *   f.parse(" 2 | Localize pain");
+     *   f.getFid() === 2;
+     *   f.toString() === "2|Localize pain";
+     * </pre>
      */
-    public void parse(String s) {
+    public Function parse(String s) {
         StringBuffer sb = new StringBuffer(s);
         this.setFid(Mjonot.erota(sb, '|', this.getFid()));
         this.name = Mjonot.erota(sb, '|', this.getName());
+        return this;
     }
     
     
@@ -115,24 +158,21 @@ public class Function {
      * @param args Ei käytössä
      */
     public static void main(String args[]) {
-        Function f1 = new Function(); 
+        Function f1 = new Function();
         Function f2 = new Function();
         Function f3 = new Function();
        
-        f1.register();
-        f1.print(System.out);
-        f1.fillFunctionInfo();
-        f1.print(System.out);
-
-        f2.register();
-        f2.print(System.out);
-        f2.fillFunctionInfo();
-        f2.print(System.out);
+        f1.register().print(System.out); //rekisteröidään ei tietoja vielä 
+        f1.fillFunctionInfo().print(System.out); //satunnaiset tiedot 
+        f1.parse(f1.getFid()+"|Sense of fingers").print(System.out); //tiedot syötteestä
         
-        f3.register();
-        f3.print(System.out);
-        f3.fillFunctionInfo();
-        f3.print(System.out);
+        f2.register().print(System.out); //rekisteröidään ei tietoja vielä 
+        f2.fillFunctionInfo().print(System.out); //satunnaiset tiedot 
+        f2.parse(f2.getFid()+"|Anticipate tickling").print(System.out);        
+        
+        f3.register().print(System.out); //rekisteröidään ei tietoja vielä 
+        f3.fillFunctionInfo().print(System.out); //satunnaiset tiedot 
+        f3.parse(f3.getFid()+"|Move hands").print(System.out); //tiedot syötteestä
         
     }
 }

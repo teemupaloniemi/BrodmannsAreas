@@ -12,6 +12,24 @@ import java.util.Scanner;
  *                   
  * @author Teemu
  * @version 21.2.2022
+ * 
+ * @example
+ * <pre name="test"> 
+ * Locations locations = new Locations();
+ * Location a1 = new Location(), a2 = new Location();
+ * locations.getSize() === 0;
+ * locations.add(a1); locations.getSize() === 1;
+ * locations.add(a2); locations.getSize() === 2;
+ * locations.add(a1); locations.getSize() === 3;
+ * locations.get(0) === a1;
+ * locations.get(1) === a2;
+ * locations.get(2) === a1;
+ * locations.get(1) == a1 === false;
+ * locations.get(1) == a2 === true;
+ * locations.get(3) === a1; #THROWS IndexOutOfBoundsException 
+ * locations.add(a1); locations.getSize() === 4;
+ * locations.add(a1); locations.getSize() === 5;
+ * </pre>
  *
  */
 public class Locations implements Tietorakenne {
@@ -26,23 +44,6 @@ public class Locations implements Tietorakenne {
     /**
      * Lisätään uusi alue aluistoon
      * @param location alue joka lisätään
-     * @example
-     * <pre name="test"> 
-     * Locations locations = new Locations();
-     * Location a1 = new Location(), a2 = new Location();
-     * locations.getSize() === 0;
-     * locations.add(a1); locations.getSize() === 1;
-     * locations.add(a2); locations.getSize() === 2;
-     * locations.add(a1); locations.getSize() === 3;
-     * locations.get(0) === a1;
-     * locations.get(1) === a2;
-     * locations.get(2) === a1;
-     * locations.get(1) == a1 === false;
-     * locations.get(1) == a2 === true;
-     * locations.get(3) === a1; #THROWS IndexOutOfBoundsException 
-     * locations.add(a1); locations.getSize() === 4;
-     * locations.add(a1); locations.getSize() === 5;
-     * </pre>
      */
     public void add(Location location) {
         if (this.lkm >= this.locations.length) this.kasvata();
@@ -124,7 +125,7 @@ public class Locations implements Tietorakenne {
                 location.parse(s);
                 this.add(location);
             }
-            this.get(0).setNextLid(this.get(this.getSize()-1).getLid()+1);  // muutetaa nextAid takisin
+            Location.setNextLid(this.get(this.getSize()-1).getLid()+1);  // muutetaa nextAid takisin
         } catch ( FileNotFoundException e ) {
             throw new TilaException("Ei saa luettua tiedostoa " + file);
         }

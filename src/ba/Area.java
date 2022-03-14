@@ -71,8 +71,11 @@ public class Area {
     
     /**
      * @return palautetaan alueen nimi
+     * @example
+     * <pre name="test">
      * Area a = new Area().parse("10|Brodmann's Area 15|8");
      * a.getName() === "Brodmann's Area 15";
+     * </pre>
      */
     public String getName() {
         return this.name;
@@ -176,7 +179,6 @@ public class Area {
      *   area.getLid() === 13;
      *   area.toString() === "2|Brodmann's Area 25|13";
      * </pre>
-
      */
     public Area parse(String s) {
         StringBuffer sb = new StringBuffer(s);

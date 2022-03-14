@@ -9,7 +9,23 @@ import java.util.Scanner;
 /**
  * @author Teemu
  * @version 21.2.2022
- *
+ * 
+ * @example
+ * <pre name="test">
+ * Functions functions = new Functions();
+ * Function a1 = new Function(), a2 = new Function();
+ * functions.getSize() === 0;
+ * functions.add(a1); functions.getSize() === 1;
+ * functions.add(a2); functions.getSize() === 2;
+ * functions.add(a1); functions.getSize() === 3;
+ * functions.get(0) === a1;
+ * functions.get(1) === a2;
+ * functions.get(2) === a1;
+ * functions.get(1) == a1 === false;
+ * functions.get(1) == a2 === true; 
+ * functions.add(a1); functions.getSize() === 4;
+ * functions.add(a1); functions.getSize() === 5;
+ * </pre>
  */
 public class Functions implements Tietorakenne {  
      private ArrayList<Function> functions = new ArrayList<Function>();
@@ -19,22 +35,6 @@ public class Functions implements Tietorakenne {
     /**
      * Lisätään uusi alue aluistoon
      * @param function alue joka lisätään
-     * @example
-     * <pre name="test">
-     * Functions functions = new Functions();
-     * Function a1 = new Function(), a2 = new Function();
-     * functions.getSize() === 0;
-     * functions.add(a1); functions.getSize() === 1;
-     * functions.add(a2); functions.getSize() === 2;
-     * functions.add(a1); functions.getSize() === 3;
-     * functions.get(0) === a1;
-     * functions.get(1) === a2;
-     * functions.get(2) === a1;
-     * functions.get(1) == a1 === false;
-     * functions.get(1) == a2 === true; 
-     * functions.add(a1); functions.getSize() === 4;
-     * functions.add(a1); functions.getSize() === 5;
-     * </pre>
      */
      public void add(Function function){
          this.functions.add(function);
@@ -103,7 +103,7 @@ public class Functions implements Tietorakenne {
                  function.parse(s);
                  this.add(function);
              }
-             this.get(0).setNextFid(this.get(this.getSize()-1).getFid()+1);  // muutetaa nextAid takisin
+             Function.setNextFid(this.get(this.getSize()-1).getFid()+1);  
          } catch ( FileNotFoundException e ) {
              throw new TilaException("Ei saa luettua tiedostoa " + file);
          }

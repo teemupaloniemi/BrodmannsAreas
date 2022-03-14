@@ -80,7 +80,7 @@ public class Neighbours implements Tietorakenne {
         try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
             while ( fi.hasNext() ) {
                 String s = fi.nextLine().trim();
-                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
+                if (s == null || "".equals(s) || s.charAt(0) == '#') continue;
                 Neighbour neighbour = new Neighbour(this.parse(s, 1),  this.parse(s, 2));
                 this.add(neighbour);
             }
