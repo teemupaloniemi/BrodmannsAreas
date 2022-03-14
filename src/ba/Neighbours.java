@@ -12,6 +12,28 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @author Teemu
  * @version 8.3.2022
  *
+ * @example
+ * <pre name="test">
+ * try {
+ *  Neighbours neighbours = new Neighbours();
+ *  Neighbour neighbour1 = new Neighbour(1,2);
+ *  Neighbour neighbour2 = new Neighbour(1,3);
+ *  neighbours.getSize() === 0;
+ *  neighbours.add(neighbour1); neighbours.getSize() === 1;
+ *  neighbours.add(neighbour2); neighbours.getSize() === 2;
+ *  neighbours.add(neighbour1); neighbours.getSize() === 3;
+ *  neighbours.add(new Neighbour(2,1)); #THROWS TilaException
+ *  neighbours.add(new Neighbour(3,3)); #THROWS TilaException 
+ *  neighbours.get(0) === neighbour1;
+ *  neighbours.get(1) === neighbour2;
+ *  neighbours.get(2) === neighbour1; 
+ *  neighbours.get(1) == neighbour1 === false;
+ *  neighbours.get(1) == neighbour2 === true; 
+ *  neighbours.add(neighbour1); neighbours.getSize() === 4;
+ *  neighbours.add(neighbour2); neighbours.getSize() === 5;
+ *  } catch (TilaException e) { // 
+ *  }
+ * </pre>
  */
 public class Neighbours implements Tietorakenne {
     private ArrayList<Neighbour> pairs = new ArrayList<Neighbour>();
@@ -22,12 +44,22 @@ public class Neighbours implements Tietorakenne {
     /**
      * lisätään uusi pari listaan
      * @param pair pari joka lisätään
+     * @throws TilaException jos yritetään lisätä väärillä aroilla oleva pari
      */
-    public void add(Neighbour pair) {
+    public void add(Neighbour pair) throws TilaException {
+        if (this.containsPair(pair)) throw new TilaException("Nämä ovat jo pari " + pair.toString());
         pairs.add(pair);
         this.altered = true;
     }
     
+    
+    /**
+     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
+     * @param s tiednimi
+     */
+    public void setFileName(String s) {
+        this.fileName = s;
+    }
     
     /**
      * @return onko tiedostoa muutettu, true jos on 
@@ -63,9 +95,9 @@ public class Neighbours implements Tietorakenne {
      */
     public ArrayList<Integer> findNeighbourIDs(int aid) {
         var a = new ArrayList<Integer>();
-        for (int i = 0; i < pairs.size(); i++) {
-            if (pairs.get(i).getAreaFirst() == aid) a.add(pairs.get(i).getAreaSecond()); 
-        }
+        for (int i = 0; i < pairs.size(); i++) 
+            if (pairs.get(i).contains(aid)) 
+                a.add(pairs.get(i).getOpposite(aid)); 
         return a;
     }
     

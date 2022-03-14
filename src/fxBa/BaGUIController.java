@@ -223,7 +223,7 @@ public class BaGUIController implements Initializable {
             this.chooserFunctions.clear(); // tyhjennetään funktio lista käyttöliittymässä
             for (int i = 0; i < funcs.size(); i++) this.chooserFunctions.add(funcs.get(i).getName(), funcs.get(i)); // Lisätään pyydetyt funktiot käyttöliittymään
             // hoidellaan naapurit
-            var neighbours = this.ba.findNeighbourIDs(selectedArea.getLid()); // pyydetään etsimään funktiot joita sijainnilla on
+            var neighbours = this.ba.findNeighbourIDs(selectedArea.getAid()); // pyydetään etsimään funktiot joita sijainnilla on
             this.chooserNeighbours.clear(); // tyhjennetään naapuri lista käyttöliittymässä
             for (int i = 0; i < neighbours.size(); i++) this.chooserNeighbours.add(neighbours.get(i).getName(), neighbours.get(i)); // Lisätään pyydetyt funktiot käyttöliittymään
             // Naaupurin tehtävät
@@ -243,9 +243,9 @@ public class BaGUIController implements Initializable {
     * lisäään uusi alue 
     */
     protected void newArea() {
-        Area a = new Area().register().fillAreaInfo(); // TODO: oikeasti käyttäjä antaa tiedot
+        newLocation();
+        Area a = new Area().register().fillAreaInfo().setLid(CheckArea.rand(0, this.ba.getLocationCount()-1)); // TODO: oikeasti käyttäjä antaa tiedot
         this.ba.add(a); // pyydetään ba luokkaa lisäämään alue alueistoon
-        a.setLid(newLocation().getLid()); // annetaan alueelle sijainti TODO: oikeasti käyttäjä antaa tämän
         setIndexForAreas(a.getAid()); // asetetaan aluelistan indeksi alueelle
     }
     
@@ -271,7 +271,12 @@ public class BaGUIController implements Initializable {
          }
          Function f = new Function().register().fillFunctionInfo(); // TODO: oikeasti käyttäjä antaa tiedot
          this.ba.add(f); // pyydetään ba luokkaa lisäämään tehtävä tehtävä-listaan
-         this.ba.add(new Lf(this.chooserAreas.getSelectedObject().getLid(),f.getFid())); //luodaan uusi sijainti-tehtävä pari
+         try {
+            this.ba.add(new Lf(this.chooserAreas.getSelectedObject().getLid(),f.getFid()));
+        } catch (TilaException e) {
+            Dialogs.showMessageDialog("Ongelmia: " + e.getMessage()); // jos olemassa oleva pari
+            return;
+        } //luodaan uusi sijainti-tehtävä pari
          this.chooserFunctions.add(f.getName(), f);
      }
      
@@ -290,7 +295,7 @@ public class BaGUIController implements Initializable {
          try {
             this.ba.add(new Neighbour(selectedArea.getAid(), newNeighbour.getAid())); // luodaan uusi naapuri pari
         } catch (TilaException e) {
-            Dialogs.showMessageDialog("Ongelmia: " + e.getMessage()); // jos ei löydy näytetään viesti
+            Dialogs.showMessageDialog("Ongelmia: " + e.getMessage()); // jos samat tai jo olemassa 
             return;
         } 
         this.chooserNeighbours.add(newNeighbour.getName(), newNeighbour); // päivitetään käyttöliittymä

@@ -18,12 +18,9 @@ public class Neighbour {
      * @throws TilaException jos yritetään luoda naapuria virheellisillä arvoilla
      */
     public Neighbour (int a1, int a2) throws TilaException{
-        if (a1 != a2) {
+        if (a1 == a2) throw new TilaException("Tottakai itsensä pari senkin hölmö!");
         this.a1 = a1; 
         this.a2 = a2; 
-        return;
-        }
-        throw new TilaException("Tottakai itsensä pari senkin hölmö!");
     }
     
     
@@ -35,7 +32,10 @@ public class Neighbour {
     
     @Override
     public int hashCode() {
-       return Integer.valueOf(""+this.a1+this.a2);
+       int small = this.a2; 
+       int large = this.a1;
+       if (this.a1 < this.a2) { small = this.a1; large = this.a2; } // jos tarvitsee vaihtaa vaihdetaan
+       return Integer.valueOf(""+small+large); // järjestys aina pienempi|suurempi
     }
     
     
@@ -62,6 +62,28 @@ public class Neighbour {
      */
     public void print(PrintStream out) {
         out.println(this.a1 + "|" + this.a2);
+    }
+
+
+    /**
+     * onko jompi kumpi pareista etsittävä 
+     * @param aid etsittävän alueen id
+     * @return true jos jompi kumpi on sama kuin etsittävä
+     */
+    public boolean contains(int aid) {
+        if (this.getAreaFirst() == aid || this.getAreaSecond() == aid) return true;
+        return false;
+    }
+
+
+    /**
+     * annetaan aidn kaveri 
+     * @param aid alue id jonka kaveria etsitään
+     * @return alueen keveri
+     */
+    public int getOpposite(int aid) {
+        if (this.getAreaFirst() == aid) return this.getAreaSecond();
+        return this.getAreaFirst();
     }
     
 }

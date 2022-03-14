@@ -15,8 +15,8 @@ import static kanta.CheckArea.*;
 public class Area {
 
     private int    aid  =  -1; // alueen indeksi numero
-    private String name = ""; // alueen nimi 
-    private int    lid  =  0; // lohkon id missä alue sijaitsee
+    private String name = "";  // alueen nimi 
+    private int    lid  =  0;  // lohkon id missä alue sijaitsee
     
     private static int nextAid = 0; // rekisteröinti laskuri 
     

@@ -109,6 +109,14 @@ public class Locations implements Tietorakenne {
         this.altered = false;
     }
     
+    /**
+     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
+     * @param s tiednimi
+     */
+    public void setFileName(String s) {
+        this.fileName = s;
+    }
+    
     
     /**
      * @param name hakemiston nimi josta luetaan
@@ -137,6 +145,7 @@ public class Locations implements Tietorakenne {
      */
     public static void main(String args[]) {
         Locations locations = new Locations();
+        locations.setFileName("locationsTest.txt");
 
         Location location  = new Location(); 
         Location location2 = new Location();

@@ -111,6 +111,14 @@ public class Functions implements Tietorakenne {
      
      
      /**
+      * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
+      * @param s tiednimi
+      */
+     public void setFileName(String s) {
+         this.fileName = s;
+     }
+     
+     /**
       * Testiohjelma alueille
       * @param args ei käytössä
       */

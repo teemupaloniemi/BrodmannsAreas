@@ -53,4 +53,10 @@ public class Lf {
         out.println(this.location + "|" + this.function);
     }
     
+    
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(""+this.getLocation()+this.getFunction());
+    }
+    
 }

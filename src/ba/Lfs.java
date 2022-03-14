@@ -12,6 +12,27 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @author Teemu
  * @version 8.3.2022
  *
+ * @example
+ * <pre name="test">
+ * try {
+ *  Lfs lfs = new Lfs();
+ *  Lf lf1 = new Lf(1,2);
+ *  Lf lf2 = new Lf(1,3);
+ *  Lf lf3 = new Lf(2,1); 
+ *  lfs.getSize() === 0;
+ *  lfs.add(lf1); lfs.getSize() === 1;
+ *  lfs.add(lf2); lfs.getSize() === 2;
+ *  lfs.add(lf3); lfs.getSize() === 3;
+ *  lfs.get(0) === lf1;
+ *  lfs.get(1) === lf2;
+ *  lfs.get(2) === lf3; 
+ *  lfs.get(1) == lf1 === false;
+ *  lfs.get(1) == lf2 === true; 
+ *  lfs.add(lf1); lfs.getSize() === 4;
+ *  lfs.add(lf2); lfs.getSize() === 5;
+ *  } catch (TilaException e) {//
+ *  }
+ * </pre>
  */
 public class Lfs implements Tietorakenne {
     private ArrayList<Lf> pairs = new ArrayList<Lf>();
@@ -22,16 +43,40 @@ public class Lfs implements Tietorakenne {
     /**
      * lisätään uusi pari listaan
      * @param pair pari joka lisätään
+     * @throws TilaException jos pari on jo olemassa
      */
-    public void add(Lf pair) {
+    public void add(Lf pair) throws TilaException {
+        if (this.containsPair(pair)) throw new TilaException("Nämä ovat jo pari " + pair.toString());
         pairs.add(pair);
         this.altered = true;
+    }
+
+    
+    /**
+     * Tarkistetaan onko paria jo olemassa
+     * @param lf pari jota etsitään
+     * @return true jos pari on jo olemassa
+     */
+    public boolean containsPair(Lf lf) {
+        for (int i = 0; i < this.getSize(); i++) 
+            if (this.get(i).hashCode() == lf.hashCode()) return true;
+        return false;
+    }
+    
+    
+    /**
+     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
+     * @param s tiednimi
+     */
+    public void setFileName(String s) {
+        this.fileName = s;
     }
     
     
     /**
      * @param i indeksi jota etsitään
      * @return löydetty pari
+     * 
      */
     @Override
     public Lf get(int i) {

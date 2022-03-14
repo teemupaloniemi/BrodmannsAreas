@@ -104,8 +104,9 @@ public class Ba {
     
     /**
      * @param lf lisattava pari
+     * @throws TilaException jos kutsutaan parilla joka on jo olemassa
      */
-    public void add(Lf lf){
+    public void add(Lf lf) throws TilaException{
         this.lfs.add(lf);
     }
     
@@ -140,7 +141,6 @@ public class Ba {
      * @throws TilaException jos naapurit on jo olemassa
      */
     public void add(Neighbour n) throws TilaException {
-        if (neighbours.containsPair(n)) throw new TilaException("Nämä ovat jo naapurit!"); 
         this.neighbours.add(n);
     }
     
@@ -310,12 +310,17 @@ public class Ba {
         ba.add(f6);
         
         // Tämä pitäisi tapahtua automaattisesti kun lisätään funktio
-        ba.add(lf1);
-        ba.add(lf2);
-        ba.add(lf3);
-        ba.add(lf4);
-        ba.add(lf5);
-        ba.add(lf6);
+        try {
+            ba.add(lf1);
+            ba.add(lf2);
+            ba.add(lf3);
+            ba.add(lf4);
+            ba.add(lf5);
+            ba.add(lf6);
+        } catch (TilaException e) {
+            e.printStackTrace();
+        }
+
 
         for (int i = 0; i < ba.getAreaCount(); i++) {
             int lid = ba.areas.get(i).getLid();
