@@ -1,6 +1,9 @@
 package ba;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /**
@@ -223,46 +226,42 @@ public class Ba {
     
     /**
      * Tallennetaan tiedot
+     * @param fn hakemisto johon tallennetaan
+     * @param t tietorakenne joka tallennetaan 
      * @throws TilaException jos tallennuksessa tapahtuu virheitä
      */
-    public void save() throws TilaException {
-        // tallennetaan tiedot erikseen jotta yksi ei keskeytä muita
-        String errorMessage = "";
-        try {
-            this.areas.save();
-        } catch ( TilaException ex ) {
-            errorMessage = ex.getMessage();
-        }
-
-        try {
-            this.locations.save();
-        } catch ( TilaException ex ) {
-            errorMessage += ex.getMessage();
-        }
-        
-        try {
-            this.functions.save();
-        } catch ( TilaException ex ) {
-            errorMessage += ex.getMessage();
-        }
-        
-        try {
-            this.lfs.save();
-        } catch ( TilaException ex ) {
-            errorMessage += ex.getMessage();
-        }
-        
-        try {
-            this.neighbours.save();
-        } catch ( TilaException ex ) {
-            errorMessage += ex.getMessage();
-        }
-
-        if (errorMessage.length() != 0) throw new TilaException(errorMessage);
+    private void save(String fn, Tietorakenne t) throws TilaException {
+            if ( !t.isAltered() ) return; // jos ei muutetttu ei kannata tallentaa 
+            File file = new File(fn + "//" + t.getFileName()); // uusi tiedosto nimellä varustettuna
+            try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) { // avataan tiedosto kirjoittamista varten
+                for (int i = 0; i < t.getSize(); i++) { // käydään alueiston alueet läpi  
+                    ps.println(t.get(i).toString()); // valitaan kohdalla oleva alue ja tallennetaan se tiedostoon
+                }
+            } catch (FileNotFoundException e) {
+                throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
+            }
+            t.resetAltered(); // nyt on tallennettu eli ei muutoksia 
     }
 
     
+    /**
+     * tallennetaan kaikki tämän luokan tietorakenteet
+     * @param fn hakemisto johon tallennetaan 
+     * @throws TilaException jos tallennuksessa ongelmia
+     */
+    public void saveAll(String fn) throws TilaException {
+        try {
+            this.save(fn, this.areas);
+            this.save(fn, this.locations);
+            this.save(fn, this.functions);
+            this.save(fn, this.lfs);
+            this.save(fn, this.neighbours);
+        } catch (TilaException e) {
+            throw e;
+        }
+    }
 
+    
     /**
      * Testiohjelma Ba-luokalle
      * @param args ei käytössä

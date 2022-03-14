@@ -3,8 +3,6 @@ package ba;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,7 +11,7 @@ import java.util.Scanner;
  * @version 21.2.2022
  *
  */
-public class Functions {  
+public class Functions implements Tietorakenne {  
      private ArrayList<Function> functions = new ArrayList<Function>();
      private boolean altered = false;
      private String fileName = "function.dat";
@@ -47,7 +45,8 @@ public class Functions {
      /**
       * @return paljonko alkiota 
       */
-     public int getSize() {
+     @Override
+    public int getSize() {
          return functions.size();
      }
      
@@ -56,7 +55,8 @@ public class Functions {
       * @param i alkion indeksi
       * @return halutun alkion
       */
-     public Function get(int i) {
+     @Override
+    public Function get(int i) {
          if (0 > i || i >= this.getSize()) throw new IndexOutOfBoundsException("Laiton indeksi fuktiota etsittäessä: " + i);
          return functions.get(i);
      }
@@ -65,29 +65,28 @@ public class Functions {
      /**
       * @return palautetaan tiedostonimi
       */
-     public String getFileName() {
+     @Override
+    public String getFileName() {
           return this.fileName;
       }
      
+     /**
+      * palutetaan alkutilanteeseen
+      */
+     @Override
+     public void resetAltered() {
+         this.altered = false;
+     }
+     
      
      /**
-      * tallennetaan tiedot
-      * @throws TilaException jos tallennuksessa ongelmia
+      * @return onko tiedostoa muutettu, true jos on 
       */
-     public void save() throws TilaException {
-         if ( !altered ) return;
-         File file = new File("tiedostot//" + this.getFileName());
-         try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
-             for (int i = 0; i < this.getSize(); i++) {
-                 Function function = this.get(i);
-                 ps.println(function.toString());
-             }
-         } catch (FileNotFoundException e) {
-             throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
-         }
-         altered = false;
-     }   
-     
+     @Override
+     public boolean isAltered() {
+         return this.altered;
+     }
+       
      
      /**
       * @param name hakemiston nimi josta luetaan
@@ -125,11 +124,5 @@ public class Functions {
          System.out.println("============= Function testi =================");
          
          for (int i = 0; i < functions.getSize(); i++) functions.get(i).print(System.out);
-         
-         try {
-            functions.save();
-        } catch (TilaException e) {
-            e.printStackTrace();
-        }
      }
 }

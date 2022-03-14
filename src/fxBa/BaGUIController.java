@@ -319,7 +319,7 @@ public class BaGUIController implements Initializable {
      */
     public String save() {
         try {
-            this.ba.save();
+            this.ba.saveAll("tiedostot");
             this.taytaApukentat();
             return null;
         } catch (TilaException ex) {

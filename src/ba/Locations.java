@@ -3,8 +3,6 @@ package ba;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
@@ -16,7 +14,7 @@ import java.util.Scanner;
  * @version 21.2.2022
  *
  */
-public class Locations {
+public class Locations implements Tietorakenne {
     
     private int koko          = 5;
     private int lkm           = 0; 
@@ -67,8 +65,18 @@ public class Locations {
     /**
      * @return paljonko alkiota 
      */
+    @Override
     public int getSize() {
         return this.lkm;
+    }
+    
+    
+    /**
+     * @return onko tiedostoa muutettu, true jos on 
+     */
+    @Override
+    public boolean isAltered() {
+        return this.altered;
     }
     
     
@@ -77,6 +85,7 @@ public class Locations {
      * @return halutun alkion
      * @throws IndexOutOfBoundsException jos kutsitaan laittomalla indeksillä
      */
+    @Override
     public Location get(int i) throws IndexOutOfBoundsException {
         if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("laiton indeksi l: " + i);
         return locations[i];
@@ -86,28 +95,18 @@ public class Locations {
     /**
      * @return palautetaan tiedostonimi
      */
+    @Override
     public String getFileName() {
          return this.fileName;
      }
     
-    
     /**
-     * tallennetaan tiedot
-     * @throws TilaException jos tallennuksessa ongelmia
+     * palutetaan alkutilanteeseen
      */
-    public void save() throws TilaException {
-        if ( !altered ) return;
-        File file = new File("tiedostot//" + this.getFileName());
-        try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
-            for (int i = 0; i < this.getSize(); i++) {
-                Location location = this.get(i);
-                ps.println(location.toString());
-            }
-        } catch (FileNotFoundException e) {
-            throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
-        }
-        altered = false;
-    } 
+    @Override
+    public void resetAltered() {
+        this.altered = false;
+    }
     
     
     /**
@@ -160,12 +159,6 @@ public class Locations {
                 e.printStackTrace();
             }
             System.out.println("Jäsen nro: " + i);
-            
-            try {
-                locations.save();
-            } catch (TilaException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

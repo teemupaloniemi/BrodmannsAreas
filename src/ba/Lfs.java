@@ -3,8 +3,6 @@ package ba;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,7 +13,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 8.3.2022
  *
  */
-public class Lfs {
+public class Lfs implements Tietorakenne {
     private ArrayList<Lf> pairs = new ArrayList<Lf>();
     private boolean altered = false;
     private String fileName = "lf.dat";
@@ -35,6 +33,7 @@ public class Lfs {
      * @param i indeksi jota etsitään
      * @return löydetty pari
      */
+    @Override
     public Lf get(int i) {
         return this.pairs.get(i);
     }
@@ -43,6 +42,7 @@ public class Lfs {
     /**
      * @return parien lukumäärä
      */
+    @Override
     public int getSize() {
         return this.pairs.size();
     }
@@ -76,6 +76,7 @@ public class Lfs {
     /**
      * @return palautetaan tiedostonimi
      */
+    @Override
     public String getFileName() {
          return this.fileName;
      }
@@ -102,6 +103,23 @@ public class Lfs {
     
     
     /**
+     * @return onko tiedostoa muutettu, true jos on 
+     */
+    @Override
+    public boolean isAltered() {
+        return this.altered;
+    }
+    
+    
+    /**
+     * palutetaan alkutilanteeseen
+     */
+    @Override
+    public void resetAltered() {
+        this.altered = false;
+    }
+    
+    /**
      * muutetaan merkkijono luokan tiedoiksi
      * @param s merkkijono jota tutkitaan
      * @param i halutu id paikka (Iivo --> 1 tai 2)
@@ -113,24 +131,5 @@ public class Lfs {
         pair[0] = Integer.valueOf(Mjonot.erota(sb, '|'));
         pair[1] = Integer.valueOf(Mjonot.erota(sb, '|'));
         return pair[i-1];
-    }
-
-
-    /**
-     * tallennetaan tiedot
-     * @throws TilaException jos tallennuksessa ongelmia
-     */
-    public void save() throws TilaException {
-        if ( !altered ) return;
-        File file = new File("tiedostot//" + this.getFileName());
-        try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
-            for (int i = 0; i < this.getSize(); i++) {
-                Lf lf = this.get(i);
-                ps.println(lf.toString());
-            }
-        } catch (FileNotFoundException e) {
-            throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
-        }
-        altered = false;
-    } 
+    }   
 }

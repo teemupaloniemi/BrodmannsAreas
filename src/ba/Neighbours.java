@@ -3,8 +3,6 @@ package ba;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,7 +13,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 8.3.2022
  *
  */
-public class Neighbours {
+public class Neighbours implements Tietorakenne {
     private ArrayList<Neighbour> pairs = new ArrayList<Neighbour>();
     private boolean altered = false;
     private String fileName = "neighbour.dat";
@@ -32,9 +30,19 @@ public class Neighbours {
     
     
     /**
+     * @return onko tiedostoa muutettu, true jos on 
+     */
+    @Override
+    public boolean isAltered() {
+        return this.altered;
+    }
+    
+    
+    /**
      * @param i indeksi jota etsitään
      * @return löydetty pari
      */
+    @Override
     public Neighbour get(int i) {
         return this.pairs.get(i);
     }
@@ -43,6 +51,7 @@ public class Neighbours {
     /**
      * @return parien lukumäärä
      */
+    @Override
     public int getSize() {
         return this.pairs.size();
     }
@@ -98,28 +107,19 @@ public class Neighbours {
     /**
      * @return palautetaan tiedostonimi
      */
+    @Override
     public String getFileName() {
          return this.fileName;
      }
     
     
     /**
-     * tallennetaan tiedot
-     * @throws TilaException jos tallennuksessa ongelmia
+     * palutetaan alkutilanteeseen
      */
-    public void save() throws TilaException {
-        if ( !altered ) return;
-        File file = new File("tiedostot//" + this.getFileName());
-        try (PrintStream ps = new PrintStream(new FileOutputStream(file, false))) {
-            for (int i = 0; i < this.getSize(); i++) {
-                Neighbour neighbour = this.get(i);
-                ps.println(neighbour.toString());
-            }
-        } catch (FileNotFoundException e) {
-            throw new TilaException("Tiedosto " + file.getAbsolutePath() + " ei aukea!");
-        }
-        altered = false;
-    } 
+    @Override
+    public void resetAltered() {
+        this.altered = false;
+    }
 
 
     /**
