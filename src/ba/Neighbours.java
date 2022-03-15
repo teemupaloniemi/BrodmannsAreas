@@ -46,9 +46,10 @@ public class Neighbours implements Tietorakenne {
      * @param pair pari joka lisätään
      * @throws TilaException jos yritetään lisätä väärillä aroilla oleva pari
      */
-    public void add(Neighbour pair) throws TilaException {
-        if (this.containsPair(pair)) throw new TilaException("Nämä ovat jo pari " + pair.toString());
-        pairs.add(pair);
+    @Override
+    public void add(Object pair) throws TilaException {
+        if (this.containsPair((Neighbour) pair)) throw new TilaException("Nämä ovat jo pari " + pair.toString());
+        pairs.add((Neighbour) pair);
         this.altered = true;
     }
     
@@ -136,12 +137,11 @@ public class Neighbours implements Tietorakenne {
     public void readFile(String name) throws TilaException {
         String file = name + "\\" + this.getFileName();
         File f = new File(file);
-        try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
+        try (Scanner fi = new Scanner(new FileInputStream(f))) { 
             while ( fi.hasNext() ) {
                 String s = fi.nextLine().trim();
-                if (s == null || "".equals(s) || s.charAt(0) == '#') continue;
-                Neighbour neighbour = new Neighbour(this.parse(s, 1),  this.parse(s, 2));
-                this.add(neighbour);
+                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
+                this.add(new Neighbour(this.parse(s, 1),  this.parse(s, 2)));
             }
         } catch ( FileNotFoundException e ) {
             throw new TilaException("Ei saa luettua tiedostoa " + file);

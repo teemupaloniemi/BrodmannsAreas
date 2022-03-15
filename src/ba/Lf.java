@@ -7,7 +7,7 @@ import java.io.PrintStream;
  * @version 8.3.2022
  *
  */ 
-public class Lf {
+public class Lf implements Olio {
     private final int location;
     private final int function;
        
@@ -39,6 +39,11 @@ public class Lf {
         return this.location;
     }
     
+    
+    @Override
+    public int getID() {
+        return 0;
+    }
     
     @Override
     public int hashCode() {

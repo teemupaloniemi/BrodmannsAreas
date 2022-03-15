@@ -49,9 +49,10 @@ public class Lfs implements Tietorakenne {
      * @param pair pari joka lisätään
      * @throws TilaException jos pari on jo olemassa
      */
-    public void add(Lf pair) throws TilaException {
-        if (this.containsPair(pair)) throw new TilaException("Nämä ovat jo pari " + pair.toString());
-        pairs.add(pair);
+    @Override
+    public void add(Object pair) throws TilaException {
+        if (this.containsPair((Lf)pair)) throw new TilaException("Nämä ovat jo pari " + pair.toString());
+        pairs.add((Lf)pair);
         this.altered = true;
     }
 
@@ -157,8 +158,7 @@ public class Lfs implements Tietorakenne {
             while ( fi.hasNext() ) {
                 String s = fi.nextLine().trim();
                 if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
-                Lf lf = new Lf(this.parse(s, 1),  this.parse(s, 2));
-                this.add(lf);
+                this.add(new Lf(this.parse(s, 1),  this.parse(s, 2)));
             }
         } catch ( FileNotFoundException e ) {
             throw new TilaException("Ei saa luettua tiedostoa " + file);

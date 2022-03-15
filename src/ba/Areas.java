@@ -1,9 +1,5 @@
 package ba;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 /**
  * Pitää yllä aluerekisteriä, eli osaa lisätä ja poistaa alueen                                 
@@ -32,7 +28,7 @@ import java.util.Scanner;
  * areas.add(a1); areas.getSize() === 5;
  * </pre>
  */
-public class Areas implements Tietorakenne {
+public class Areas implements TietorakenneJuoksevallaID {
     
     private int    size     = 5;
     private int    lkm      = 0; 
@@ -45,9 +41,10 @@ public class Areas implements Tietorakenne {
      * Lisätään uusi alue aluistoon
      * @param area alue joka lisätään
      */
-    public void add(Area area) {
+    @Override
+    public void add(Object area) {
         if (this.lkm >= this.areas.length) this.kasvata(); // jos rupeaa olemaan täynnä 
-        this.areas[lkm] = area; //lkm kertoo missä mennään ja sitten lisätään alkio 
+        this.areas[lkm] = (Area) area; //lkm kertoo missä mennään ja sitten lisätään alkio 
         this.lkm++; // kasvatetaan ettei ensikerralla osu kohdille
         altered = true; // muutettu tietorakennetta 
     }
@@ -106,28 +103,6 @@ public class Areas implements Tietorakenne {
     
 
     /**
-     * @param name hakemiston nimi josta luetaan
-     * @throws TilaException jos ongelmia hakemisessa
-     */
-    public void readFile(String name) throws TilaException {
-        String file = name + "\\" + this.getFileName(); // haetaan halutun kansion "tätä-luokkaa" vastaava tiedosto 
-        File f = new File(file); // luodaan uusi tiedosto joka löydettiin 
-        try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
-            while ( fi.hasNext() ) { // niin kauan kun tavaraa riittää 
-                String s = fi.nextLine().trim(); // otetaan rivi kerrallaan ja siivotaan se ylimääräisistä välilyönneistä
-                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue; // jos rivi on tyhjä tai kommentti "#"
-                Area area = new Area(); // 
-                area.parse(s);          // rivin tiedot uudeksi alueeksi alueistoon 
-                this.add(area);         //
-            }
-            Area.setNextAid(this.get(this.getSize()-1).getAid()+1);  // muutetaa nextAid takisin mihin se jäi
-        } catch ( FileNotFoundException e ) {
-            throw new TilaException("Ei saa luettua tiedostoa " + file); // tiedostoa ei löydy
-        }
-    }
-    
-
-    /**
      * palutetaan alkutilanteeseen
      */
     @Override
@@ -144,6 +119,11 @@ public class Areas implements Tietorakenne {
         this.fileName = s;
     }
     
+    
+    @Override
+    public void setNextID(int id) {
+        Area.setNextAid(id);
+    }
     
     /**
      * Testiohjelma alueille

@@ -12,7 +12,7 @@ import static kanta.CheckArea.*;
  * @author Teemu
  * @version 21.2.2022
  */
-public class Area {
+public class Area implements Olio {
 
     private int    aid  =  -1; // alueen indeksi numero
     private String name = "";  // alueen nimi 
@@ -38,10 +38,11 @@ public class Area {
      * <pre name="test">
      * Area a1 = new Area();
      * a1.setAid(199); 
-     * a1.getAid() === 199;
+     * a1.getID() === 199;
      * </pre>
      */
-    public int getAid() {
+    @Override
+    public int getID() {
         return this.aid;
     }
     
@@ -81,14 +82,14 @@ public class Area {
      * <pre name="test">
      *   Area area = new Area();
      *   area.parse(" 2 | Brodmann's Area 25 | 13 ");
-     *   area.getAid() === 2;
+     *   area.getID() === 2;
      *   area.getLid() === 13;
      *   area.toString() === "2|Brodmann's Area 25|13";
      * </pre>
      */
     public Area parse(String s) {
         StringBuffer sb = new StringBuffer(s);
-        this.setAid(Mjonot.erota(sb, '|', this.getAid())); // ensimmäistä tolppaa edeltävä tieto 
+        this.setAid(Mjonot.erota(sb, '|', this.getID())); // ensimmäistä tolppaa edeltävä tieto 
         this.name = Mjonot.erota(sb, '|', this.getName()); // toista tolppaa edeltävä tieto
         this.setLid(Mjonot.erota(sb, '|', this.getLid())); // toisen tolpan jälkeinen tieto 
         return this; 
@@ -122,8 +123,8 @@ public class Area {
      * <pre name="test">
      * Area a1 = new Area();
      * Area a2 = new Area();
-     * a1.register().getAid() != -1 === true;
-     * a2.register().getAid() != a1.getAid() === true;
+     * a1.register().getID() != -1 === true;
+     * a2.register().getID() != a1.getID() === true;
      * </pre>
      */
     public Area register() {
@@ -141,7 +142,7 @@ public class Area {
      * <pre name="test">
      * Area a1 = new Area();
      * a1.setAid(199); 
-     * a1.getAid() === 199;
+     * a1.getID() === 199;
      * </pre>
      */
     public Area setAid(int aid) {
@@ -173,9 +174,9 @@ public class Area {
      * <pre name="test">
      * Area a1 = new Area();
      * Area a2 = new Area();
-     * a1.register().getAid() != -1 === true;
+     * a1.register().getID() != -1 === true;
      * Area.setNextAid(2);
-     * a2.register().getAid() === 2;
+     * a2.register().getID() === 2;
      * </pre>
      */
     public static void setNextAid(int i) {
@@ -200,15 +201,15 @@ public class Area {
        
         ba1.register().print(System.out); //rekisteröidään ei tietoja vielä 
         ba1.fillAreaInfo().print(System.out); //satunnaiset tiedot 
-        ba1.parse(ba1.getAid()+"|Brodmann's Area 24|12").print(System.out); //tiedot syötteestä
+        ba1.parse(ba1.getID()+"|Brodmann's Area 24|12").print(System.out); //tiedot syötteestä
         
         ba2.register().print(System.out); //rekisteröidään ei tietoja vielä 
         ba2.fillAreaInfo().print(System.out); //satunnaiset tiedot 
-        ba2.parse(ba2.getAid()+"|Brodmann's Area 52|14").print(System.out);        
+        ba2.parse(ba2.getID()+"|Brodmann's Area 52|14").print(System.out);        
         
         
         ba3.register().print(System.out); //rekisteröidään ei tietoja vielä 
         ba3.fillAreaInfo().print(System.out); //satunnaiset tiedot 
-        ba3.parse(ba3.getAid()+"|Brodmann's Area 1|6").print(System.out); //tiedot syötteestä
+        ba3.parse(ba3.getID()+"|Brodmann's Area 1|6").print(System.out); //tiedot syötteestä
     }
 }

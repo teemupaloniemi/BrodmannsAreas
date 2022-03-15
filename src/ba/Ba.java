@@ -1,10 +1,12 @@
 package ba;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Huolehtii Locations, Functions, Lfs ja Neighbours luokkien
@@ -95,7 +97,7 @@ public class Ba {
      *  ba.add(lf2); ba.getLfCount() === 2;
      *  ba.add(lf3); ba.getLfCount() === 3;
      *  ba.add(new Lf(1,2)); #THROWS TilaException //jo olemasso oleva pari
-     *  ba.findLocationFor(5).getLid() === 1;
+     *  ba.findLocationFor(5).getID() === 1;
      *  } catch (TilaException e) {//
      *  }
      * </pre>
@@ -181,10 +183,10 @@ public class Ba {
     public Location findLocationFor(int fid) throws TilaException {
         int search = this.lfs.findLocationID(fid);
         for (int i = 0; i < this.getLocationCount(); i++)
-            if (this.getLocation(i).getLid() == search) return this.getLocation(i); 
+            if (this.getLocation(i).getID() == search) return this.getLocation(i); 
         throw new TilaException("Haluttua lohkoa ei olemassa!");
     }
-    
+   
     
     /**
      * @param aid alue jonka naapureita etsitään
@@ -284,23 +286,44 @@ public class Ba {
 
     
     /**
+     * @param name hakemiston nimi josta luetaan
+     * @param t tietorakeene johon luetaan
+     * @throws TilaException jos ongelmia hakemisessa
+     */
+    public void readFile(String name, TietorakenneJuoksevallaID t) throws TilaException {
+        String file = name + "\\" + t.getFileName();
+        File f = new File(file);
+        try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
+            while ( fi.hasNext() ) {
+                String s = fi.nextLine().trim();
+                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
+                t.add(new Function().parse(s));
+            }
+            t.setNextID(t.get(t.getSize()-1).getID()+1);  
+        } catch ( FileNotFoundException e ) {
+            throw new TilaException("Ei saa luettua tiedostoa " + file);
+        }
+    }
+    
+    
+    /**
      * Lukee ba tiedot tiedostosta
      * @throws TilaException jos lukeminen epäonnistuu
      */
-    public void readFile() throws TilaException {
+    public void readFileAll() throws TilaException {
         String name = "tiedostot";
         File dir = new File(name);
         dir.mkdir();
-        this.areas = new Areas(); // jos luetaan olemassa olevaan niin helpoin tyhjentää näin
+        this.areas = new Areas(); 
         this.functions = new Functions();
         this.locations = new Locations();
         this.lfs = new Lfs();
         this.neighbours = new Neighbours();
         System.gc();
         
-        this.areas.readFile(name);
-        this.functions.readFile(name);
-        this.locations.readFile(name);
+        this.readFile(name, this.areas);
+        this.readFile(name, this.locations);
+        this.readFile(name, this.functions);
         this.lfs.readFile(name);
         this.neighbours.readFile(name);
     }
@@ -365,17 +388,17 @@ public class Ba {
         Function f6 = new Function().register().fillFunctionInfo();
         
         // Tämä pitäisi tapahtua automaattisesti kun lisätään funktio
-        Lf lf1 = new Lf(l1.getLid(), f1.getFid());
+        Lf lf1 = new Lf(l1.getID(), f1.getID());
+                             
+        Lf lf2 = new Lf(l2.getID(), f2.getID());
+        Lf lf3 = new Lf(l2.getID(), f3.getID());
+        Lf lf4 = new Lf(l2.getID(), f4.getID());
+                         
+        Lf lf5 = new Lf(l3.getID(), f5.getID());
+        Lf lf6 = new Lf(l3.getID(), f6.getID());
         
-        Lf lf2 = new Lf(l2.getLid(), f2.getFid());
-        Lf lf3 = new Lf(l2.getLid(), f3.getFid());
-        Lf lf4 = new Lf(l2.getLid(), f4.getFid());
-        
-        Lf lf5 = new Lf(l3.getLid(), f5.getFid());
-        Lf lf6 = new Lf(l3.getLid(), f6.getFid());
-        
-        a1.setLid(l2.getLid());
-        a2.setLid(l3.getLid());
+        a1.setLid(l2.getID());
+        a2.setLid(l3.getID());
         
         ba.add(a1);
         ba.add(a2);

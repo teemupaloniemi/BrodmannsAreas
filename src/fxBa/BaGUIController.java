@@ -190,7 +190,7 @@ public class BaGUIController implements Initializable {
     
     private void readFile() {
         try {
-            this.ba.readFile();
+            this.ba.readFileAll();
         } catch (TilaException e) {
             Dialogs.showMessageDialog(e.getMessage());
         }
@@ -223,7 +223,7 @@ public class BaGUIController implements Initializable {
             this.chooserFunctions.clear(); // tyhjennetään funktio lista käyttöliittymässä
             for (int i = 0; i < funcs.size(); i++) this.chooserFunctions.add(funcs.get(i).getName(), funcs.get(i)); // Lisätään pyydetyt funktiot käyttöliittymään
             // hoidellaan naapurit
-            var neighbours = this.ba.findNeighbours(selectedArea.getAid()); // pyydetään etsimään funktiot joita sijainnilla on
+            var neighbours = this.ba.findNeighbours(selectedArea.getID()); // pyydetään etsimään funktiot joita sijainnilla on
             this.chooserNeighbours.clear(); // tyhjennetään naapuri lista käyttöliittymässä
             for (int i = 0; i < neighbours.size(); i++) this.chooserNeighbours.add(neighbours.get(i).getName(), neighbours.get(i)); // Lisätään pyydetyt funktiot käyttöliittymään
             // Naaupurin tehtävät
@@ -246,7 +246,7 @@ public class BaGUIController implements Initializable {
         newLocation();
         Area a = new Area().register().fillAreaInfo().setLid(CheckArea.rand(0, this.ba.getLocationCount()-1)); // TODO: oikeasti käyttäjä antaa tiedot
         this.ba.add(a); // pyydetään ba luokkaa lisäämään alue alueistoon
-        setIndexForAreas(a.getAid()); // asetetaan aluelistan indeksi alueelle
+        setIndexForAreas(a.getID()); // asetetaan aluelistan indeksi alueelle
     }
     
     
@@ -272,7 +272,7 @@ public class BaGUIController implements Initializable {
          Function f = new Function().register().fillFunctionInfo(); // TODO: oikeasti käyttäjä antaa tiedot
          this.ba.add(f); // pyydetään ba luokkaa lisäämään tehtävä tehtävä-listaan
          try {
-            this.ba.add(new Lf(this.chooserAreas.getSelectedObject().getLid(),f.getFid()));
+            this.ba.add(new Lf(this.chooserAreas.getSelectedObject().getLid(),f.getID()));
         } catch (TilaException e) {
             Dialogs.showMessageDialog("Ongelmia: " + e.getMessage()); // jos olemassa oleva pari
             return;
@@ -293,7 +293,7 @@ public class BaGUIController implements Initializable {
          }
          Area newNeighbour = ba.getArea(CheckArea.rand(0, ba.getAreaCount()-1)); // TODO: oikesti käyttäjä lisää tämän
          try {
-            this.ba.add(new Neighbour(selectedArea.getAid(), newNeighbour.getAid())); // luodaan uusi naapuri pari
+            this.ba.add(new Neighbour(selectedArea.getID(), newNeighbour.getID())); // luodaan uusi naapuri pari
         } catch (TilaException e) {
             Dialogs.showMessageDialog("Ongelmia: " + e.getMessage()); // jos samat tai jo olemassa 
             return;
@@ -310,7 +310,7 @@ public class BaGUIController implements Initializable {
         int index = 0; // alkuindeksi
         for (int i = 0; i < ba.getAreaCount(); i++) {  // käydään alueet läpi
             Area area = ba.getArea(i); // alue jonka kohdalla ollaan käymässä läpi 
-            if (area.getAid() == Anum) index = i; // jos täsmää, alustetaan indeksi alueiston indeksin mukaan
+            if (area.getID() == Anum) index = i; // jos täsmää, alustetaan indeksi alueiston indeksin mukaan
             this.chooserAreas.add(area.getName(), area); // päivitetään käyttöliittymä
         }
         this.chooserAreas.setSelectedIndex(index); // ja hypätään listassa äsken tarkistettuun kohtaan
@@ -367,7 +367,7 @@ public class BaGUIController implements Initializable {
         int index = 0;
         for (int i = 0; i < this.ba.getAreaCount(); i++) {
             Area area = this.ba.getArea(i);
-            if (area.getAid() == searchID) index = i;
+            if (area.getID() == searchID) index = i;
             this.chooserAreas.add(area.getName(), area);
         }
         this.chooserAreas.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen

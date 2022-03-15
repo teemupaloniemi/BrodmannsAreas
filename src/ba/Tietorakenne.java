@@ -6,12 +6,19 @@ package ba;
  *
  */
 public interface Tietorakenne {
+
+    /**
+     * @param o objeckti joka lisätään
+     * @throws TilaException jos ongelmia lisäyksessä
+     */
+    public void add(Object o) throws TilaException;
+    
     
     /**
      * @param i indeksi josta objektia haetaan 
      * @return objektin paikassa i 
      */
-    public Object get(int i); 
+    public Olio get(int i); 
     
     
     /**

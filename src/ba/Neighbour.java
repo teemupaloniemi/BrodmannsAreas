@@ -7,7 +7,7 @@ import java.io.PrintStream;
  * @version 8.3.2022
  *
  */
-public class Neighbour {
+public class Neighbour implements Olio {
     private final int a1;
     private final int a2;
        
@@ -50,6 +50,12 @@ public class Neighbour {
      */
     public int getAreaSecond() {
         return this.a2;
+    }
+    
+    
+    @Override
+    public int getID() {
+        return 0;
     }
     
     

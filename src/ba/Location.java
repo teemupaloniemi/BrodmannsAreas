@@ -15,7 +15,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 21.2.2022
  *
  */
-public class Location {
+public class Location implements Olio {
 
     private int    lid  =  -1;
     private String name = "";
@@ -40,10 +40,11 @@ public class Location {
      * <pre name="test">
      * Location l1 = new Location();
      * l1.setLid(199); 
-     * l1.getLid() === 199;
+     * l1.getID() === 199;
      * </pre>
      */
-    public int getLid() {
+    @Override
+    public int getID() {
         return this.lid;
     }
 
@@ -69,13 +70,13 @@ public class Location {
      * <pre name="test">
      *   Location l = new Location();
      *   l.parse(" 7 | Temporal lobe ");
-     *   l.getLid() === 7;
+     *   l.getID() === 7;
      *   l.toString() === "7|Temporal lobe";
      * </pre>
      */
     public Location parse(String s) {
         StringBuffer sb = new StringBuffer(s);
-        this.setLid(Mjonot.erota(sb, '|', this.getLid()));
+        this.setLid(Mjonot.erota(sb, '|', this.getID()));
         this.name = Mjonot.erota(sb, '|', this.getName());
         return this;
     }
@@ -105,8 +106,8 @@ public class Location {
      * <pre name="test">
      * Location a1 = new Location();
      * Location a2 = new Location();
-     * a1.register().getLid() != -1 === true;
-     * a2.register().getLid() != a1.getLid() === true;
+     * a1.register().getID() != -1 === true;
+     * a2.register().getID() != a1.getID() === true;
      * </pre>
      */
     public Location register() {
@@ -124,7 +125,7 @@ public class Location {
      * <pre name="test">
      * Location l1 = new Location();
      * l1.setLid(199); 
-     * l1.getLid() === 199;
+     * l1.getID() === 199;
      * </pre>
      */
     public Location setLid(int lid) {
@@ -140,9 +141,9 @@ public class Location {
      * <pre name="test">
      * Location l1 = new Location();
      * Location l2 = new Location();
-     * l1.register().getLid() != -1 === true;
+     * l1.register().getID() != -1 === true;
      * Location.setNextLid(2);
-     * l2.register().getLid() === 2;
+     * l2.register().getID() === 2;
      * </pre>
      */
     public static void setNextLid(int i) {
@@ -152,7 +153,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return this.getLid() + "|" + this.getName();
+        return this.getID() + "|" + this.getName();
     }
     
     
@@ -167,15 +168,15 @@ public class Location {
        
         l1.register().print(System.out); //rekisteröidään ei tietoja vielä 
         l1.fillLocationInfo().print(System.out); //satunnaiset tiedot 
-        l1.parse(l1.getLid()+"|Primary motor cortex").print(System.out); //tiedot syötteestä
+        l1.parse(l1.getID()+"|Primary motor cortex").print(System.out); //tiedot syötteestä
         
         l2.register().print(System.out); //rekisteröidään ei tietoja vielä 
         l2.fillLocationInfo().print(System.out); //satunnaiset tiedot 
-        l2.parse(l2.getLid()+"|Superior parietal lobule").print(System.out);        
+        l2.parse(l2.getID()+"|Superior parietal lobule").print(System.out);        
         
         
         l3.register().print(System.out); //rekisteröidään ei tietoja vielä 
         l3.fillLocationInfo().print(System.out); //satunnaiset tiedot 
-        l3.parse(l3.getLid()+"|Secondary sensorimotor cortex").print(System.out); //tiedot syötteestä
+        l3.parse(l3.getID()+"|Secondary sensorimotor cortex").print(System.out); //tiedot syötteestä
     }
 }

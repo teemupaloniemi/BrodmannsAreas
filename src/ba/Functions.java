@@ -1,10 +1,6 @@
 package ba;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Teemu
@@ -27,7 +23,7 @@ import java.util.Scanner;
  * functions.add(a1); functions.getSize() === 5;
  * </pre>
  */
-public class Functions implements Tietorakenne {  
+public class Functions implements TietorakenneJuoksevallaID {  
      private ArrayList<Function> functions = new ArrayList<Function>();
      private boolean altered = false;
      private String fileName = "function.dat";
@@ -37,8 +33,9 @@ public class Functions implements Tietorakenne {
      * Lisätään uusi alue aluistoon
      * @param function alue joka lisätään
      */
-     public void add(Function function){
-         this.functions.add(function);
+     @Override
+    public void add(Object function){
+         this.functions.add((Function) function);
          altered = true;
      }
      
@@ -82,28 +79,6 @@ public class Functions implements Tietorakenne {
      
      
      /**
-      * @param name hakemiston nimi josta luetaan
-      * @throws TilaException jos ongelmia hakemisessa
-      */
-     public void readFile(String name) throws TilaException {
-         String file = name + "\\" + this.getFileName();
-         File f = new File(file);
-         try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
-             while ( fi.hasNext() ) {
-                 String s = fi.nextLine().trim();
-                 if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
-                 Function function = new Function();
-                 function.parse(s);
-                 this.add(function);
-             }
-             Function.setNextFid(this.get(this.getSize()-1).getFid()+1);  
-         } catch ( FileNotFoundException e ) {
-             throw new TilaException("Ei saa luettua tiedostoa " + file);
-         }
-     }
-
-     
-     /**
       * palutetaan alkutilanteeseen
       */
      @Override
@@ -111,13 +86,19 @@ public class Functions implements Tietorakenne {
          this.altered = false;
      }
      
-
+     
      /**
       * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
       * @param s tiednimi
       */
      public void setFileName(String s) {
          this.fileName = s;
+     }
+     
+     
+     @Override
+     public void setNextID(int id) {
+         Function.setNextFid(id);
      }
      
      

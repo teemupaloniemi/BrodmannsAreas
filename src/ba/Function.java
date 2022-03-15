@@ -16,7 +16,7 @@ import kanta.CheckArea;
  * @version 21.2.2022
  *
  */
-public class Function {
+public class Function implements Olio {
 
     private int    fid  =  -1;
     private String name = "";
@@ -40,10 +40,11 @@ public class Function {
      * <pre name="test">
      * Function f1 = new Function();
      * f1.setFid(199); 
-     * f1.getFid() === 199;
+     * f1.getID() === 199;
      * </pre>
      */
-    public int getFid() {
+    @Override
+    public int getID() {
         return this.fid;
     }
     
@@ -69,13 +70,13 @@ public class Function {
      * <pre name="test">
      *   Function f = new Function();
      *   f.parse(" 2 | Localize pain");
-     *   f.getFid() === 2;
+     *   f.getID() === 2;
      *   f.toString() === "2|Localize pain";
      * </pre>
      */
     public Function parse(String s) {
         StringBuffer sb = new StringBuffer(s);
-        this.setFid(Mjonot.erota(sb, '|', this.getFid()));
+        this.setFid(Mjonot.erota(sb, '|', this.getID()));
         this.name = Mjonot.erota(sb, '|', this.getName());
         return this;
     }
@@ -105,8 +106,8 @@ public class Function {
      * <pre name="test">
      * Function f1 = new Function();
      * Function f2 = new Function();
-     * f1.register().getFid() != -1 === true;
-     * f2.register().getFid() != f1.getFid() === true;
+     * f1.register().getID() != -1 === true;
+     * f2.register().getID() != f1.getID() === true;
      * </pre>
      */
     public Function register() {
@@ -123,7 +124,7 @@ public class Function {
      * <pre name="test">
      * Function f1 = new Function();
      * f1.setFid(199); 
-     * f1.getFid() === 199;
+     * f1.getID() === 199;
      * </pre>
      */
     public Function setFid(int fid) {
@@ -139,9 +140,9 @@ public class Function {
      * <pre name="test">
      * Function f1 = new Function();
      * Function f2 = new Function();
-     * f1.register().getFid() != -1 === true;
+     * f1.register().getID() != -1 === true;
      * Function.setNextFid(2);
-     * f2.register().getFid() === 2;
+     * f2.register().getID() === 2;
      * </pre>
      */
     public static void setNextFid(int i) {
@@ -151,7 +152,7 @@ public class Function {
     
     @Override
     public String toString() {
-        return this.getFid() + "|" + this.getName();
+        return this.getID() + "|" + this.getName();
     }
     
     
@@ -166,14 +167,14 @@ public class Function {
        
         f1.register().print(System.out); //rekisteröidään ei tietoja vielä 
         f1.fillFunctionInfo().print(System.out); //satunnaiset tiedot 
-        f1.parse(f1.getFid()+"|Sense of fingers").print(System.out); //tiedot syötteestä
+        f1.parse(f1.getID()+"|Sense of fingers").print(System.out); //tiedot syötteestä
         
         f2.register().print(System.out); //rekisteröidään ei tietoja vielä 
         f2.fillFunctionInfo().print(System.out); //satunnaiset tiedot 
-        f2.parse(f2.getFid()+"|Anticipate tickling").print(System.out);        
+        f2.parse(f2.getID()+"|Anticipate tickling").print(System.out);        
         
         f3.register().print(System.out); //rekisteröidään ei tietoja vielä 
         f3.fillFunctionInfo().print(System.out); //satunnaiset tiedot 
-        f3.parse(f3.getFid()+"|Move hands").print(System.out); //tiedot syötteestä 
+        f3.parse(f3.getID()+"|Move hands").print(System.out); //tiedot syötteestä 
     }
 }

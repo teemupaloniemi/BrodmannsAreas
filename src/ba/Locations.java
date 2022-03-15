@@ -1,9 +1,5 @@
 package ba;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 /**
  * Pitää yllä lohkorekisteriä eli osaa lisätä ja poistaa sijainteja                              
@@ -32,7 +28,7 @@ import java.util.Scanner;
  * </pre>
  *
  */
-public class Locations implements Tietorakenne {
+public class Locations implements TietorakenneJuoksevallaID {
     
     private int koko          = 5;
     private int lkm           = 0; 
@@ -45,9 +41,10 @@ public class Locations implements Tietorakenne {
      * Lisätään uusi alue aluistoon
      * @param location alue joka lisätään
      */
-    public void add(Location location) {
+    @Override
+    public void add(Object location) {
         if (this.lkm >= this.locations.length) this.kasvata();
-        this.locations[lkm] = location;
+        this.locations[lkm] = (Location) location;
         this.lkm++;
         this.altered = true;
     }
@@ -101,28 +98,6 @@ public class Locations implements Tietorakenne {
         this.altered = true;
     }
     
-
-    /**
-     * @param name hakemiston nimi josta luetaan
-     * @throws TilaException jos ongelmia hakemisessa
-     */
-    public void readFile(String name) throws TilaException {
-        String file = name + "\\" + this.getFileName();
-        File f = new File(file);
-        try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
-            while ( fi.hasNext() ) {
-                String s = fi.nextLine().trim();
-                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
-                Location location = new Location();
-                location.parse(s);
-                this.add(location);
-            }
-            Location.setNextLid(this.get(this.getSize()-1).getLid()+1);  // muutetaa nextAid takisin
-        } catch ( FileNotFoundException e ) {
-            throw new TilaException("Ei saa luettua tiedostoa " + file);
-        }
-    }
-    
     
     /**
      * palutetaan alkutilanteeseen
@@ -141,6 +116,12 @@ public class Locations implements Tietorakenne {
         this.fileName = s;
     }
 
+    
+    @Override
+    public void setNextID(int id) {
+        Location.setNextLid(id);
+    }
+    
     
     /**
      * Testiohjelma alueille
