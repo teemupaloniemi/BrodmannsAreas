@@ -47,7 +47,7 @@ public class Area {
     
     
     /**
-     * @return palautetaan sijainti id
+     * @return palautetaan lohko id
      * @example
      * <pre name="test">
      * Area a1 = new Area();
@@ -152,7 +152,7 @@ public class Area {
     
     /**
      * alustetaan lid
-     * @param lid uusi sijainti id
+     * @param lid uusi lohko id
      * @return alueen viite
      * @example
      * <pre name="test">

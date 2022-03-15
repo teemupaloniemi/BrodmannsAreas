@@ -7,7 +7,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 /** 
  * Tietää sijainnin kentät: lid, nimi                
  * Osaa tarkastaa tietyn kentän oikeellisuuden      
- * Osaa muuttaa merkkijonon "3|Angular gyrus - Wernicke's Location" sijainti tiedoiksi
+ * Osaa muuttaa merkkijonon "3|Angular gyrus - Wernicke's Location" lohko tiedoiksi
  * Osaa antaa merkkijonona i:n kentän tiedon        
  * Osaa laittaa merkkijonon i:neksi kentäksi             
  * 
@@ -25,7 +25,7 @@ public class Location {
     
     /**
      * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
-     * @return viite sijaintiin
+     * @return viite lohkoin
      */
     public Location fillLocationInfo() {
         int i = kanta.CheckArea.rand(0, 4);
@@ -100,7 +100,7 @@ public class Location {
     
     /**
      * Annetaan uudelle alueelle uniikki id
-     * @return viitteen sijaintiin
+     * @return viitteen lohkoin
      * @example
      * <pre name="test">
      * Location a1 = new Location();

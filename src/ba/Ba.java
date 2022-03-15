@@ -161,8 +161,8 @@ public class Ba {
     
     
     /**
-     * @param lid sijainti jonka tehtäviä etsitää
-     * @return tehtävät joita sijainti hoitaa 
+     * @param lid lohko jonka tehtäviä etsitää
+     * @return tehtävät joita lohko hoitaa 
      * Kohta1 == T /\ kohta2 == T ==> Ohjelma toimii oikeellisesti
      */
     public ArrayList<Function> findFunctions(int lid) {
@@ -175,7 +175,7 @@ public class Ba {
     
     /**
      * @param fid tehtävä jonka paria etsitään
-     * @return sijainti joka vastaa tehtävästä 
+     * @return lohko joka vastaa tehtävästä 
      * @throws TilaException jos ei löydy
      */
     public Location findLocationFor(int fid) throws TilaException {
@@ -187,8 +187,8 @@ public class Ba {
     
     
     /**
-     * @param aid sijainti jonka tehtäviä etsitää
-     * @return tehtävät joita sijainti hoitaa 
+     * @param aid alue jonka naapureita etsitään
+     * @return alueen naapurit 
      */
     public ArrayList<Area> findNeighbours(int aid) {
         ArrayList<Integer> ids = this.neighbours.findNeighbourIDs(aid);
@@ -215,11 +215,11 @@ public class Ba {
     
     
     /**
-     * @param fid tehtävä jota etsitään
-     * @return tehtävän jos se löytyy 
+     * @param i tehtävän indeksi
+     * @return tehtävän tietorakenteen paikassa i  
      */
-    public Function getFunction(int fid) {
-        return functions.get(fid);
+    public Function getFunction(int i) {
+        return functions.get(i);
     }
     
     
@@ -233,7 +233,7 @@ public class Ba {
     
     /**
      * @param i kuinka mones pari 
-     * @return yksi pari muiden joukosta
+     * @return pari paikassa i
      */
     public Lf getLf(int i) {
         return lfs.get(i);

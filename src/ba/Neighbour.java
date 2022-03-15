@@ -36,8 +36,8 @@ public class Neighbour {
     
     
     /**
-     * Palautetaan sijainti id
-     * @return sijainti id
+     * Palautetaan lohko id
+     * @return lohko id
      */
     public int getAreaFirst() {
         return this.a1;

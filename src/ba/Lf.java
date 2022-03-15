@@ -32,8 +32,8 @@ public class Lf {
     
     
     /**
-     * Palautetaan sijainti id
-     * @return sijainti id
+     * Palautetaan lohko id
+     * @return lohko id
      */
     public int getLocation() {
         return this.location;

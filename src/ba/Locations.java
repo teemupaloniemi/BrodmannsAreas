@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * Pitää yllä sijaintirekisteriä eli osaa lisätä ja poistaa sijainteja                              
+ * Pitää yllä lohkorekisteriä eli osaa lisätä ja poistaa sijainteja                              
  * Lukee ja kirjoittaa location.dat tiedostoa      
  * osaa etsiä ja lajitella                         
  *                   
