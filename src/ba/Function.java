@@ -118,6 +118,7 @@ public class Function {
     
     /**
      * @param fid asetetaan uusi id
+     * @return Olion viite
      * @example
      * <pre name="test">
      * Function f1 = new Function();
@@ -125,8 +126,9 @@ public class Function {
      * f1.getFid() === 199;
      * </pre>
      */
-    public void setFid(int fid) {
+    public Function setFid(int fid) {
         this.fid = fid;
+        return this;
     }
     
     

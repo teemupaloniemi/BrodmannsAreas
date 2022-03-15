@@ -119,6 +119,7 @@ public class Location {
     /**
      * asetetaan uusi id
      * @param lid asetetttava id
+     * @return olion viitteen
      * @example
      * <pre name="test">
      * Location l1 = new Location();
@@ -126,8 +127,9 @@ public class Location {
      * l1.getLid() === 199;
      * </pre>
      */
-    public void setLid(int lid) {
+    public Location setLid(int lid) {
         this.lid = lid;
+        return this;
     }
     
     

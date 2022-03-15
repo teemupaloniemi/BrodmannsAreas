@@ -48,6 +48,22 @@ public class Ba {
     
     /**
      * @param function Lisättävä tehtävä
+     * @example
+     * <pre name="test">
+     * Ba ba = new Ba();
+     * Function f1 = new Function(), f2 = new Function();
+     * f1.register(); f2.register();
+     * ba.getFunctionCount() === 0;
+     * ba.add(f1); ba.getFunctionCount() === 1;
+     * ba.add(f2); ba.getFunctionCount() === 2;
+     * ba.add(f1); ba.getFunctionCount() === 3;
+     * ba.getFunction(0) === f1;
+     * ba.getFunction(1) === f2;
+     * ba.getFunction(2) === f1;
+     * ba.getFunction(3) === f1; #THROWS IndexOutOfBoundsException 
+     * ba.add(f1); ba.getFunctionCount() === 4;
+     * ba.add(f1); ba.getFunctionCount() === 5;
+     * </pre>
      */
     public void add(Function function) {
         this.functions.add(function);
@@ -57,14 +73,57 @@ public class Ba {
     /**
      * @param lf lisattava pari
      * @throws TilaException jos kutsutaan parilla joka on jo olemassa
+     * @example
+     * <pre name="test">
+     * try {
+     *  Ba ba = new Ba();
+     *  Location l1 = new Location().register();
+     *  Location l2 = new Location().register();
+     *  Function f1 = new Function().register();
+     *  Function f2 = new Function().register();
+     *  Function f3 = new Function().register();
+     *  ba.add(l1);
+     *  ba.add(l2);
+     *  ba.add(f1);
+     *  ba.add(f2);
+     *  ba.add(f3);
+     *  Lf lf1 = new Lf(1,2);
+     *  Lf lf2 = new Lf(2,5);
+     *  Lf lf3 = new Lf(1,3);
+     *  ba.getLfCount() === 0;
+     *  ba.add(lf1); ba.getLfCount() === 1;
+     *  ba.add(lf2); ba.getLfCount() === 2;
+     *  ba.add(lf3); ba.getLfCount() === 3;
+     *  ba.add(new Lf(1,2)); #THROWS TilaException //jo olemasso oleva pari
+     *  ba.findLocationFor(5).getLid() === 1;
+     *  } catch (TilaException e) {//
+     *  }
+     * </pre>
      */
     public void add(Lf lf) throws TilaException{
         this.lfs.add(lf);
     }
     
+   
     
     /**
-     * @param location lisattava sijainti
+     * @param location lisattava lohko
+     * @example
+     * <pre name="test">
+     * Ba ba = new Ba();
+     * Location l1 = new Location(), l2 = new Location();
+     * l1.register(); l2.register();
+     * ba.getLocationCount() === 0;
+     * ba.add(l1); ba.getLocationCount() === 1;
+     * ba.add(l2); ba.getLocationCount() === 2;
+     * ba.add(l1); ba.getLocationCount() === 3;
+     * ba.getLocation(0) === l1;
+     * ba.getLocation(1) === l2;
+     * ba.getLocation(2) === l1;
+     * ba.getLocation(3) === l1; #THROWS IndexOutOfBoundsException 
+     * ba.add(l1); ba.getLocationCount() === 4;
+     * ba.add(l1); ba.getLocationCount() === 5;
+     * </pre>
      */
     public void add(Location location) {
          this.locations.add(location);
@@ -74,6 +133,27 @@ public class Ba {
     /**
      * @param n lisattava pari
      * @throws TilaException jos naapurit on jo olemassa
+     * @example
+     * <pre name="test">
+     * try {
+     *  Ba ba = new Ba();
+     *  Area a1 = new Area().register();
+     *  Area a2 = new Area().register();
+     *  Area a3 = new Area().register();
+     *  ba.add(a1); 
+     *  ba.add(a2);
+     *  ba.add(a3);
+     *  Neighbour n2 = new Neighbour(0,1);
+     *  Neighbour n3 = new Neighbour(2,1);
+     *  ba.getNeighbourCount() === 0;
+     *  ba.add(n2); ba.getNeighbourCount() === 1;
+     *  ba.add(n3); ba.getNeighbourCount() === 2;
+     *  ba.add(new Neighbour(0,0)); #THROWS TilaException // Ei voi olla itsensä naapuri
+     *  ba.add(new Neighbour(1,2)); #THROWS TilaException // Jo olemasso oleva pari
+     *  ba.add(new Neighbour(0,2)); ba.getNeighbourCount() === 3;
+     *  } catch (TilaException e) {//
+     *  }
+     * </pre>
      */
     public void add(Neighbour n) throws TilaException {
         this.neighbours.add(n);
@@ -84,7 +164,7 @@ public class Ba {
      * @param lid sijainti jonka tehtäviä etsitää
      * @return tehtävät joita sijainti hoitaa 
      */
-    public ArrayList<Function> findFunctionIDs(int lid) {
+    public ArrayList<Function> findFunctions(int lid) {
         ArrayList<Integer> ids = this.lfs.findFunctionIDs(lid);
         ArrayList<Function> f = new ArrayList<Function>();
         for (int i = 0; i < ids.size(); i++) f.add(this.getFunction(ids.get(i)));
@@ -95,9 +175,13 @@ public class Ba {
     /**
      * @param fid tehtävä jonka paria etsitään
      * @return sijainti joka vastaa tehtävästä 
+     * @throws TilaException jos ei löydy
      */
-    public Location findLocationID(int fid) {
-        return this.getLocation(this.lfs.findLocationID(fid));
+    public Location findLocationFor(int fid) throws TilaException {
+        int search = this.lfs.findLocationID(fid);
+        for (int i = 0; i < this.getLocationCount(); i++)
+            if (this.getLocation(i).getLid() == search) return this.getLocation(i); 
+        throw new TilaException("Haluttua lohkoa ei olemassa!");
     }
     
     
@@ -105,7 +189,7 @@ public class Ba {
      * @param aid sijainti jonka tehtäviä etsitää
      * @return tehtävät joita sijainti hoitaa 
      */
-    public ArrayList<Area> findNeighbourIDs(int aid) {
+    public ArrayList<Area> findNeighbours(int aid) {
         ArrayList<Integer> ids = this.neighbours.findNeighbourIDs(aid);
         ArrayList<Area> a = new ArrayList<Area>();
         for (int i = 0; i < ids.size(); i++) a.add(this.getArea(ids.get(i)));
@@ -323,7 +407,7 @@ public class Ba {
             int lid = ba.areas.get(i).getLid();
             ba.areas.get(i).print(System.out);
             ba.locations.get(lid).print(System.out);
-            ArrayList<Function> f = ba.findFunctionIDs(lid);
+            ArrayList<Function> f = ba.findFunctions(lid);
             for (int j = 0; j < f.size(); j++) f.get(j).print(System.out);
             System.out.println("-------------------------------");
         }

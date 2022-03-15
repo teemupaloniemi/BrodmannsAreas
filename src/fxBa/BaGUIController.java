@@ -219,17 +219,17 @@ public class BaGUIController implements Initializable {
             // Valitun alueen sijainnin nimi
             this.locationText.setText(ba.getLocation(selectedArea.getLid()).getName()); 
             // hoidellaan tehtävät
-            var funcs = this.ba.findFunctionIDs(selectedArea.getLid()); // pyydetään etsimään funktiot joita sijainnilla on
+            var funcs = this.ba.findFunctions(selectedArea.getLid()); // pyydetään etsimään funktiot joita sijainnilla on
             this.chooserFunctions.clear(); // tyhjennetään funktio lista käyttöliittymässä
             for (int i = 0; i < funcs.size(); i++) this.chooserFunctions.add(funcs.get(i).getName(), funcs.get(i)); // Lisätään pyydetyt funktiot käyttöliittymään
             // hoidellaan naapurit
-            var neighbours = this.ba.findNeighbourIDs(selectedArea.getAid()); // pyydetään etsimään funktiot joita sijainnilla on
+            var neighbours = this.ba.findNeighbours(selectedArea.getAid()); // pyydetään etsimään funktiot joita sijainnilla on
             this.chooserNeighbours.clear(); // tyhjennetään naapuri lista käyttöliittymässä
             for (int i = 0; i < neighbours.size(); i++) this.chooserNeighbours.add(neighbours.get(i).getName(), neighbours.get(i)); // Lisätään pyydetyt funktiot käyttöliittymään
             // Naaupurin tehtävät
             Area n = this.chooserNeighbours.getSelectedObject();
             if (n != null) { // jos on olemassa naapuri
-                var funcsN = this.ba.findFunctionIDs(n.getLid()); // pyydetään etsimään funktiot joita sijainnilla on
+                var funcsN = this.ba.findFunctions(n.getLid()); // pyydetään etsimään funktiot joita sijainnilla on
                 this.chooserFunctionsN.clear(); // tyhjennetään funktio lista käyttöliittymässä
                 for (int i = 0; i < funcsN.size(); i++) this.chooserFunctionsN.add(funcsN.get(i).getName(), funcsN.get(i)); // Lisätään pyydetyt funktiot käyttöliittymään
             }
