@@ -163,11 +163,12 @@ public class Ba {
     /**
      * @param lid sijainti jonka tehtäviä etsitää
      * @return tehtävät joita sijainti hoitaa 
+     * Kohta1 == T /\ kohta2 == T ==> Ohjelma toimii oikeellisesti
      */
     public ArrayList<Function> findFunctions(int lid) {
-        ArrayList<Integer> ids = this.lfs.findFunctionIDs(lid);
+        ArrayList<Integer> ids = this.lfs.findFunctionIDs(lid); //Kohta 1
         ArrayList<Function> f = new ArrayList<Function>();
-        for (int i = 0; i < ids.size(); i++) f.add(this.getFunction(ids.get(i)));
+        for (int i = 0; i < ids.size(); i++) f.add(this.getFunction(ids.get(i))); //Kohta 2
         return f;
     }
     

@@ -14,6 +14,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  *
  * @example
  * <pre name="test">
+ * #import java.util.stream.Collectors;
  * try {
  *  Lfs lfs = new Lfs();
  *  Lf lf1 = new Lf(1,2);
@@ -30,6 +31,9 @@ import fi.jyu.mit.ohj2.Mjonot;
  *  lfs.get(1) == lf2 === true; 
  *  lfs.add(lf1); lfs.getSize() === 4;
  *  lfs.add(lf2); lfs.getSize() === 5;
+ *  lfs.findFunctionIDs(1).stream().map(Object::toString).collect(Collectors.joining(",")) === "2,3"; 
+ *  lfs.containsPair(lf1) === true;
+ *  lfs.containsPair(new Lf(2,2)) === false;
  *  } catch (TilaException e) {//
  *  }
  * </pre>
