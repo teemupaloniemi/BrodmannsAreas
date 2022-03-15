@@ -32,6 +32,7 @@ public class CheckArea {
          return locations[i];
      }
      
+     
      /**
      * @param i funktion indeksi
      * @return funktion nimen

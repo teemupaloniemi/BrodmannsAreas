@@ -50,7 +50,7 @@ public class Lf {
      * @param out tulostus tietovirta
      */
     public void print(PrintStream out) {
-        out.println(this.location + "|" + this.function);
+        out.println(this.toString());
     }
     
     

@@ -107,7 +107,7 @@ public class Lfs implements Tietorakenne {
     
     /**
      * @param lid alue jonka tehtäviä etsitään
-     * @return tehtävät jota alue hoitaa
+     * @return tehtävä id joita alue hoitaa
      */
     public ArrayList<Integer> findFunctionIDs(int lid) {
         var l = new ArrayList<Integer>();

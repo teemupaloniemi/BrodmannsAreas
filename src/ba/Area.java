@@ -33,8 +33,8 @@ public class Area {
      */
     public Area register() {
         this.aid = nextAid;  
-        nextAid++;
-        return this;
+        nextAid++; // kasvatetaan sueraavaa varten 
+        return this; // ketjutus
     } 
     
     
@@ -51,7 +51,7 @@ public class Area {
      * </pre>
      */
     public static void setNextAid(int i) {
-        nextAid = i;
+        nextAid = i; 
     }
     
     
@@ -149,8 +149,8 @@ public class Area {
      * Tee testit toimiviksi regexpilla
      */
     public Area print(OutputStream os) {
-        PrintStream out = new PrintStream(os);
-        out.println(this.aid + "|" + this.name + "|" + this.lid);
+        PrintStream out = new PrintStream(os); 
+        out.println(this.toString());
         return this;
     }
     
@@ -162,7 +162,7 @@ public class Area {
     public Area fillAreaInfo() {
         this.name = "Brodmann's area " + rand(1, 52);  
         int fakeLid = rand(0, 4);
-        this.lid  = fakeLid;
+        this.setLid(fakeLid);
         return this;
     }
 

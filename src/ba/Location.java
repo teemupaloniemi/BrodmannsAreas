@@ -113,7 +113,7 @@ public class Location {
      * Tee testit toimiviksi regexpilla
      */
     public void print(PrintStream out) {
-        out.println(this.lid + "|" + this.name);
+        out.println(this.toString());
     }
     
     

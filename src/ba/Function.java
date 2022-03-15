@@ -119,7 +119,7 @@ public class Function {
      * Tee testit toimiviksi regexpilla
      */
     public void print(PrintStream out) {
-        out.println(this.fid + "|" + this.name);
+        out.println(this.toString());
     }
     
     

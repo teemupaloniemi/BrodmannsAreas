@@ -118,6 +118,7 @@ public class Functions implements Tietorakenne {
          this.fileName = s;
      }
      
+     
      /**
       * Testiohjelma alueille
       * @param args ei käytössä

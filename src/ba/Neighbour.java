@@ -18,7 +18,7 @@ public class Neighbour {
      * @throws TilaException jos yritetään luoda naapuria virheellisillä arvoilla
      */
     public Neighbour (int a1, int a2) throws TilaException{
-        if (a1 == a2) throw new TilaException("Tottakai itsensä pari senkin hölmö!");
+        if (a1 == a2) throw new TilaException("Onko Aku Ankka itsensä naapuri?");
         this.a1 = a1; 
         this.a2 = a2; 
     }
@@ -61,7 +61,7 @@ public class Neighbour {
      * @param out tulostus tietovirta
      */
     public void print(PrintStream out) {
-        out.println(this.a1 + "|" + this.a2);
+        out.println(this.toString());
     }
 
 

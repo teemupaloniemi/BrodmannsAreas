@@ -34,9 +34,9 @@ import java.util.Scanner;
  */
 public class Areas implements Tietorakenne {
     
-    private int    koko     = 5;
+    private int    size     = 5;
     private int    lkm      = 0; 
-    private Area[] areas    = new Area[koko];
+    private Area[] areas    = new Area[size];
     private boolean altered = false;
     private String fileName = "area.dat";
     
@@ -75,8 +75,8 @@ public class Areas implements Tietorakenne {
      * Kasvatetaan alkiotaulukkoa jos täynnä
      */
     private void kasvata() {
-        this.koko *= 2; // kasvatetaan koko atribuuttia
-        Area[] n = new Area[koko]; // luodaan uusi tyhjä Area taulukko
+        this.size *= 2; // kasvatetaan size atribuuttia 2x jotta riittää jatkossa
+        Area[] n = new Area[size]; // luodaan uusi tyhjä Area taulukko
         for (int i = 0; i < this.getSize(); i++) n[i] = this.areas[i]; // lisätään vanhat alkiot uuteen taulukkoon
         this.areas = n; // muutetaan taulukko atribuutti uudeksi isommaksi jossa vanha sisältö
         System.gc(); // nyt voi viedä roskat ulos (vanha taulukko)
@@ -91,7 +91,7 @@ public class Areas implements Tietorakenne {
      */
     @Override
     public Area get(int i) throws IndexOutOfBoundsException {
-        if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("Laiton indeksi a: " + i);
+        if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("Laiton indeksi a: " + i); // jos ei osu välille
         return areas[i];
     }
     
@@ -101,7 +101,7 @@ public class Areas implements Tietorakenne {
      * @throws TilaException jos ongelmia hakemisessa
      */
     public void readFile(String name) throws TilaException {
-        String file = name + "\\" + this.getFileName(); // haetaan halutun kansion "tätä-luokkaa" vastaava kansio  
+        String file = name + "\\" + this.getFileName(); // haetaan halutun kansion "tätä-luokkaa" vastaava tiedosto 
         File f = new File(file); // luodaan uusi tiedosto joka löydettiin 
         try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
             while ( fi.hasNext() ) { // niin kauan kun tavaraa riittää 
