@@ -54,38 +54,13 @@ public class Neighbours implements Tietorakenne {
     
     
     /**
-     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
-     * @param s tiednimi
+     * Tarkistetaan onko paria jo olemassa
+     * @param n pari jota etsitään
+     * @return true jos pari on jo olemassa
      */
-    public void setFileName(String s) {
-        this.fileName = s;
-    }
-    
-    /**
-     * @return onko tiedostoa muutettu, true jos on 
-     */
-    @Override
-    public boolean isAltered() {
-        return this.altered;
-    }
-    
-    
-    /**
-     * @param i indeksi jota etsitään
-     * @return löydetty pari
-     */
-    @Override
-    public Neighbour get(int i) {
-        return this.pairs.get(i);
-    }
-
-    
-    /**
-     * @return parien lukumäärä
-     */
-    @Override
-    public int getSize() {
-        return this.pairs.size();
+    public boolean containsPair(Neighbour n) {
+        for (int i = 0; i < this.getSize(); i++) if (this.get(i).hashCode() == n.hashCode()) return true;
+        return false;
     }
     
     
@@ -99,6 +74,58 @@ public class Neighbours implements Tietorakenne {
             if (pairs.get(i).contains(aid)) 
                 a.add(pairs.get(i).getOpposite(aid)); 
         return a;
+    }
+    
+    
+    /**
+     * @param i indeksi jota etsitään
+     * @return löydetty pari
+     */
+    @Override
+    public Neighbour get(int i) {
+        return this.pairs.get(i);
+    }
+    
+    
+    /**
+     * @return palautetaan tiedostonimi
+     */
+    @Override
+    public String getFileName() {
+         return this.fileName;
+     }
+    
+    
+    /**
+     * @return parien lukumäärä
+     */
+    @Override
+    public int getSize() {
+        return this.pairs.size();
+    }
+    
+    
+    /**
+     * @return onko tiedostoa muutettu, true jos on 
+     */
+    @Override
+    public boolean isAltered() {
+        return this.altered;
+    }
+    
+    
+    /**
+     * muutetaan merkkijono luokan tiedoiksi
+     * @param s merkkijono jota tutkitaan
+     * @param i halutu id paikka (Iivo --> 1 tai 2)
+     * @return halutun paikan id
+     */
+    public Integer parse(String s, int i) {
+        int[] pair = new int[2];
+        StringBuffer sb = new StringBuffer(s);
+        pair[0] = Integer.valueOf(Mjonot.erota(sb, '|'));
+        pair[1] = Integer.valueOf(Mjonot.erota(sb, '|'));
+        return pair[i-1];
     }
     
     
@@ -123,44 +150,19 @@ public class Neighbours implements Tietorakenne {
     
     
     /**
-     * muutetaan merkkijono luokan tiedoiksi
-     * @param s merkkijono jota tutkitaan
-     * @param i halutu id paikka (Iivo --> 1 tai 2)
-     * @return halutun paikan id
-     */
-    public Integer parse(String s, int i) {
-        int[] pair = new int[2];
-        StringBuffer sb = new StringBuffer(s);
-        pair[0] = Integer.valueOf(Mjonot.erota(sb, '|'));
-        pair[1] = Integer.valueOf(Mjonot.erota(sb, '|'));
-        return pair[i-1];
-    }
-    
-    /**
-     * @return palautetaan tiedostonimi
-     */
-    @Override
-    public String getFileName() {
-         return this.fileName;
-     }
-    
-    
-    /**
      * palutetaan alkutilanteeseen
      */
     @Override
     public void resetAltered() {
         this.altered = false;
     }
-
-
+    
+    
     /**
-     * Tarkistetaan onko paria jo olemassa
-     * @param n pari jota etsitään
-     * @return true jos pari on jo olemassa
+     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
+     * @param s tiednimi
      */
-    public boolean containsPair(Neighbour n) {
-        for (int i = 0; i < this.getSize(); i++) if (this.get(i).hashCode() == n.hashCode()) return true;
-        return false;
+    public void setFileName(String s) {
+        this.fileName = s;
     }
 }

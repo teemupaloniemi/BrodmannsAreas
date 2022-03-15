@@ -24,32 +24,13 @@ public class Location {
     
     
     /**
-     * @return sijainnin nimi
-     * @example
-     * <pre name="test">
-     * Location l = new Location().parse("10|Secondary motor cortex");
-     * l.getName() === "Secondary motor cortex";
-     * </pre>
+     * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
+     * @return viite sijaintiin
      */
-    public String getName() {
-        return this.name;
-    }
-    
-    
-    /**
-     * muutetaan seuraavaa id numeroa
-     * @param i miksi muutetaan
-     * @example
-     * <pre name="test">
-     * Location l1 = new Location();
-     * Location l2 = new Location();
-     * l1.register().getLid() != -1 === true;
-     * Location.setNextLid(2);
-     * l2.register().getLid() === 2;
-     * </pre>
-     */
-    public static void setNextLid(int i) {
-        nextLid = i;
+    public Location fillLocationInfo() {
+        int i = kanta.CheckArea.rand(0, 4);
+        this.name = kanta.CheckArea.getLocation(i);  
+        return this;
     }
     
     
@@ -65,61 +46,18 @@ public class Location {
     public int getLid() {
         return this.lid;
     }
-    
+
     
     /**
-     * asetetaan uusi id
-     * @param lid asetetttava id
+     * @return sijainnin nimi
      * @example
      * <pre name="test">
-     * Location l1 = new Location();
-     * l1.setLid(199); 
-     * l1.getLid() === 199;
+     * Location l = new Location().parse("10|Secondary motor cortex");
+     * l.getName() === "Secondary motor cortex";
      * </pre>
      */
-    public void setLid(int lid) {
-        this.lid = lid;
-    }
-    
-    
-    /**
-     * Annetaan uudelle alueelle uniikki id
-     * @return viitteen sijaintiin
-     * @example
-     * <pre name="test">
-     * Location a1 = new Location();
-     * Location a2 = new Location();
-     * a1.register().getLid() != -1 === true;
-     * a2.register().getLid() != a1.getLid() === true;
-     * </pre>
-     */
-    public Location register() {
-        this.lid = nextLid;  
-        nextLid++;
-        return this;
-    }
-    
-   
-    /**
-     * @param out tulostus tietovirta
-     * //@example
-     * //<pre name="test">
-     * //#import java.io.ByteArrayOutputStream;
-     * //ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-     * //Location l = new Location().fillLocationInfo().register();
-     * //l.print(outContent);
-     * //outContent.toString() =R= "\\d\\+|[a-zA-Z]+" + System.lineSeparator();
-     * //</pre>
-     * Tee testit toimiviksi regexpilla
-     */
-    public void print(PrintStream out) {
-        out.println(this.toString());
-    }
-    
-    
-    @Override
-    public String toString() {
-        return this.getLid() + "|" + this.getName();
+    public String getName() {
+        return this.name;
     }
     
     
@@ -144,13 +82,75 @@ public class Location {
     
     
     /**
-     * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
-     * @return viite sijaintiin
+     * @param out tulostus tietovirta
+     * //@example
+     * //<pre name="test">
+     * //#import java.io.ByteArrayOutputStream;
+     * //ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+     * //Location l = new Location().fillLocationInfo().register();
+     * //l.print(outContent);
+     * //outContent.toString() =R= "\\d\\+|[a-zA-Z]+" + System.lineSeparator();
+     * //</pre>
+     * Tee testit toimiviksi regexpilla
      */
-    public Location fillLocationInfo() {
-        int i = kanta.CheckArea.rand(0, 4);
-        this.name = kanta.CheckArea.getLocation(i);  
+    public void print(PrintStream out) {
+        out.println(this.toString());
+    }
+    
+    
+    /**
+     * Annetaan uudelle alueelle uniikki id
+     * @return viitteen sijaintiin
+     * @example
+     * <pre name="test">
+     * Location a1 = new Location();
+     * Location a2 = new Location();
+     * a1.register().getLid() != -1 === true;
+     * a2.register().getLid() != a1.getLid() === true;
+     * </pre>
+     */
+    public Location register() {
+        this.lid = nextLid;  
+        nextLid++;
         return this;
+    }
+    
+    
+    /**
+     * asetetaan uusi id
+     * @param lid asetetttava id
+     * @example
+     * <pre name="test">
+     * Location l1 = new Location();
+     * l1.setLid(199); 
+     * l1.getLid() === 199;
+     * </pre>
+     */
+    public void setLid(int lid) {
+        this.lid = lid;
+    }
+    
+    
+    /**
+     * muutetaan seuraavaa id numeroa
+     * @param i miksi muutetaan
+     * @example
+     * <pre name="test">
+     * Location l1 = new Location();
+     * Location l2 = new Location();
+     * l1.register().getLid() != -1 === true;
+     * Location.setNextLid(2);
+     * l2.register().getLid() === 2;
+     * </pre>
+     */
+    public static void setNextLid(int i) {
+        nextLid = i;
+    }
+    
+
+    @Override
+    public String toString() {
+        return this.getLid() + "|" + this.getName();
     }
     
     

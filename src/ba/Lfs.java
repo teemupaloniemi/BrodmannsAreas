@@ -63,33 +63,17 @@ public class Lfs implements Tietorakenne {
         return false;
     }
     
-    
-    /**
-     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
-     * @param s tiednimi
-     */
-    public void setFileName(String s) {
-        this.fileName = s;
-    }
-    
-    
-    /**
-     * @param i indeksi jota etsitään
-     * @return löydetty pari
-     * 
-     */
-    @Override
-    public Lf get(int i) {
-        return this.pairs.get(i);
-    }
 
-    
     /**
-     * @return parien lukumäärä
+     * @param lid alue jonka tehtäviä etsitään
+     * @return tehtävä id joita alue hoitaa
      */
-    @Override
-    public int getSize() {
-        return this.pairs.size();
+    public ArrayList<Integer> findFunctionIDs(int lid) {
+        var l = new ArrayList<Integer>();
+        for (int i = 0; i < pairs.size(); i++) {
+            if (pairs.get(i).getLocation() == lid) l.add(pairs.get(i).getFunction()); 
+        }
+        return l;
     }
     
     
@@ -106,15 +90,13 @@ public class Lfs implements Tietorakenne {
     
     
     /**
-     * @param lid alue jonka tehtäviä etsitään
-     * @return tehtävä id joita alue hoitaa
+     * @param i indeksi jota etsitään
+     * @return löydetty pari
+     * 
      */
-    public ArrayList<Integer> findFunctionIDs(int lid) {
-        var l = new ArrayList<Integer>();
-        for (int i = 0; i < pairs.size(); i++) {
-            if (pairs.get(i).getLocation() == lid) l.add(pairs.get(i).getFunction()); 
-        }
-        return l;
+    @Override
+    public Lf get(int i) {
+        return this.pairs.get(i);
     }
     
     
@@ -125,6 +107,39 @@ public class Lfs implements Tietorakenne {
     public String getFileName() {
          return this.fileName;
      }
+    
+    
+    /**
+     * @return parien lukumäärä
+     */
+    @Override
+    public int getSize() {
+        return this.pairs.size();
+    }
+    
+    
+    /**
+     * @return onko tiedostoa muutettu, true jos on 
+     */
+    @Override
+    public boolean isAltered() {
+        return this.altered;
+    }
+    
+    
+    /**
+     * muutetaan merkkijono luokan tiedoiksi
+     * @param s merkkijono jota tutkitaan
+     * @param i halutu id paikka (Iivo --> 1 tai 2)
+     * @return halutun paikan id
+     */
+    public Integer parse(String s, int i) {
+        int[] pair = new int[2];
+        StringBuffer sb = new StringBuffer(s);
+        pair[0] = Integer.valueOf(Mjonot.erota(sb, '|'));
+        pair[1] = Integer.valueOf(Mjonot.erota(sb, '|'));
+        return pair[i-1];
+    } 
     
     
     /**
@@ -148,15 +163,6 @@ public class Lfs implements Tietorakenne {
     
     
     /**
-     * @return onko tiedostoa muutettu, true jos on 
-     */
-    @Override
-    public boolean isAltered() {
-        return this.altered;
-    }
-    
-    
-    /**
      * palutetaan alkutilanteeseen
      */
     @Override
@@ -164,17 +170,12 @@ public class Lfs implements Tietorakenne {
         this.altered = false;
     }
     
+    
     /**
-     * muutetaan merkkijono luokan tiedoiksi
-     * @param s merkkijono jota tutkitaan
-     * @param i halutu id paikka (Iivo --> 1 tai 2)
-     * @return halutun paikan id
+     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
+     * @param s tiednimi
      */
-    public Integer parse(String s, int i) {
-        int[] pair = new int[2];
-        StringBuffer sb = new StringBuffer(s);
-        pair[0] = Integer.valueOf(Mjonot.erota(sb, '|'));
-        pair[1] = Integer.valueOf(Mjonot.erota(sb, '|'));
-        return pair[i-1];
-    }   
+    public void setFileName(String s) {
+        this.fileName = s;
+    }
 }

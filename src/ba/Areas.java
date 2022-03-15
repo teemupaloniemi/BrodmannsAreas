@@ -42,6 +42,30 @@ public class Areas implements Tietorakenne {
     
     
     /**
+     * Lisätään uusi alue aluistoon
+     * @param area alue joka lisätään
+     */
+    public void add(Area area) {
+        if (this.lkm >= this.areas.length) this.kasvata(); // jos rupeaa olemaan täynnä 
+        this.areas[lkm] = area; //lkm kertoo missä mennään ja sitten lisätään alkio 
+        this.lkm++; // kasvatetaan ettei ensikerralla osu kohdille
+        altered = true; // muutettu tietorakennetta 
+    }
+    
+    
+    /**
+     * @param i alkion indeksi
+     * @return halutun alkion
+     * @throws IndexOutOfBoundsException jos kutsutaan laittomalla indeksillä
+     */
+    @Override
+    public Area get(int i) throws IndexOutOfBoundsException {
+        if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("Laiton indeksi a: " + i); // jos ei osu välille
+        return areas[i];
+    }
+    
+    
+    /**
      * @return palautetaan tiedoston nimi
      */
     @Override
@@ -60,14 +84,11 @@ public class Areas implements Tietorakenne {
     
     
     /**
-     * Lisätään uusi alue aluistoon
-     * @param area alue joka lisätään
+     * @return onko tiedostoa muutettu, true jos on 
      */
-    public void add(Area area) {
-        if (this.lkm >= this.areas.length) this.kasvata(); // jos rupeaa olemaan täynnä 
-        this.areas[lkm] = area; //lkm kertoo missä mennään ja sitten lisätään alkio 
-        this.lkm++; // kasvatetaan ettei ensikerralla osu kohdille
-        altered = true; // muutettu tietorakennetta 
+    @Override
+    public boolean isAltered() {
+        return this.altered;
     }
     
     
@@ -81,18 +102,6 @@ public class Areas implements Tietorakenne {
         this.areas = n; // muutetaan taulukko atribuutti uudeksi isommaksi jossa vanha sisältö
         System.gc(); // nyt voi viedä roskat ulos (vanha taulukko)
         altered = true; // muutettiin tiedostoa
-    }
-    
-    
-    /**
-     * @param i alkion indeksi
-     * @return halutun alkion
-     * @throws IndexOutOfBoundsException jos kutsutaan laittomalla indeksillä
-     */
-    @Override
-    public Area get(int i) throws IndexOutOfBoundsException {
-        if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("Laiton indeksi a: " + i); // jos ei osu välille
-        return areas[i];
     }
     
 
@@ -117,16 +126,7 @@ public class Areas implements Tietorakenne {
         }
     }
     
-    
-    /**
-     * @return onko tiedostoa muutettu, true jos on 
-     */
-    @Override
-    public boolean isAltered() {
-        return this.altered;
-    }
-    
-    
+
     /**
      * palutetaan alkutilanteeseen
      */

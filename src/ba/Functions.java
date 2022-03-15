@@ -32,6 +32,7 @@ public class Functions implements Tietorakenne {
      private boolean altered = false;
      private String fileName = "function.dat";
      
+     
     /**
      * Lisätään uusi alue aluistoon
      * @param function alue joka lisätään
@@ -39,15 +40,6 @@ public class Functions implements Tietorakenne {
      public void add(Function function){
          this.functions.add(function);
          altered = true;
-     }
-     
-     
-     /**
-      * @return paljonko alkiota 
-      */
-     @Override
-    public int getSize() {
-         return functions.size();
      }
      
      
@@ -70,12 +62,13 @@ public class Functions implements Tietorakenne {
           return this.fileName;
       }
      
+     
      /**
-      * palutetaan alkutilanteeseen
+      * @return paljonko alkiota 
       */
      @Override
-     public void resetAltered() {
-         this.altered = false;
+    public int getSize() {
+         return functions.size();
      }
      
      
@@ -86,7 +79,7 @@ public class Functions implements Tietorakenne {
      public boolean isAltered() {
          return this.altered;
      }
-       
+     
      
      /**
       * @param name hakemiston nimi josta luetaan
@@ -108,8 +101,17 @@ public class Functions implements Tietorakenne {
              throw new TilaException("Ei saa luettua tiedostoa " + file);
          }
      }
+
      
+     /**
+      * palutetaan alkutilanteeseen
+      */
+     @Override
+     public void resetAltered() {
+         this.altered = false;
+     }
      
+
      /**
       * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
       * @param s tiednimi

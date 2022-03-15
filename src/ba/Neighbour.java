@@ -24,18 +24,14 @@ public class Neighbour {
     }
     
     
-    @Override
-    public String toString() {
-        return this.getAreaFirst() + "|" + this.getAreaSecond();
-    }
-    
-    
-    @Override
-    public int hashCode() {
-       int small = this.a2; 
-       int large = this.a1;
-       if (this.a1 < this.a2) { small = this.a1; large = this.a2; } // jos tarvitsee vaihtaa vaihdetaan
-       return Integer.valueOf(""+small+large); // järjestys aina pienempi|suurempi
+    /**
+     * onko jompi kumpi pareista etsittävä 
+     * @param aid etsittävän alueen id
+     * @return true jos jompi kumpi on sama kuin etsittävä
+     */
+    public boolean contains(int aid) {
+        if (this.getAreaFirst() == aid || this.getAreaSecond() == aid) return true;
+        return false;
     }
     
     
@@ -58,25 +54,6 @@ public class Neighbour {
     
     
     /**
-     * @param out tulostus tietovirta
-     */
-    public void print(PrintStream out) {
-        out.println(this.toString());
-    }
-
-
-    /**
-     * onko jompi kumpi pareista etsittävä 
-     * @param aid etsittävän alueen id
-     * @return true jos jompi kumpi on sama kuin etsittävä
-     */
-    public boolean contains(int aid) {
-        if (this.getAreaFirst() == aid || this.getAreaSecond() == aid) return true;
-        return false;
-    }
-
-
-    /**
      * annetaan aidn kaveri 
      * @param aid alue id jonka kaveria etsitään
      * @return alueen keveri
@@ -86,4 +63,26 @@ public class Neighbour {
         return this.getAreaFirst();
     }
     
+    
+    @Override
+    public int hashCode() {
+       int small = this.a2; 
+       int large = this.a1;
+       if (this.a1 < this.a2) { small = this.a1; large = this.a2; } // jos tarvitsee vaihtaa vaihdetaan
+       return Integer.valueOf(""+small+large); // järjestys aina pienempi|suurempi
+    }
+    
+    
+    /**
+     * @param out tulostus tietovirta
+     */
+    public void print(PrintStream out) {
+        out.println(this.toString());
+    }
+    
+    
+    @Override
+    public String toString() {
+        return this.getAreaFirst() + "|" + this.getAreaSecond();
+    }  
 }

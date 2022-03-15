@@ -53,34 +53,6 @@ public class Locations implements Tietorakenne {
     }
     
     
-    private void kasvata() {
-        this.koko += 5;
-        Location[] n = new Location[koko];
-        for (int i = 0; i < this.getSize(); i++) n[i] = this.get(i);
-        this.locations = n;
-        System.gc();
-        this.altered = true;
-    }
-    
-    
-    /**
-     * @return paljonko alkiota 
-     */
-    @Override
-    public int getSize() {
-        return this.lkm;
-    }
-    
-    
-    /**
-     * @return onko tiedostoa muutettu, true jos on 
-     */
-    @Override
-    public boolean isAltered() {
-        return this.altered;
-    }
-    
-    
     /**
      * @param i alkion indeksi
      * @return halutun alkion
@@ -101,23 +73,35 @@ public class Locations implements Tietorakenne {
          return this.fileName;
      }
     
+    
     /**
-     * palutetaan alkutilanteeseen
+     * @return paljonko alkiota 
      */
     @Override
-    public void resetAltered() {
-        this.altered = false;
+    public int getSize() {
+        return this.lkm;
     }
+    
     
     /**
-     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
-     * @param s tiednimi
+     * @return onko tiedostoa muutettu, true jos on 
      */
-    public void setFileName(String s) {
-        this.fileName = s;
+    @Override
+    public boolean isAltered() {
+        return this.altered;
     }
     
     
+    private void kasvata() {
+        this.koko += 5;
+        Location[] n = new Location[koko];
+        for (int i = 0; i < this.getSize(); i++) n[i] = this.get(i);
+        this.locations = n;
+        System.gc();
+        this.altered = true;
+    }
+    
+
     /**
      * @param name hakemiston nimi josta luetaan
      * @throws TilaException jos ongelmia hakemisessa
@@ -138,6 +122,25 @@ public class Locations implements Tietorakenne {
             throw new TilaException("Ei saa luettua tiedostoa " + file);
         }
     }
+    
+    
+    /**
+     * palutetaan alkutilanteeseen
+     */
+    @Override
+    public void resetAltered() {
+        this.altered = false;
+    }
+    
+    
+    /**
+     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
+     * @param s tiednimi
+     */
+    public void setFileName(String s) {
+        this.fileName = s;
+    }
+
     
     /**
      * Testiohjelma alueille

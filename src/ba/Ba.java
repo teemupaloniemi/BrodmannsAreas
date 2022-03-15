@@ -23,46 +23,6 @@ public class Ba {
         
     
     /**
-     * @return alueiden lukumäärän
-     */
-    public int getAreaCount() {
-        return areas.getSize();
-    }
-    
-    
-    /**
-     * @return naapuriparien joukon lukumäärä
-     */
-    public int getNeighbourCount() {
-        return this.neighbours.getSize();
-    }
-    
-    
-    /**
-     * @return tiedettävien tehtävien määrä  
-     */
-    public int getFunctionCount() {
-        return this.functions.getSize();
-    }
-    
-    
-    /**
-     * @return alueiden lukumäärän
-     */
-    public int getLocationCount() {
-        return this.locations.getSize();
-    }
-    
-    
-    /**
-     * @return parien lukumäärän
-     */
-    public int getLfCount() {
-        return this.lfs.getSize();
-    }
-
-
-    /**
      * @param area lisattava alue
      * @example
      * <pre name="test">
@@ -87,14 +47,6 @@ public class Ba {
     
     
     /**
-     * @param location lisattava sijainti
-     */
-    public void add(Location location) {
-         this.locations.add(location);
-    }
-    
-    
-    /**
      * @param function Lisättävä tehtävä
      */
     public void add(Function function) {
@@ -111,6 +63,140 @@ public class Ba {
     }
     
     
+    /**
+     * @param location lisattava sijainti
+     */
+    public void add(Location location) {
+         this.locations.add(location);
+    }
+    
+    
+    /**
+     * @param n lisattava pari
+     * @throws TilaException jos naapurit on jo olemassa
+     */
+    public void add(Neighbour n) throws TilaException {
+        this.neighbours.add(n);
+    }
+    
+    
+    /**
+     * @param lid sijainti jonka tehtäviä etsitää
+     * @return tehtävät joita sijainti hoitaa 
+     */
+    public ArrayList<Function> findFunctionIDs(int lid) {
+        ArrayList<Integer> ids = this.lfs.findFunctionIDs(lid);
+        ArrayList<Function> f = new ArrayList<Function>();
+        for (int i = 0; i < ids.size(); i++) f.add(this.getFunction(ids.get(i)));
+        return f;
+    }
+    
+    
+    /**
+     * @param fid tehtävä jonka paria etsitään
+     * @return sijainti joka vastaa tehtävästä 
+     */
+    public Location findLocationID(int fid) {
+        return this.getLocation(this.lfs.findLocationID(fid));
+    }
+    
+    
+    /**
+     * @param aid sijainti jonka tehtäviä etsitää
+     * @return tehtävät joita sijainti hoitaa 
+     */
+    public ArrayList<Area> findNeighbourIDs(int aid) {
+        ArrayList<Integer> ids = this.neighbours.findNeighbourIDs(aid);
+        ArrayList<Area> a = new ArrayList<Area>();
+        for (int i = 0; i < ids.size(); i++) a.add(this.getArea(ids.get(i)));
+        return a;
+    }
+    
+    
+    /**
+     * @param i etsittävän alueen indeksi
+     * @return etsitty alue
+     */
+    public Area getArea(int i) {
+        return areas.get(i);
+    }
+    
+    /**
+     * @return alueiden lukumäärän
+     */
+    public int getAreaCount() {
+        return areas.getSize();
+    }
+    
+    
+    /**
+     * @param fid tehtävä jota etsitään
+     * @return tehtävän jos se löytyy 
+     */
+    public Function getFunction(int fid) {
+        return functions.get(fid);
+    }
+    
+    
+    /**
+     * @return tiedettävien tehtävien määrä  
+     */
+    public int getFunctionCount() {
+        return this.functions.getSize();
+    }
+    
+    
+    /**
+     * @param i kuinka mones pari 
+     * @return yksi pari muiden joukosta
+     */
+    public Lf getLf(int i) {
+        return lfs.get(i);
+    }
+    
+    
+    /**
+     * @return parien lukumäärän
+     */
+    public int getLfCount() {
+        return this.lfs.getSize();
+    }
+    
+    
+    /**
+     * @param i etsittävän alueen indeksi
+     * @return etsitty alue
+     * @throws IndexOutOfBoundsException jos kutsutaan laittomalla indeksillä
+     */
+    public Location getLocation(int i) throws IndexOutOfBoundsException {
+        return locations.get(i);
+    }
+    
+    
+    /**
+     * @return alueiden lukumäärän
+     */
+    public int getLocationCount() {
+        return this.locations.getSize();
+    }
+    
+    
+    /**
+     * @param i kuinka mones naapuripari 
+     * @return naapur pari joka haluttiin
+     */
+    public Neighbour getNeighbour(int i) {
+        return neighbours.get(i);
+    }
+    
+    
+    /**
+     * @return naapuriparien joukon lukumäärä
+     */
+    public int getNeighbourCount() {
+        return this.neighbours.getSize();
+    }
+
     
     /**
      * Lukee ba tiedot tiedostosta
@@ -134,96 +220,7 @@ public class Ba {
         this.neighbours.readFile(name);
     }
 
-    
-    
-    /**
-     * @param n lisattava pari
-     * @throws TilaException jos naapurit on jo olemassa
-     */
-    public void add(Neighbour n) throws TilaException {
-        this.neighbours.add(n);
-    }
-    
-    
-    /**
-     * @param i etsittävän alueen indeksi
-     * @return etsitty alue
-     */
-    public Area getArea(int i) {
-        return areas.get(i);
-    }
-    
-    
-    /**
-     * @param i etsittävän alueen indeksi
-     * @return etsitty alue
-     * @throws IndexOutOfBoundsException jos kutsutaan laittomalla indeksillä
-     */
-    public Location getLocation(int i) throws IndexOutOfBoundsException {
-        return locations.get(i);
-    }
-    
-    
-    /**
-     * @param fid tehtävä jota etsitään
-     * @return tehtävän jos se löytyy 
-     */
-    public Function getFunction(int fid) {
-        return functions.get(fid);
-    }
-    
-    
-    /**
-     * @param i kuinka mones pari 
-     * @return yksi pari muiden joukosta
-     */
-    public Lf getLf(int i) {
-        return lfs.get(i);
-    }
-    
-    
-    /**
-     * @param i kuinka mones naapuripari 
-     * @return naapur pari joka haluttiin
-     */
-    public Neighbour getNeighbour(int i) {
-        return neighbours.get(i);
-    }
-    
-    
-    /**
-     * @param fid tehtävä jonka paria etsitään
-     * @return sijainti joka vastaa tehtävästä 
-     */
-    public Location findLocationID(int fid) {
-        return this.getLocation(this.lfs.findLocationID(fid));
-    }
-    
-    
-    /**
-     * @param lid sijainti jonka tehtäviä etsitää
-     * @return tehtävät joita sijainti hoitaa 
-     */
-    public ArrayList<Function> findFunctionIDs(int lid) {
-        ArrayList<Integer> ids = this.lfs.findFunctionIDs(lid);
-        ArrayList<Function> f = new ArrayList<Function>();
-        for (int i = 0; i < ids.size(); i++) f.add(this.getFunction(ids.get(i)));
-        return f;
-    }
-    
-    
-    /**
-     * @param aid sijainti jonka tehtäviä etsitää
-     * @return tehtävät joita sijainti hoitaa 
-     */
-    public ArrayList<Area> findNeighbourIDs(int aid) {
-        ArrayList<Integer> ids = this.neighbours.findNeighbourIDs(aid);
-        ArrayList<Area> a = new ArrayList<Area>();
-        for (int i = 0; i < ids.size(); i++) a.add(this.getArea(ids.get(i)));
-        return a;
-    }
-   
-    
+  
     /**
      * Tallennetaan tiedot
      * @param fn hakemisto johon tallennetaan

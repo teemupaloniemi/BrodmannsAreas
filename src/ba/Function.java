@@ -25,26 +25,12 @@ public class Function {
     
     
     /**
-     * Annetaan uudelle alueelle uniikki id
-     * @return viite tetävään
-     * @example
-     * <pre name="test">
-     * Function f1 = new Function();
-     * Function f2 = new Function();
-     * f1.register().getFid() != -1 === true;
-     * f2.register().getFid() != f1.getFid() === true;
-     * </pre>
+     * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
+     * @return viite tehtävään
      */
-    public Function register() {
-        this.fid = nextFid;  
-        nextFid++;
+    public Function fillFunctionInfo() {
+        this.name = CheckArea.getFunction(CheckArea.rand(0,22));  
         return this;
-    }
-    
-    
-    @Override
-    public String toString() {
-        return this.getFid() + "|" + this.getName();
     }
     
     
@@ -63,37 +49,6 @@ public class Function {
     
     
     /**
-     * asetetaan seuraava id uudeksi 
-     * @param i miksi id muutetaan
-     * @example
-     * <pre name="test">
-     * Function f1 = new Function();
-     * Function f2 = new Function();
-     * f1.register().getFid() != -1 === true;
-     * Function.setNextFid(2);
-     * f2.register().getFid() === 2;
-     * </pre>
-     */
-    public static void setNextFid(int i) {
-        nextFid = i;
-    }
-    
-    
-    /**
-     * @param fid asetetaan uusi id
-     * @example
-     * <pre name="test">
-     * Function f1 = new Function();
-     * f1.setFid(199); 
-     * f1.getFid() === 199;
-     * </pre>
-     */
-    public void setFid(int fid) {
-        this.fid = fid;
-    }
-    
-   
-    /**
      * @return palautetaan tehtävän nimi
      * @example
      * <pre name="test">
@@ -103,33 +58,6 @@ public class Function {
      */
     public String getName() {
         return this.name;
-    }
-
-    
-    /**
-     * @param out tulostus tietovirta
-     * //@example
-     * //<pre name="test">
-     * //#import java.io.ByteArrayOutputStream;
-     * //ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-     * //Function f = new Function().fillFunctionInfo().register();
-     * //f.print(outContent);
-     * //outContent.toString() =R= "\\d\\+|[a-zA-Z]+" + System.lineSeparator();
-     * //</pre>
-     * Tee testit toimiviksi regexpilla
-     */
-    public void print(PrintStream out) {
-        out.println(this.toString());
-    }
-    
-    
-    /**
-     * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
-     * @return viite tehtävään
-     */
-    public Function fillFunctionInfo() {
-        this.name = CheckArea.getFunction(CheckArea.rand(0,22));  
-        return this;
     }
     
     
@@ -154,6 +82,78 @@ public class Function {
     
     
     /**
+     * @param out tulostus tietovirta
+     * //@example
+     * //<pre name="test">
+     * //#import java.io.ByteArrayOutputStream;
+     * //ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+     * //Function f = new Function().fillFunctionInfo().register();
+     * //f.print(outContent);
+     * //outContent.toString() =R= "\\d\\+|[a-zA-Z]+" + System.lineSeparator();
+     * //</pre>
+     * Tee testit toimiviksi regexpilla
+     */
+    public void print(PrintStream out) {
+        out.println(this.toString());
+    }
+    
+
+    /**
+     * Annetaan uudelle alueelle uniikki id
+     * @return viite tetävään
+     * @example
+     * <pre name="test">
+     * Function f1 = new Function();
+     * Function f2 = new Function();
+     * f1.register().getFid() != -1 === true;
+     * f2.register().getFid() != f1.getFid() === true;
+     * </pre>
+     */
+    public Function register() {
+        this.fid = nextFid;  
+        nextFid++;
+        return this;
+    }
+    
+    
+    /**
+     * @param fid asetetaan uusi id
+     * @example
+     * <pre name="test">
+     * Function f1 = new Function();
+     * f1.setFid(199); 
+     * f1.getFid() === 199;
+     * </pre>
+     */
+    public void setFid(int fid) {
+        this.fid = fid;
+    }
+    
+    
+    /**
+     * asetetaan seuraava id uudeksi 
+     * @param i miksi id muutetaan
+     * @example
+     * <pre name="test">
+     * Function f1 = new Function();
+     * Function f2 = new Function();
+     * f1.register().getFid() != -1 === true;
+     * Function.setNextFid(2);
+     * f2.register().getFid() === 2;
+     * </pre>
+     */
+    public static void setNextFid(int i) {
+        nextFid = i;
+    }
+    
+    
+    @Override
+    public String toString() {
+        return this.getFid() + "|" + this.getName();
+    }
+    
+    
+    /**
      * testataan luokan toimivuus
      * @param args Ei käytössä
      */
@@ -172,7 +172,6 @@ public class Function {
         
         f3.register().print(System.out); //rekisteröidään ei tietoja vielä 
         f3.fillFunctionInfo().print(System.out); //satunnaiset tiedot 
-        f3.parse(f3.getFid()+"|Move hands").print(System.out); //tiedot syötteestä
-        
+        f3.parse(f3.getFid()+"|Move hands").print(System.out); //tiedot syötteestä 
     }
 }

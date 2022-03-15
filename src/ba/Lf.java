@@ -22,9 +22,12 @@ public class Lf {
     }
 
     
-    @Override
-    public String toString() {
-        return this.getLocation() + "|" + this.getFunction();
+    /**
+     * Palautetaan tehtävä id
+     * @return tehtävä id
+     */
+    public int getFunction() {
+        return this.function;
     }
     
     
@@ -37,12 +40,9 @@ public class Lf {
     }
     
     
-    /**
-     * Palautetaan tehtävä id
-     * @return tehtävä id
-     */
-    public int getFunction() {
-        return this.function;
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(""+this.getLocation()+this.getFunction());
     }
     
     
@@ -55,8 +55,7 @@ public class Lf {
     
     
     @Override
-    public int hashCode() {
-        return Integer.valueOf(""+this.getLocation()+this.getFunction());
-    }
-    
+    public String toString() {
+        return this.getLocation() + "|" + this.getFunction();
+    }   
 }

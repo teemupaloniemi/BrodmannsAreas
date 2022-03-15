@@ -20,5 +20,4 @@ public class TilaException extends Exception {
     public TilaException(String viesti) {
         super(viesti);
     }
-
 }

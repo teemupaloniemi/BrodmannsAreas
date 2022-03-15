@@ -6,16 +6,12 @@ package ba;
  *
  */
 public interface Tietorakenne {
-    /**
-     * @return true jos tietorakennetta muutettu 
-     */
-    public boolean isAltered();
-    
     
     /**
-     * palutetaan alkutilanteeseen
+     * @param i indeksi josta objektia haetaan 
+     * @return objektin paikassa i 
      */
-    public void resetAltered();
+    public Object get(int i); 
     
     
     /**
@@ -31,8 +27,13 @@ public interface Tietorakenne {
     
     
     /**
-     * @param i indeksi josta objektia haetaan 
-     * @return objektin paikassa i 
+     * @return true jos tietorakennetta muutettu 
      */
-    public Object get(int i);  
+    public boolean isAltered();
+    
+    
+    /**
+     * palutetaan alkutilanteeseen
+     */
+    public void resetAltered();
 }
