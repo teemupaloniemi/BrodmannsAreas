@@ -10,4 +10,10 @@ public interface TietorakenneJuoksevallaID extends Tietorakenne {
      * @param i id joka lisätään
      */
     public void setNextID(int i);
+
+    /**
+     * @param s merkkijono josta tiedot pilkotaan
+     * @return luodaan uusi
+     */
+    public Olio newT(String s);
 }

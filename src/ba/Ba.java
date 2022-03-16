@@ -297,7 +297,7 @@ public class Ba {
             while ( fi.hasNext() ) {
                 String s = fi.nextLine().trim();
                 if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
-                t.add(new Function().parse(s));
+                t.add(t.newT(s));
             }
             t.setNextID(t.get(t.getSize()-1).getID()+1);  
         } catch ( FileNotFoundException e ) {
@@ -372,7 +372,7 @@ public class Ba {
      * @param args ei käytössä
      */
     public static void main(String args[]) {
-        Ba ba = new Ba();
+        Ba ba       = new Ba();
         Area a1     = new Area().register().fillAreaInfo();
         Area a2     = new Area().register().fillAreaInfo();
         
@@ -388,14 +388,12 @@ public class Ba {
         Function f6 = new Function().register().fillFunctionInfo();
         
         // Tämä pitäisi tapahtua automaattisesti kun lisätään funktio
-        Lf lf1 = new Lf(l1.getID(), f1.getID());
-                             
-        Lf lf2 = new Lf(l2.getID(), f2.getID());
-        Lf lf3 = new Lf(l2.getID(), f3.getID());
-        Lf lf4 = new Lf(l2.getID(), f4.getID());
-                         
-        Lf lf5 = new Lf(l3.getID(), f5.getID());
-        Lf lf6 = new Lf(l3.getID(), f6.getID());
+        Lf lf1      = new Lf(l1.getID(), f1.getID());
+        Lf lf2      = new Lf(l2.getID(), f2.getID());
+        Lf lf3      = new Lf(l2.getID(), f3.getID());
+        Lf lf4      = new Lf(l2.getID(), f4.getID());
+        Lf lf5      = new Lf(l3.getID(), f5.getID());
+        Lf lf6      = new Lf(l3.getID(), f6.getID());
         
         a1.setLid(l2.getID());
         a2.setLid(l3.getID());

@@ -101,6 +101,12 @@ public class Areas implements TietorakenneJuoksevallaID {
         altered = true; // muutettiin tiedostoa
     }
     
+   
+    @Override
+    public Area newT(String s) {
+        return new Area().parse(s);
+    }
+    
 
     /**
      * palutetaan alkutilanteeseen

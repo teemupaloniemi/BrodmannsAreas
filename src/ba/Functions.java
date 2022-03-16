@@ -78,6 +78,12 @@ public class Functions implements TietorakenneJuoksevallaID {
      }
      
      
+     @Override
+     public Function newT(String s) {
+         return new Function().parse(s);
+     }
+     
+     
      /**
       * palutetaan alkutilanteeseen
       */

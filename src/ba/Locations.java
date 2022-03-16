@@ -89,6 +89,12 @@ public class Locations implements TietorakenneJuoksevallaID {
     }
     
     
+    @Override
+    public Location newT(String s) {
+        return new Location().parse(s);
+    }
+    
+    
     private void kasvata() {
         this.koko += 5;
         Location[] n = new Location[koko];
