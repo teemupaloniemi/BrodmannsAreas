@@ -107,16 +107,14 @@ public class Areas implements TietorakenneJuoksevallaID {
     /**
     * @param name nimi jota etsitään
     * @return löydetyn area tai luo uuden jos ei löydy 
+     * @throws TilaException jos nimi väärässä muodossa
     */
-   public Area get(String name) {
+   public Area get(String name) throws TilaException {
         for (int i = 0; i < this.getSize(); i++)
            if (this.get(i).getName().equals(name)) return this.get(i);
-        Area a = new Area().register().setName(name);
-        try {
-           this.add(a);
-        } catch (TilaException e) {
-           //ei voi tapahtua sillä tarkistettiin juuri edellä
-        }
+        Area a = new Area();
+        a.register().setName(name);
+        this.add(a);
         return a;
     }
     

@@ -80,7 +80,7 @@ public class Locations implements TietorakenneJuoksevallaID {
     * @param name nimi jota etsitään
     * @return löydetyn lohko tai luo uuden jos ei löydy 
     */
-   public Location get(String name) {
+   public Location get(String name) {   
         for (int i = 0; i < this.getSize(); i++)
            if ((this.get(i).getName()).equalsIgnoreCase(name)) return this.get(i);
         Location loc = new Location().register().setName(name);
@@ -93,6 +93,19 @@ public class Locations implements TietorakenneJuoksevallaID {
     }
     
     
+   /**
+    * @param lid lid jolle etsitään nimeä 
+    * @return palauttaa nimien 
+    */
+    public String getLocationName(int lid) {
+        for (int i = 0; i < this.locations.length; i++) {
+            Location l = this.get(i);
+            if (l.getID() == lid) return l.getName();
+        }
+        return null;
+    }
+   
+   
     /**
      * @return palautetaan tiedostonimi
      */

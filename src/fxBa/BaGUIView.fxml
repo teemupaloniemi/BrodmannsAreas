@@ -23,14 +23,15 @@
             <GridPane maxHeight="-Infinity" BorderPane.alignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="searchField" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -43,12 +44,17 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                   </Button>
-                  <RadioButton mnemonicParsing="false" onAction="#handleConditionF" text="Function" GridPane.columnIndex="1">
+                  <RadioButton contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleConditionF" text="Function" GridPane.columnIndex="1">
                      <toggleGroup>
                         <ToggleGroup fx:id="cond" />
                      </toggleGroup>
                   </RadioButton>
                   <RadioButton mnemonicParsing="false" onAction="#handleConditionL" text="Location" toggleGroup="$cond" />
+                  <RadioButton layoutX="82.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleConditionN" text="Name" toggleGroup="$cond" GridPane.columnIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </RadioButton>
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -159,7 +165,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-                  <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#handleDelete" text="Delete..." />
+                  <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#handleDelete" text="Delete" />
                   <MenuItem fx:id="menuNewArea" mnemonicParsing="false" onAction="#handleNewArea" text="New Area..." />
                   <MenuItem fx:id="menuNewFunction" mnemonicParsing="false" onAction="#handleAddFunction" text="Add Function..." />
             </items>

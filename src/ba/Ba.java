@@ -178,7 +178,8 @@ public class Ba {
      */
     public boolean duplicateCheck(int id, String name) {
          return this.areas.duplicateCheck(id, name);
-     }
+    }
+    
     
     /**
      * Poistetaan valittu alue
@@ -260,8 +261,9 @@ public class Ba {
     /**
      * @param name nimi jota etsitään
      * @return palauttaa etsityn alueen
+     * @throws TilaException jos nimi väärässä muodossa
      */
-    public Area getArea(String name) {
+    public Area getArea(String name) throws TilaException {
         return this.areas.get(name);
     }
     
@@ -271,6 +273,16 @@ public class Ba {
      */
     public int getAreaCount() {
         return areas.getSize();
+    }
+    
+    
+    /**
+     * etsitään lohkon nimi idn perusteella
+     * @param lid lid jolle etsitään nimeä
+     * @return lohkon nimen 
+     */
+    public String getLocationName(int lid) {
+        return this.locations.getLocationName(lid);
     }
     
     

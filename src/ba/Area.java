@@ -162,8 +162,10 @@ public class Area implements Olio, Cloneable {
      * Muutetaan alueen nimen 
      * @param name nimi joka annetaan
      * @return palauttaa alueen viitteen
+     * @throws TilaException jos nimi ei oikeaa muotoa
      */
-    public Area setName(String name) {
+    public Area setName(String name) throws TilaException {
+        if (!name.matches("Brodmann's Area \\d+")) throw new TilaException("Tarkista nimen kirjoitus!");
         this.name = name;
         return this;
     }
