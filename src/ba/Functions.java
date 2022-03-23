@@ -8,19 +8,18 @@ import java.util.ArrayList;
  * 
  * @example
  * <pre name="test">
+ * #THROWS TilaException
  * Functions functions = new Functions();
- * Function a1 = new Function(), a2 = new Function();
+ * Function a1 = new Function().setName("AA"), a2 = new Function().setName("AB");
  * functions.getSize() === 0;
  * functions.add(a1); functions.getSize() === 1;
  * functions.add(a2); functions.getSize() === 2;
- * functions.add(a1); functions.getSize() === 3;
  * functions.get(0) === a1;
  * functions.get(1) === a2;
- * functions.get(2) === a1;
  * functions.get(1) == a1 === false;
  * functions.get(1) == a2 === true; 
- * functions.add(a1); functions.getSize() === 4;
- * functions.add(a1); functions.getSize() === 5;
+ * functions.add(new Function().setName("BB")); functions.getSize() === 3;
+ * functions.add(new Function().setName("CC")); functions.getSize() === 4;
  * </pre>
  */
 public class Functions implements TietorakenneJuoksevallaID {  
@@ -32,11 +31,26 @@ public class Functions implements TietorakenneJuoksevallaID {
     /**
      * Lisätään uusi alue aluistoon
      * @param function alue joka lisätään
+     * @throws TilaException jos on jo olemassa
      */
      @Override
-    public void add(Object function){
-         this.functions.add((Function) function);
+    public void add(Object function) throws TilaException{
+         Function f = (Function) function;
+         if (this.contains(f.getName())) throw new TilaException("Tämä on jo olemassa: " + f.getName());
+         this.functions.add(f);
          altered = true;
+     }
+     
+     
+     /**
+      * tarkistetaan onko nimi jo olemassa
+      * @param name nimi jota etsitään
+      * @return true jos nimi jo olemassa
+      */
+     public boolean contains(String name) { 
+         for (int i = 0; i < this.getSize(); i++)
+             if (this.get(i).getName().equalsIgnoreCase(name)) return true;
+         return false;
      }
      
      
@@ -58,7 +72,13 @@ public class Functions implements TietorakenneJuoksevallaID {
     public Function get(String name) {
          for (int i = 0; i < this.getSize(); i++)
             if (this.get(i).getName().equals(name)) return this.get(i);
-         return new Function().register().setName(name);
+         Function f = new Function().register().setName(name);
+         try {
+            this.add(f);
+         } catch (TilaException e) {
+            //ei voi tapahtua sillä tarkistettiin juuri edellä
+         }
+         return f;
      }
      
     
@@ -116,10 +136,15 @@ public class Functions implements TietorakenneJuoksevallaID {
       */
      public static void main(String args[]) {
          Functions functions = new Functions();
-         functions.add(new Function().register().fillFunctionInfo());
-         functions.add(new Function().register().fillFunctionInfo());
-         functions.add(new Function().register().fillFunctionInfo());
-         functions.add(new Function().register().fillFunctionInfo());
+         try {
+            functions.add(new Function().register().fillFunctionInfo());
+            functions.add(new Function().register().fillFunctionInfo());
+            functions.add(new Function().register().fillFunctionInfo());
+            functions.add(new Function().register().fillFunctionInfo());
+        } catch (TilaException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
          System.out.println("============= Function testi =================");
          

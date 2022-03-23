@@ -70,6 +70,20 @@ public class Lfs implements Tietorakenne {
     
 
     /**
+     * Poistetaan kaikki id hen liittyvät parit
+     * @param l poistettava id 1
+     * @param f poistettava id 2
+     */
+    public void delete(int l, int f) {
+        for (int i = 0; i < this.getSize(); i++) {
+            Lf lf = this.pairs.get(i);
+            if (lf.hashCode() == Integer.valueOf(""+l+f))
+                this.pairs.remove(i);
+        }
+    }
+    
+    
+    /**
      * @param lid alue jonka tehtäviä etsitään
      * @return tehtävä id joita alue hoitaa
      */

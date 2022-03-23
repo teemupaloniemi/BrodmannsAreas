@@ -58,8 +58,23 @@ public class Areas implements TietorakenneJuoksevallaID {
      * @return true jos nimi jo olemassa
      */
     public boolean contains(String name) { 
-        for (int i = 0; i < this.getSize(); i++)
-            if (this.get(i).getName().equals(name)) return true;
+        for (int i = 0; i < this.getSize(); i++) 
+            if (this.get(i).getName().equalsIgnoreCase(name)) return true;
+        return false;
+    }
+    
+    
+    /**
+     * tarkistetaan onko nimi jo olemassa
+     * @param name nimi jota etsitään
+     * @param id id johon verrataan
+     * @return true jos nimi jo olemassa
+     */
+    public boolean duplicateCheck(int id, String name) { 
+        for (int i = 0; i < this.getSize(); i++) {
+            Area a = this.get(i);
+            if (a.getName().equalsIgnoreCase(name) && a.getID() != id) return true;
+        }
         return false;
     }
     
@@ -86,6 +101,23 @@ public class Areas implements TietorakenneJuoksevallaID {
     public Area get(int i) throws IndexOutOfBoundsException {
         if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("Laiton indeksi a: " + i); // jos ei osu välille
         return areas[i];
+    }
+    
+    
+    /**
+    * @param name nimi jota etsitään
+    * @return löydetyn area tai luo uuden jos ei löydy 
+    */
+   public Area get(String name) {
+        for (int i = 0; i < this.getSize(); i++)
+           if (this.get(i).getName().equals(name)) return this.get(i);
+        Area a = new Area().register().setName(name);
+        try {
+           this.add(a);
+        } catch (TilaException e) {
+           //ei voi tapahtua sillä tarkistettiin juuri edellä
+        }
+        return a;
     }
     
     

@@ -116,9 +116,11 @@
    <bottom>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="329.0" minWidth="323.0" prefWidth="329.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="256.0" minWidth="245.0" prefWidth="245.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="259.0" minWidth="251.0" prefWidth="251.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="327.0" minWidth="226.0" prefWidth="327.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="217.0" minWidth="60.0" prefWidth="118.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="155.0" minWidth="69.0" prefWidth="131.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="138.0" minWidth="114.0" prefWidth="123.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="138.0" minWidth="122.0" prefWidth="127.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints vgrow="SOMETIMES" />
@@ -133,12 +135,14 @@
                   <Button fx:id="confirmButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleEditConfirm" text="Confirm Edit " visible="false" />
                </children>
             </HBox>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleNewNeighbour" text="New Neighbour" GridPane.columnIndex="2">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleAddNeighbour" text="Add Neighbour" GridPane.columnIndex="3">
                <GridPane.margin>
-                  <Insets right="10.0" />
+                  <Insets />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#handleNewFunction" text="New Function" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleAddFunction" text="Add Function" GridPane.columnIndex="1" />
+            <Button layoutX="418.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleDeleteFunction" text="Delete Funtion" GridPane.columnIndex="2" />
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="526.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleDeleteNeighbour" text="Delete Neighbour" GridPane.columnIndex="4" />
          </children>
       </GridPane>
    </bottom>
@@ -157,7 +161,7 @@
             <items>
                   <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#handleDelete" text="Delete..." />
                   <MenuItem fx:id="menuNewArea" mnemonicParsing="false" onAction="#handleNewArea" text="New Area..." />
-                  <MenuItem fx:id="menuNewFunction" mnemonicParsing="false" onAction="#handleNewFunction" text="New Function..." />
+                  <MenuItem fx:id="menuNewFunction" mnemonicParsing="false" onAction="#handleAddFunction" text="Add Function..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

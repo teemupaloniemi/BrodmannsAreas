@@ -52,6 +52,7 @@ public class Ba {
     
     /**
      * @param function Lisättävä tehtävä
+     * @throws TilaException jos on jo olemassa
      * @example
      * <pre name="test">
      * #THROWS TilaException
@@ -70,7 +71,7 @@ public class Ba {
      * ba.add(f1); ba.getFunctionCount() === 5;
      * </pre>
      */
-    public void add(Function function) {
+    public void add(Function function) throws TilaException {
         this.functions.add(function);
     }
     
@@ -172,10 +173,11 @@ public class Ba {
     /**
      * onko aluetta jo olemassa
      * @param name alue jota etsitään
+     * @param id id johon verrataan
      * @return true jos alue jo olemassa
      */
-    public boolean contains(String name) {
-         return this.areas.contains(name);
+    public boolean duplicateCheck(int id, String name) {
+         return this.areas.duplicateCheck(id, name);
      }
     
     /**
@@ -186,6 +188,25 @@ public class Ba {
         int id = area.getID();
         this.neighbours.delete(id);
         this.areas.delete(area);
+    }
+    
+    
+    /**
+     * poistetaan alueen naapurit
+     * @param a alue jonka naapuri poistetaan 
+     * @param b alue jonka naapuri poistetaan 
+     */
+    public void deleteNeighbour(int a, int b) {
+        this.neighbours.delete(a,b);
+    }
+    
+    
+    /**
+     * @param l lohkon id joka pistetaan 
+     * @param f funktion id joka poistetaan 
+     */
+    public void deleteLf(int l, int f) {
+        this.lfs.delete(l,f);
     }
     
     
@@ -232,8 +253,18 @@ public class Ba {
      * @return etsitty alue
      */
     public Area getArea(int i) {
-        return areas.get(i);
+        return this.areas.get(i);
     }
+    
+    
+    /**
+     * @param name nimi jota etsitään
+     * @return palauttaa etsityn alueen
+     */
+    public Area getArea(String name) {
+        return this.areas.get(name);
+    }
+    
     
     /**
      * @return alueiden lukumäärän
@@ -457,37 +488,28 @@ public class Ba {
         try {
             ba.add(a1);
             ba.add(a2);
-        } catch (TilaException e2) {
-            // TODO Auto-generated catch block
-            e2.printStackTrace();
-        }
-        
-        try {
+
             ba.add(l1);
             ba.add(l2);
             ba.add(l3);
-        } catch (TilaException e1) {
-            e1.printStackTrace();
-        }
-        
-        ba.add(f1);
-        ba.add(f2);
-        ba.add(f3);
-        ba.add(f4);
-        ba.add(f5);
-        ba.add(f6);
-        
-        // Tämä pitäisi tapahtua automaattisesti kun lisätään funktio
-        try {
+            
+            ba.add(f1);
+            ba.add(f2);
+            ba.add(f3);
+            ba.add(f4);
+            ba.add(f5);
+            ba.add(f6);
+            
             ba.add(lf1);
             ba.add(lf2);
             ba.add(lf3);
             ba.add(lf4);
             ba.add(lf5);
             ba.add(lf6);
-        } catch (TilaException e) {
-            e.printStackTrace();
+        } catch (TilaException e1) {
+            e1.printStackTrace();
         }
+
 
 
         for (int i = 0; i < ba.getAreaCount(); i++) {

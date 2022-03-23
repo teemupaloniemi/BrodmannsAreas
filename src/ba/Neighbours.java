@@ -67,6 +67,20 @@ public class Neighbours implements Tietorakenne {
     
     
     /**
+     * Poistetaan kaikki id hen liittyvät parit
+     * @param a poistettava id 1
+     * @param b poistettava id 2
+     */
+    public void delete(int a, int b) {
+        for (int i = 0; i < this.getSize(); i++) {
+            Neighbour n = this.pairs.get(i);
+            if (n.contains(a) && n.contains(b))
+                this.pairs.remove(i);
+        }
+    }
+    
+    
+    /**
      * Tarkistetaan onko paria jo olemassa
      * @param n pari jota etsitään
      * @return true jos pari on jo olemassa
