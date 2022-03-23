@@ -1,5 +1,6 @@
 package fxBa;
 
+import ba.Function;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
@@ -11,7 +12,7 @@ import javafx.scene.control.TextField;
  * @version 18.2.2022
  *
  */
-public class AddFunctionController implements ModalControllerInterface<String> {
+public class AddFunctionController implements ModalControllerInterface<Function> {
     
     @FXML private TextField newFunctionText;
     
@@ -33,13 +34,13 @@ public class AddFunctionController implements ModalControllerInterface<String> {
 
     
     @Override
-    public String getResult() {
+    public Function getResult() {
         return null;
     } 
 
     
     @Override
-    public void setDefault(String oletus) {
+    public void setDefault(Function function) {
         //
     }
     

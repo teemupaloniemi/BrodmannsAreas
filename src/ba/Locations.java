@@ -11,20 +11,19 @@ package ba;
  * 
  * @example
  * <pre name="test"> 
+ * #THROWS TilaException
  * Locations locations = new Locations();
- * Location a1 = new Location(), a2 = new Location();
+ * Location a1 = new Location().setName("AB"), a2 = new Location().setName("BA");
  * locations.getSize() === 0;
  * locations.add(a1); locations.getSize() === 1;
  * locations.add(a2); locations.getSize() === 2;
- * locations.add(a1); locations.getSize() === 3;
  * locations.get(0) === a1;
  * locations.get(1) === a2;
- * locations.get(2) === a1;
  * locations.get(1) == a1 === false;
  * locations.get(1) == a2 === true;
  * locations.get(3) === a1; #THROWS IndexOutOfBoundsException 
- * locations.add(a1); locations.getSize() === 4;
- * locations.add(a1); locations.getSize() === 5;
+ * locations.add(new Location().setName("C")); locations.getSize() === 3;
+ * locations.add(new Location().setName("D")); locations.getSize() === 4;
  * </pre>
  *
  */
@@ -40,13 +39,28 @@ public class Locations implements TietorakenneJuoksevallaID {
     /**
      * Lisätään uusi alue aluistoon
      * @param location alue joka lisätään
+     * @throws TilaException jos nimi jo olemassa
      */
     @Override
-    public void add(Object location) {
+    public void add(Object location) throws TilaException {
         if (this.lkm >= this.locations.length) this.kasvata();
-        this.locations[lkm] = (Location) location;
+        Location l = (Location) location;
+        if (this.contains(l.getName())) throw new TilaException("Tämä on jo olemassa: " + l.getName());
+        this.locations[lkm] = l;
         this.lkm++;
         this.altered = true;
+    }
+    
+    
+    /**
+     * tarkistetaan onko nimi jo olemassa
+     * @param name nimi jota etsitään
+     * @return true jos nimi jo olemassa
+     */
+    public boolean contains(String name) { 
+        for (int i = 0; i < this.getSize(); i++)
+            if (this.get(i).getName().equals(name)) return true;
+        return false;
     }
     
     
@@ -59,6 +73,23 @@ public class Locations implements TietorakenneJuoksevallaID {
     public Location get(int i) throws IndexOutOfBoundsException {
         if (0 > i || i >= this.lkm) throw new IndexOutOfBoundsException("laiton indeksi l: " + i);
         return locations[i];
+    }
+    
+    
+    /**
+    * @param name nimi jota etsitään
+    * @return löydetyn lohko tai luo uuden jos ei löydy 
+    */
+   public Location get(String name) {
+        for (int i = 0; i < this.getSize(); i++)
+           if ((this.get(i).getName()).equalsIgnoreCase(name)) return this.get(i);
+        Location loc = new Location().register().setName(name);
+        try {
+            this.add(loc);
+        } catch (TilaException e) {
+            // Tätä ei voi tapahtua koska juuri tarkistettu edellä
+        }
+        return loc;
     }
     
     
@@ -112,15 +143,6 @@ public class Locations implements TietorakenneJuoksevallaID {
     public void resetAltered() {
         this.altered = false;
     }
-    
-    
-    /**
-     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
-     * @param s tiednimi
-     */
-    public void setFileName(String s) {
-        this.fileName = s;
-    }
 
     
     @Override
@@ -135,7 +157,6 @@ public class Locations implements TietorakenneJuoksevallaID {
      */
     public static void main(String args[]) {
         Locations locations = new Locations();
-        locations.setFileName("locationsTest.txt");
 
         Location location  = new Location(); 
         Location location2 = new Location();
@@ -145,8 +166,13 @@ public class Locations implements TietorakenneJuoksevallaID {
         location2.register();
         location2.fillLocationInfo();
 
-        locations.add(location);
-        locations.add(location2);
+        try {
+            locations.add(location);
+            locations.add(location2);
+        } catch (TilaException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
             
         System.out.println("============= Jäsenet testi =================");
         

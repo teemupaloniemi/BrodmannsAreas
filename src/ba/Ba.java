@@ -26,8 +26,10 @@ public class Ba {
     
     /**
      * @param area lisattava alue
+     * @throws TilaException jos jo olemassa
      * @example
      * <pre name="test">
+     * #THROWS TilaException
      * Ba ba = new Ba();
      * Area a1 = new Area(), a2 = new Area();
      * a1.register(); a2.register();
@@ -43,7 +45,7 @@ public class Ba {
      * ba.add(a1); ba.getAreaCount() === 5;
      * </pre>
      */
-    public void add(Area area) {
+    public void add(Area area) throws TilaException {
          this.areas.add(area);
     }
     
@@ -52,6 +54,7 @@ public class Ba {
      * @param function Lisättävä tehtävä
      * @example
      * <pre name="test">
+     * #THROWS TilaException
      * Ba ba = new Ba();
      * Function f1 = new Function(), f2 = new Function();
      * f1.register(); f2.register();
@@ -77,6 +80,7 @@ public class Ba {
      * @throws TilaException jos kutsutaan parilla joka on jo olemassa
      * @example
      * <pre name="test">
+     * #THROWS TilaException
      * try {
      *  Ba ba = new Ba();
      *  Location l1 = new Location().register();
@@ -110,8 +114,10 @@ public class Ba {
     
     /**
      * @param location lisattava lohko
+     * @throws TilaException jos nimi jo olemassa
      * @example
      * <pre name="test">
+     * #THROWS TilaException
      * Ba ba = new Ba();
      * Location l1 = new Location(), l2 = new Location();
      * l1.register(); l2.register();
@@ -127,7 +133,7 @@ public class Ba {
      * ba.add(l1); ba.getLocationCount() === 5;
      * </pre>
      */
-    public void add(Location location) {
+    public void add(Location location) throws TilaException {
          this.locations.add(location);
     }
     
@@ -137,6 +143,7 @@ public class Ba {
      * @throws TilaException jos naapurit on jo olemassa
      * @example
      * <pre name="test">
+     * #THROWS TilaException
      * try {
      *  Ba ba = new Ba();
      *  Area a1 = new Area().register();
@@ -159,6 +166,26 @@ public class Ba {
      */
     public void add(Neighbour n) throws TilaException {
         this.neighbours.add(n);
+    }
+    
+    
+    /**
+     * onko aluetta jo olemassa
+     * @param name alue jota etsitään
+     * @return true jos alue jo olemassa
+     */
+    public boolean contains(String name) {
+         return this.areas.contains(name);
+     }
+    
+    /**
+     * Poistetaan valittu alue
+     * @param area alue joka poistetaan
+     */
+    public void delete(Area area) {
+        int id = area.getID();
+        this.neighbours.delete(id);
+        this.areas.delete(area);
     }
     
     
@@ -226,6 +253,24 @@ public class Ba {
     
     
     /**
+     * @param name funktion nimi
+     * @return palauttaa funktion
+     */
+    public Function getFunction(String name) {
+        return this.functions.get(name);
+    }
+
+    
+    /**
+     * @param name lohkon nimi
+     * @return palauttaa lohko
+     */
+    public Location getLocation(String name) {
+        return this.locations.get(name);
+    }
+    
+    
+    /**
      * @return tiedettävien tehtävien määrä  
      */
     public int getFunctionCount() {
@@ -285,6 +330,14 @@ public class Ba {
     }
 
     
+ 
+    /**
+     * @param area alue joka uudelleen kirjoitetaan tai lisätään
+     */
+    public void overWrite(Area area) {
+        this.areas.overWrite(area); 
+    }
+    
     /**
      * @param name hakemiston nimi josta luetaan
      * @param t tietorakeene johon luetaan
@@ -294,12 +347,15 @@ public class Ba {
         String file = name + "\\" + t.getFileName();
         File f = new File(file);
         try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
+            int tapahtumia = 0;
             while ( fi.hasNext() ) {
                 String s = fi.nextLine().trim();
-                if ( s == null || "".equals(s) || s.charAt(0) == '#' ) continue;
+                if ( s == null || "".equals(s.trim()) || s.charAt(0) == '#' ) continue;
+                tapahtumia++;
                 t.add(t.newT(s));
             }
-            t.setNextID(t.get(t.getSize()-1).getID()+1);  
+            if (tapahtumia != 0)
+                t.setNextID(t.get(t.getSize()-1).getID()+1);  
         } catch ( FileNotFoundException e ) {
             throw new TilaException("Ei saa luettua tiedostoa " + file);
         }
@@ -319,7 +375,6 @@ public class Ba {
         this.locations = new Locations();
         this.lfs = new Lfs();
         this.neighbours = new Neighbours();
-        System.gc();
         
         this.readFile(name, this.areas);
         this.readFile(name, this.locations);
@@ -398,12 +453,22 @@ public class Ba {
         a1.setLid(l2.getID());
         a2.setLid(l3.getID());
         
-        ba.add(a1);
-        ba.add(a2);
+
+        try {
+            ba.add(a1);
+            ba.add(a2);
+        } catch (TilaException e2) {
+            // TODO Auto-generated catch block
+            e2.printStackTrace();
+        }
         
-        ba.add(l1);
-        ba.add(l2);
-        ba.add(l3);
+        try {
+            ba.add(l1);
+            ba.add(l2);
+            ba.add(l3);
+        } catch (TilaException e1) {
+            e1.printStackTrace();
+        }
         
         ba.add(f1);
         ba.add(f2);

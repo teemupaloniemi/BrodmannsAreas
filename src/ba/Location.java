@@ -135,6 +135,16 @@ public class Location implements Olio {
     
     
     /**
+     * muutetaan nimi
+     * @param name muutettu nimi 
+     * @return funtion 
+     */
+    public Location setName(String name) {
+        this.name = name;
+        return this;
+    }
+    
+    /**
      * muutetaan seuraavaa id numeroa
      * @param i miksi muutetaan
      * @example

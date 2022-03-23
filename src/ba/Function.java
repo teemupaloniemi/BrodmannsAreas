@@ -134,6 +134,17 @@ public class Function implements Olio {
     
     
     /**
+     * muutetaan nimi
+     * @param name muutettu nimi 
+     * @return funtion 
+     */
+    public Function setName(String name) {
+        this.name = name;
+        return this;
+    }
+    
+    
+    /**
      * asetetaan seuraava id uudeksi 
      * @param i miksi id muutetaan
      * @example

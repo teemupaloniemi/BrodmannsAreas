@@ -52,6 +52,17 @@ public class Functions implements TietorakenneJuoksevallaID {
      
      
      /**
+     * @param name nimi jota etsitään
+     * @return löydetyn funktion tai luo uuden jos ei löydy 
+     */
+    public Function get(String name) {
+         for (int i = 0; i < this.getSize(); i++)
+            if (this.get(i).getName().equals(name)) return this.get(i);
+         return new Function().register().setName(name);
+     }
+     
+    
+     /**
       * @return palautetaan tiedostonimi
       */
      @Override
@@ -90,15 +101,6 @@ public class Functions implements TietorakenneJuoksevallaID {
      @Override
      public void resetAltered() {
          this.altered = false;
-     }
-     
-     
-     /**
-      * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
-      * @param s tiednimi
-      */
-     public void setFileName(String s) {
-         this.fileName = s;
      }
      
      

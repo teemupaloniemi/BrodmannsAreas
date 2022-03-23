@@ -12,13 +12,20 @@ import static kanta.CheckArea.*;
  * @author Teemu
  * @version 21.2.2022
  */
-public class Area implements Olio {
+public class Area implements Olio, Cloneable {
 
-    private int    aid  =  -1; // alueen indeksi numero
-    private String name = "";  // alueen nimi 
-    private int    lid  =  0;  // lohkon id missä alue sijaitsee
+    private int    aid  = -1;  // alueen indeksi numero
+    private String name = "";  // alueen nimi
+    private int    lid  = -1;  // lohkon id missä alue sijaitsee
     
     private static int nextAid = 0; // rekisteröinti laskuri 
+    
+    
+    @Override
+    public Area clone() throws CloneNotSupportedException {
+        return (Area) super.clone();
+    }
+    
     
     /**
      * Apumetodi jolla täytetään luokka oikealta näytäävällä tiedolla
@@ -147,6 +154,17 @@ public class Area implements Olio {
      */
     public Area setAid(int aid) {
         this.aid = aid;
+        return this;
+    }
+    
+    
+    /**
+     * Muutetaan alueen nimen 
+     * @param name nimi joka annetaan
+     * @return palauttaa alueen viitteen
+     */
+    public Area setName(String name) {
+        this.name = name;
         return this;
     }
     

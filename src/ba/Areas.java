@@ -11,21 +11,20 @@ package ba;
  * 
  * @example
  * <pre name="test">
+ * #THROWS TilaException
  * Areas areas = new Areas();
- * Area a1 = new Area();
- * Area a2 = new Area();
+ * Area a1 = new Area().setName("CC");
+ * Area a2 = new Area().setName("DD");
  * areas.getSize() === 0;
  * areas.add(a1); areas.getSize() === 1;
  * areas.add(a2); areas.getSize() === 2;
- * areas.add(a1); areas.getSize() === 3;
  * areas.get(0) === a1;
  * areas.get(1) === a2;
- * areas.get(2) === a1;
  * areas.get(1) == a1 === false;
  * areas.get(1) == a2 === true;
  * areas.get(3) === a1; #THROWS IndexOutOfBoundsException 
- * areas.add(a1); areas.getSize() === 4;
- * areas.add(a1); areas.getSize() === 5;
+ * areas.add(new Area().setName("AA")); areas.getSize() === 4;
+ * areas.add(new Area().setName("AB")); areas.getSize() === 5;
  * </pre>
  */
 public class Areas implements TietorakenneJuoksevallaID {
@@ -40,13 +39,41 @@ public class Areas implements TietorakenneJuoksevallaID {
     /**
      * Lisätään uusi alue aluistoon
      * @param area alue joka lisätään
+     * @throws TilaException jos jo olemassa
      */
     @Override
-    public void add(Object area) {
-        if (this.lkm >= this.areas.length) this.kasvata(); // jos rupeaa olemaan täynnä 
-        this.areas[lkm] = (Area) area; //lkm kertoo missä mennään ja sitten lisätään alkio 
-        this.lkm++; // kasvatetaan ettei ensikerralla osu kohdille
-        altered = true; // muutettu tietorakennetta 
+    public void add(Object area) throws TilaException {
+        if (this.lkm >= this.areas.length) this.kasvata();
+        Area a = (Area) area;
+        if (this.contains(a.getName())) throw new TilaException("Tämä on jo olemassa: " + a.getName());
+        this.areas[lkm] = a;
+        this.lkm++;
+        this.altered = true;
+    }
+    
+    
+    /**
+     * tarkistetaan onko nimi jo olemassa
+     * @param name nimi jota etsitään
+     * @return true jos nimi jo olemassa
+     */
+    public boolean contains(String name) { 
+        for (int i = 0; i < this.getSize(); i++)
+            if (this.get(i).getName().equals(name)) return true;
+        return false;
+    }
+    
+    
+    /**
+     * Poistetaan valittu alue
+     * @param area alue joka poistteaan
+     */
+    public void delete(Area area) {
+        int j = 0;
+        for (int i = 0; i < lkm; i++) 
+            if (!this.areas[i].equals(area)) 
+                this.areas[j++] = this.areas[i];
+        this.lkm = j;
     }
     
     
@@ -107,7 +134,27 @@ public class Areas implements TietorakenneJuoksevallaID {
         return new Area().parse(s);
     }
     
+    
+    /**
+     * @param area alue joka lisätään tai uudelleenkirjoitetaan
+     */
+    public void overWrite(Area area) {
+        for (int i = 0; i < this.areas.length; i++) {
+            if (this.areas[i].getID() == area.getID()) {
+                this.areas[i] = area;
+                this.altered = true;
+                return;
+            }
+        }
+        try {
+            this.add(area);
+        } catch (TilaException e) {
+            //
+        }
+        this.altered = true;
+    }
 
+    
     /**
      * palutetaan alkutilanteeseen
      */
@@ -115,21 +162,13 @@ public class Areas implements TietorakenneJuoksevallaID {
     public void resetAltered() {
         this.altered = false;
     }
-     
-    
-    /**
-     * vaihdetaan tiedostonimiä (lähinnä testitiedoston luomiseen)
-     * @param s tiednimi
-     */
-    public void setFileName(String s) {
-        this.fileName = s;
-    }
     
     
     @Override
     public void setNextID(int id) {
         Area.setNextAid(id);
     }
+   
     
     /**
      * Testiohjelma alueille
@@ -137,7 +176,6 @@ public class Areas implements TietorakenneJuoksevallaID {
      */
     public static void main(String args[]) {
         Areas areas = new Areas();
-        areas.setFileName("areasTest.txt");
 
         Area area1 = new Area().register().fillAreaInfo();
         Area area2 = new Area().register().fillAreaInfo();
@@ -148,15 +186,20 @@ public class Areas implements TietorakenneJuoksevallaID {
         Area area7 = new Area().register().parse("23|Brodmann's Area 7|3");
         Area area8 = new Area().register().parse("624|Brodmann's Area 47|16");
 
-        areas.add(area1);
-        areas.add(area2);  
-        areas.add(area3);  
-        areas.add(area4);  
-        areas.add(area5);  
-        areas.add(area6);  
-        areas.add(area7);  
-        areas.add(area8);   
+        try {
+            areas.add(area1);
+            areas.add(area2);  
+            areas.add(area3);  
+            areas.add(area4);  
+            areas.add(area5);  
+            areas.add(area6);  
+            areas.add(area7);  
+            areas.add(area8);   
 
+        } catch (TilaException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         System.out.println("============= Areas test =================");        
         for (int i = 0; i < areas.getSize(); i++) {
             areas.get(i).print(System.out);
