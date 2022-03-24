@@ -1,6 +1,5 @@
 package fxBa;
 
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
@@ -19,13 +18,9 @@ public class PrintViewController implements ModalControllerInterface<String> {
         ModalController.closeStage(printTextArea);
     }
     
+    
     @FXML private void handleCancel() {
         ModalController.closeStage(printTextArea);
-    }
-
-    
-    @FXML private void print() {
-        Dialogs.showMessageDialog("Ei osata hakea tietoja!");
     }
 
     

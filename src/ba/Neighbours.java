@@ -3,6 +3,7 @@ package ba;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -163,6 +164,12 @@ public class Neighbours implements Tietorakenne {
     public void readFile(String name) throws TilaException {
         String file = name + "\\" + this.getFileName();
         File f = new File(file);
+        try {
+            f.createNewFile();
+        }
+        catch (IOException e) {
+            throw new TilaException("Tiedoston luomisessa ongelmia " + file);
+        }
         try (Scanner fi = new Scanner(new FileInputStream(f))) { 
             while ( fi.hasNext() ) {
                 String s = fi.nextLine().trim();

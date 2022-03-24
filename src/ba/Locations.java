@@ -98,7 +98,7 @@ public class Locations implements TietorakenneJuoksevallaID {
     * @return palauttaa nimien 
     */
     public String getLocationName(int lid) {
-        for (int i = 0; i < this.locations.length; i++) {
+        for (int i = 0; i < this.getSize(); i++) {
             Location l = this.get(i);
             if (l.getID() == lid) return l.getName();
         }

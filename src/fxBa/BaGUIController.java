@@ -11,8 +11,6 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -45,12 +43,12 @@ public class BaGUIController implements Initializable {
 
     
     @FXML void handleNewArea() {
-        newArea();
+        this.newArea();
     }
     
     
     @FXML private void handlePrintArea() {
-        PrintViewController.print(kanta.Mallit.TESTI_ALUE);
+        this.print();
     } 
 
     
@@ -60,28 +58,28 @@ public class BaGUIController implements Initializable {
     
     
     @FXML private void handleAddFunction() {
-        addFunction();
+        this.addFunction();
     }
     
     
     @FXML void handleAddNeighbour() {
-        addNeighbour();
+        this.addNeighbour();
     }
     
     
     @FXML void handleSave() {
-        save();
+        this.save();
     }
 
 
     @FXML void handleClose() {
-        save();
+        this.save();
         Platform.exit();
     }
 
 
     @FXML void handleDelete() {
-        delete();
+        this.delete();
     }
     
 
@@ -103,38 +101,38 @@ public class BaGUIController implements Initializable {
     @FXML void handleSearch() {
         String search = this.searchField.getText();
         if (search == null) search = "";
-        search(search.trim());
+        this.search(search.trim());
     }
     
     
     @FXML void handleEdit() {
-        edit();
+        this.edit();
     }
    
 
     @FXML void handleEditConfirm() {
-        confirmEdit();
+        this.confirmEdit();
     }
     
     
     @FXML void handleHelp() {
-        help();
+        this.help();
     }
     
     
     @FXML void handleDeleteNeighbour() {
-        deleteNeighbour();
+        this.deleteNeighbour();
     }
     
     @FXML void handleDeleteFunction() {
-        deleteFunction();
+        this.deleteFunction();
     }
 
     
     
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
-        reset();      
+        this.reset();      
     }
 
 //===============================================================================================
@@ -145,12 +143,15 @@ public class BaGUIController implements Initializable {
     private int condition;
     private Location startLocation;
     private String currentSearch;
+    private String folder;
     
     /**
      * @param ba luodaan Brodmannin alueet kanta
+     * @param folder kansio josta luetaan
      */
-    public void setBa(Ba ba) {
+    public void setBa(Ba ba, String folder) {
         this.ba = ba; // luodaan uusi
+        this.folder = folder;
         this.readFile(); // haetaan tiedot 
         this.startLocation = new Location().register().setName("Auto Generated");
         try {
@@ -166,7 +167,7 @@ public class BaGUIController implements Initializable {
     
     private void readFile() {
         try {
-            this.ba.readFileAll();
+            this.ba.readFileAll(this.folder);
         } catch (TilaException e) {
             Dialogs.showMessageDialog(e.getMessage());
         }
@@ -193,7 +194,7 @@ public class BaGUIController implements Initializable {
             // Valitun alueen nimi
             this.nameText.setText(selectedArea.getName());
             // Valitun alueen sijainnin nimi
-            this.locationText.setText(ba.getLocation(selectedArea.getLid()).getName()); 
+            this.locationText.setText(ba.getLocationName(selectedArea.getLid())); 
             // hoidellaan tehtävät
             var funcs = this.ba.findFunctions(selectedArea.getLid()); // pyydetään etsimään funktiot joita sijainnilla on
             this.chooserFunctions.clear(); // tyhjennetään funktio lista käyttöliittymässä
@@ -215,7 +216,7 @@ public class BaGUIController implements Initializable {
         try {
             Area a = new Area().register().setName("Brodmann's Area 00").setLid(0);// luodaan uusi
             this.ba.add(a);
-            setIndexForAreas(a.getID()); // asetetaan aluelistan indeksi alueelle
+            this.setIndexForAreas(a.getID()); // asetetaan aluelistan indeksi alueelle
         } catch (TilaException e) {
             Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
         } // pyydetään ba luokkaa lisäämään alue alueistoon
@@ -227,12 +228,13 @@ public class BaGUIController implements Initializable {
      * @return uuden sijainnin viitteen
      */
      protected Location newLocation() {
-         Location l = new Location().register();
+         Location l = new Location();
          try {
             this.ba.add(l);
-        } catch (TilaException e) {
+         } catch (TilaException e) {
             Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
-        } // pyydetään ba luokkaa lisäämään sijainti sijainti-listaan 
+         } // pyydetään ba luokkaa lisäämään sijainti sijainti-listaan 
+         l.register();
          return l; // palautetaan luotu sijainti
      }
      
@@ -241,13 +243,13 @@ public class BaGUIController implements Initializable {
      * lisätään jo olemassa oleva funktio
      */
     public void addFunction() {
-         String name = this.askDialog("Function name: ", "");
+         String name = askDialog("Function name: ", "");
          if (name == null || "".equals(name)) return;
          Function f = this.ba.getFunction(name);
          try {
             this.ba.add(new Lf(this.chooserAreas.getSelectedObject().getLid(),f.getID()));
          } catch (TilaException e) {
-             huomautus("Tämä on jo listassa!");
+             Dialogs.showMessageDialog("Tämä on jo listassa!");
              return;
          }
          this.chooserFunctions.add(name, f);
@@ -258,7 +260,7 @@ public class BaGUIController implements Initializable {
      * lisätään jo olemassa oleva funktio
      */
     public void addNeighbour() {
-         String name = this.askDialog("Neighbour name: ", "Brodmann's Area");
+         String name = askDialog("Neighbour name: ", "Brodmann's Area");
          if (name == null || "".equals(name)) return;
          try {
              Area a = this.ba.getArea(name);
@@ -300,7 +302,13 @@ public class BaGUIController implements Initializable {
     
     
      
-    private String askDialog(String question, String modelText) {
+    /**
+     * luodaan dialogi joka paluttaa annetun tekstin 
+     * @param question kysymys joka kysytään
+     * @param modelText teksti joka on mallina 
+     * @return tekstin jonka käyttäjä antaa
+     */
+    public static String askDialog(String question, String modelText) {
         TextInputDialog dialog = new TextInputDialog(modelText);
         dialog.setHeaderText(null);
         dialog.setTitle("Answer");
@@ -327,12 +335,12 @@ public class BaGUIController implements Initializable {
     
     /**
      * tallennetaan kaikki tallennettavissa olevat tiedot,
-     * muokattava tai lisättävä alue hyppää listaan
+     * muokattava tai lisättävä alue hyppää listaan 
      * @return jos ongelmia palautetaan mikä meni pieleen
      */
     public String save() {
         try {
-            this.ba.saveAll("tiedostot");
+            this.ba.saveAll(this.folder);
             Dialogs.showMessageDialog("Tallennettu.");
             return null;
         } catch (TilaException ex) {
@@ -365,12 +373,15 @@ public class BaGUIController implements Initializable {
             if (condition == 1) name = this.ba.getLocationName(area.getLid());
             if (condition == 2) {
                 var list = this.ba.findFunctions(area.getLid());
-                for (var x : list) 
-                    if (x.getName().matches(".*" + search + ".*"))
+                for (var x : list) {
+                    if (x.getName().toLowerCase().matches(".*" + search.toLowerCase() + ".*")) {
                         this.chooserAreas.add(area.getName(), area);
+                        break;
+                    }
+                }
                 continue;
              }
-            if (name.matches(".*" + search + ".*")) { 
+            if (name.toLowerCase().matches(".*" + search.toLowerCase() + ".*")) { 
                 index = i;
                 this.chooserAreas.add(area.getName(), area);
             }
@@ -432,6 +443,11 @@ public class BaGUIController implements Initializable {
     }
     
     
+    private void print() {
+        PrintViewController.print(kanta.Mallit.TESTI_ALUE);
+    }
+    
+    
     /**
      * Näytetään ohjelman suunnitelma selaimessa.
      */
@@ -445,18 +461,5 @@ public class BaGUIController implements Initializable {
         } catch (IOException e) {
             return;
         }
-    }
-    
-    
-    /**
-     * Tulostetaan huomautus dialogi halutun tekstin kanssa
-     * @param text tulostettava teksti
-     */
-    public static void huomautus(String text) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Huomautus");
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
     }
 }

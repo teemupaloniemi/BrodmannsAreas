@@ -26,11 +26,11 @@ public class BaMain extends Application {
             
             primaryStage.setScene(scene);
             primaryStage.setTitle("ba");
-            
-            Ba ba = new Ba();
-            baCtrl.setBa(ba);
-            
             primaryStage.show();
+            Ba ba = new Ba();
+            String folder = fxBa.BaGUIController.askDialog("Give folder name: ", "brodmanns");   
+            if (folder == null || "".equals(folder)) primaryStage.close();
+            baCtrl.setBa(ba, folder);
         } catch(Exception e) {
             e.printStackTrace();
         }

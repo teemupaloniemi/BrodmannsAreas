@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -22,7 +23,7 @@ public class Ba {
     private ba.Functions functions = new ba.Functions();
     private Lfs lfs = new Lfs();
     private Neighbours neighbours = new Neighbours();
-        
+    
     
     /**
      * @param area lisattava alue
@@ -389,6 +390,12 @@ public class Ba {
     public void readFile(String name, TietorakenneJuoksevallaID t) throws TilaException {
         String file = name + "\\" + t.getFileName();
         File f = new File(file);
+        try {
+            f.createNewFile();
+        }
+        catch (IOException e) {
+            throw new TilaException("Tiedoston luomisessa ongelmia " + file);
+        }
         try (Scanner fi = new Scanner(new FileInputStream(f))) { // Jotta UTF8/ISO-8859 toimii'
             int tapahtumia = 0;
             while ( fi.hasNext() ) {
@@ -400,18 +407,18 @@ public class Ba {
             if (tapahtumia != 0)
                 t.setNextID(t.get(t.getSize()-1).getID()+1);  
         } catch ( FileNotFoundException e ) {
-            throw new TilaException("Ei saa luettua tiedostoa " + file);
-        }
+            throw new TilaException("Tiedostoa ei olemassa " + file);
+        } 
     }
     
     
     /**
      * Lukee ba tiedot tiedostosta
+     * @param folder folder name
      * @throws TilaException jos lukeminen epäonnistuu
      */
-    public void readFileAll() throws TilaException {
-        String name = "tiedostot";
-        File dir = new File(name);
+    public void readFileAll(String folder) throws TilaException {
+        File dir = new File(folder);
         dir.mkdir();
         this.areas = new Areas(); 
         this.functions = new Functions();
@@ -419,11 +426,11 @@ public class Ba {
         this.lfs = new Lfs();
         this.neighbours = new Neighbours();
         
-        this.readFile(name, this.areas);
-        this.readFile(name, this.locations);
-        this.readFile(name, this.functions);
-        this.lfs.readFile(name);
-        this.neighbours.readFile(name);
+        this.readFile(folder, this.areas);
+        this.readFile(folder, this.locations);
+        this.readFile(folder, this.functions);
+        this.lfs.readFile(folder);
+        this.neighbours.readFile(folder);
     }
 
   
