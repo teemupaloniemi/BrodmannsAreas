@@ -219,8 +219,11 @@ public class Ba {
      */
     public ArrayList<Function> findFunctions(int lid) {
         ArrayList<Integer> ids = this.lfs.findFunctionIDs(lid); //Kohta 1
-        ArrayList<Function> f = new ArrayList<Function>();
-        for (int i = 0; i < ids.size(); i++) f.add(this.getFunction(ids.get(i))); //Kohta 2
+        ArrayList<Function> f = new ArrayList<Function>(); // 
+        for (int i = 0; i < ids.size(); i++) {
+            Function func = this.getFunctionForId(ids.get(i));
+            if (func != null) f.add(func); //Kohta 2
+        }
         return f;
     }
     
@@ -245,7 +248,7 @@ public class Ba {
     public ArrayList<Area> findNeighbours(int aid) {
         ArrayList<Integer> ids = this.neighbours.findNeighbourIDs(aid);
         ArrayList<Area> a = new ArrayList<Area>();
-        for (int i = 0; i < ids.size(); i++) a.add(this.getArea(ids.get(i)));
+        for (int i = 0; i < ids.size(); i++) a.add(this.getAreaForId(ids.get(i)));
         return a;
     }
     
@@ -266,6 +269,16 @@ public class Ba {
      */
     public Area getArea(String name) throws TilaException {
         return this.areas.get(name);
+    }
+    
+    
+    /**
+     * Etsitään alue perustuen id numeroon
+     * @param aid alueen id jota etsitään
+     * @return alueen joka vastaa idtä
+     */
+    public Area getAreaForId(int aid) {
+        return this.areas.getAreaForId(aid);
     }
     
     
@@ -292,7 +305,18 @@ public class Ba {
      * @return tehtävän tietorakenteen paikassa i  
      */
     public Function getFunction(int i) {
-        return functions.get(i);
+        return this.functions.get(i);
+    }
+    
+    
+    
+    /**
+     * Etsitään funktion jolle id kuuluu 
+     * @param fid id jota etsitään
+     * @return fuktio joka löydettiin 
+     */
+    public Function getFunctionForId(int fid) {
+        return this.functions.getFunctionForId(fid);
     }
     
     

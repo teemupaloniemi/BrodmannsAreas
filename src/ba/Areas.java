@@ -118,6 +118,20 @@ public class Areas implements TietorakenneJuoksevallaID {
         return a;
     }
     
+   
+   /**
+    * Etsitään idtä vastaava alue
+    * @param id id jolle etsitään nimeä 
+    * @return palauttaa alueen viitteen 
+    */
+    public Area getAreaForId(int id) {
+        for (int i = 0; i < this.getSize(); i++) {
+            Area a = this.get(i);
+            if (a.getID() == id) return a;
+        }
+        return null;
+    }
+   
     
     /**
      * @return palautetaan tiedoston nimi

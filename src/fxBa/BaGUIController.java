@@ -129,7 +129,6 @@ public class BaGUIController implements Initializable {
     }
 
     
-    
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         this.reset();      
@@ -232,7 +231,7 @@ public class BaGUIController implements Initializable {
          try {
             this.ba.add(l);
          } catch (TilaException e) {
-            Dialogs.showMessageDialog("Ongelmia: " + e.getMessage());
+            Dialogs.showMessageDialog("Ongelmia lohkojen kanssa: " + e.getMessage());
          } // pyydetään ba luokkaa lisäämään sijainti sijainti-listaan 
          l.register();
          return l; // palautetaan luotu sijainti
@@ -319,14 +318,14 @@ public class BaGUIController implements Initializable {
           
     
     /**
-     * @param Aid Alueen tunnusnumero
+     * @param aid Alueen tunnusnumero
      */
-    protected void setIndexForAreas(int Aid) {
+    protected void setIndexForAreas(int aid) {
         this.chooserAreas.clear(); // tyhjennetään alueiden lista käyttöliittymästä
         int index = 0; // alkuindeksi
         for (int i = 0; i < ba.getAreaCount(); i++) {  // käydään alueet läpi
             Area area = ba.getArea(i); // alue jonka kohdalla ollaan käymässä läpi 
-            if (area.getID() == Aid) index = i; // jos täsmää, alustetaan indeksi alueiston indeksin mukaan
+            if (area.getID() == aid) index = i; // jos täsmää, alustetaan indeksi alueiston indeksin mukaan
             this.chooserAreas.add(area.getName(), area); // päivitetään käyttöliittymä
         }
         this.chooserAreas.setSelectedIndex(index); // ja hypätään listassa äsken tarkistettuun kohtaan

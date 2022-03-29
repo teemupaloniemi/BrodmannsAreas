@@ -60,7 +60,9 @@ public class Functions implements TietorakenneJuoksevallaID {
       */
      @Override
     public Function get(int i) {
-         if (0 > i || i >= this.getSize()) throw new IndexOutOfBoundsException("Laiton indeksi fuktiota etsittäessä: " + i);
+         if (0 > i || i >= this.getSize()) {
+             throw new IndexOutOfBoundsException("Laiton indeksi fuktiota etsittäessä: " + i);
+         }
          return functions.get(i);
      }
      
@@ -81,6 +83,19 @@ public class Functions implements TietorakenneJuoksevallaID {
          return f;
      }
      
+    
+    /**
+     * @param fid fid jolle etsitään nimeä 
+     * @return palauttaa funktion 
+     */
+     public Function getFunctionForId(int fid) {
+         for (int i = 0; i < this.getSize(); i++) {
+             Function f = this.get(i);
+             if (f.getID() == fid) return f;
+         }
+         return null;
+     }
+    
     
      /**
       * @return palautetaan tiedostonimi
