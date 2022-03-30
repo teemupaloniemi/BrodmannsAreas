@@ -57,12 +57,12 @@ public class BaGUIController implements Initializable {
     
     
     @FXML private void handlePrintArea() {
-        this.print();
+        this.print(false);
     } 
 
     
     @FXML private void handlePrintSearch() {   
-        PrintViewController.print(kanta.Mallit.TESTI_HAKU);
+        this.print(true);
     }                                        
     
     
@@ -465,8 +465,8 @@ public class BaGUIController implements Initializable {
     }
     
     
-    private void print() {
-        PrintViewController.print(kanta.Mallit.TESTI_ALUE);
+    private void print(boolean isSearch) {
+        PrintViewController.print(this.chooserAreas, this.ba, isSearch);
     }
     
     

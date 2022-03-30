@@ -1,5 +1,8 @@
 package fxBa;
 
+import ba.Area;
+import ba.Ba;
+import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
@@ -39,11 +42,27 @@ public class PrintViewController implements ModalControllerInterface<String> {
     
     /**
      * Näyttää tulostusalueessa tekstin
-     * @param tulostus tulostettava teskti
+     * @param chooser chooser josta tulostettava tieto löytyy
+     * @param ba ba joka hakee choooserin alkioiden tiedot
+     * @param isSearch jos true tulostetaan vain kaikki alueet jota chooserissa
      */
-    public static void print(String tulostus) {
+    public static void print(ListChooser<Area> chooser, Ba ba, boolean isSearch) {
+        Area area = chooser.getSelectedObject();
+        if (area == null) return; 
+        if (isSearch) {
+            StringBuilder areas = new StringBuilder();
+            for (var item : chooser.getItems()) areas.append(item.getName()+"\n  ");
+            ModalController.showModeless(PrintViewController.class.getResource("PrintView.fxml"),
+                    "Print", String.format("Searched areas:\n\n  %s", areas));
+            return;
+        }
+        int lid = area.getLid();
+        StringBuilder functions  = new StringBuilder();
+        StringBuilder neighbours = new StringBuilder();
+        for (var func : ba.findFunctions(lid)) functions.append(func.getName()+"\n  "); 
+        for (var neig : ba.findNeighbours(area.getID())) neighbours.append(neig.getName()+"\n  "); 
         ModalController.showModeless(PrintViewController.class.getResource("PrintView.fxml"),
-                "Print", tulostus);
+                "Print", String.format("Name: %s\nLocation: %s\n\nFunctions:\n  %s\nNeighbours:\n  %s", area.getName(), ba.getLocationName(area.getLid()), functions.toString(), neighbours.toString()));
     }
     
     
