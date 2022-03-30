@@ -149,6 +149,7 @@
             <Button fx:id="deleteFunctionButton" layoutX="418.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleDeleteFunction" text="Delete Funtion" GridPane.columnIndex="2" />
             <Button fx:id="deleteNeighbourButton" alignment="CENTER" contentDisplay="CENTER" layoutX="526.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleDeleteNeighbour" text="Delete Neighbour" GridPane.columnIndex="4" />
             <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleEditConfirm" text="Confirm Edit " visible="false" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="true" onAction="#handleEdit" opacity="0.0" text="_E" />
          </children>
       </GridPane>
    </bottom>

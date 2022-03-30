@@ -108,9 +108,9 @@ public class BaGUIController implements Initializable {
 
     
     @FXML void handleSearch() {
-        String search = this.searchField.getText();
-        if (search == null) search = "";
-        this.search(search.trim());
+        this.currentSearch = this.searchField.getText().trim();
+        if (this.currentSearch == null) this.currentSearch = "";
+        this.search(this.currentSearch);
     }
     
     
@@ -466,7 +466,20 @@ public class BaGUIController implements Initializable {
     
     
     private void print(boolean isSearch) {
-        PrintViewController.print(this.chooserAreas, this.ba, isSearch);
+        Area area = chooserAreas.getSelectedObject();
+        if (area == null) return; 
+        
+        StringBuilder areas = new StringBuilder();
+        
+        if (isSearch) {
+            for (var item : this.chooserAreas.getItems()) 
+                areas.append(ba.toString(item.getObject()));
+            PrintViewController.print(areas.toString());
+            return;
+        }
+        
+        areas.append(ba.toString(area));
+        PrintViewController.print(areas.toString());
     }
     
     

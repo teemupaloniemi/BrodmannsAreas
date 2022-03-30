@@ -498,7 +498,21 @@ public class Ba {
 
     
     /**
-     * Testiohjelma Ba-luokalle
+     * @param area alue joka muutetaan merkkijonoksi
+     * @return alueen merkkijono esitys 
+     */
+    public String toString(Area area) {
+        int lid = area.getLid();
+        StringBuilder sFunctions  = new StringBuilder();
+        StringBuilder sNeighbours = new StringBuilder();
+        for (var func : this.findFunctions(lid)) sFunctions.append(func.getName()+"\n  "); 
+        for (var neig : this.findNeighbours(area.getID())) sNeighbours.append(neig.getName()+"\n  "); 
+        return String.format("Name: %s\nLocation: %s\n\nFunctions:\n  %s\nNeighbours:\n  %s\n------------------------------------------------\n\n", area.getName(), this.getLocationName(area.getLid()), sFunctions.toString(), sNeighbours.toString());
+    }
+
+    
+    /**
+     * Testiohjelma Ba-luokalle 
      * @param args ei käytössä
      */
     public static void main(String args[]) {
