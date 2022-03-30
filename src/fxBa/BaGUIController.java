@@ -33,13 +33,22 @@ import ba.TilaException;
 public class BaGUIController implements Initializable {
            
     @FXML private ListView<?> areaText;
+    
     @FXML private ListChooser<Area> chooserAreas;
     @FXML private ListChooser<Function> chooserFunctions;
     @FXML private ListChooser<Area> chooserNeighbours;
+   
     @FXML private TextField nameText;
     @FXML private TextField locationText;
-    @FXML private TextField searchField;
+    @FXML private TextField searchField; 
+    
     @FXML private Button confirmButton;
+   
+    @FXML private Button addFunctionButton;
+    @FXML private Button addNeighbourButton;
+    @FXML private Button deleteFunctionButton;
+    @FXML private Button deleteNeighbourButton;
+    @FXML private Button newAreaButton;
 
     
     @FXML void handleNewArea() {
@@ -365,6 +374,10 @@ public class BaGUIController implements Initializable {
      */
     public void search(String search) {
         this.chooserAreas.clear();
+        this.chooserFunctions.clear();
+        this.chooserNeighbours.clear();
+        this.nameText.clear();
+        this.locationText.clear();
         int index = 0;
         for (int i = 0; i < this.ba.getAreaCount(); i++) {
             Area area = this.ba.getArea(i);
@@ -427,6 +440,11 @@ public class BaGUIController implements Initializable {
         this.locationText.getStyleClass().add("edit");
         this.locationText.editableProperty().set(true);
         this.confirmButton.visibleProperty().set(true);
+        this.addFunctionButton.visibleProperty().set(false);
+        this.addNeighbourButton.visibleProperty().set(false);
+        this.deleteFunctionButton.visibleProperty().set(false);
+        this.deleteNeighbourButton.visibleProperty().set(false);
+        this.newAreaButton.visibleProperty().set(false);
     }
     
     
@@ -437,6 +455,11 @@ public class BaGUIController implements Initializable {
         this.locationText.getStyleClass().removeAll("edit");
         this.locationText.editableProperty().set(false);
         this.confirmButton.visibleProperty().set(false);
+        this.addFunctionButton.visibleProperty().set(true);
+        this.addNeighbourButton.visibleProperty().set(true);
+        this.deleteFunctionButton.visibleProperty().set(true);
+        this.deleteNeighbourButton.visibleProperty().set(true);
+        this.newAreaButton.visibleProperty().set(true);
         this.search(this.currentSearch);
         this.chooserAreas.setSelectedIndex(i);
     }

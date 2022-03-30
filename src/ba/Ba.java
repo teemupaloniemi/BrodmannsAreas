@@ -190,6 +190,7 @@ public class Ba {
         int id = area.getID();
         this.neighbours.delete(id);
         this.areas.delete(area);
+        System.gc();
     }
     
     

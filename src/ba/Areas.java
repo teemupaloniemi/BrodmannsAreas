@@ -85,9 +85,13 @@ public class Areas implements TietorakenneJuoksevallaID {
      */
     public void delete(Area area) {
         int j = 0;
-        for (int i = 0; i < lkm; i++) 
-            if (!this.areas[i].equals(area)) 
+        for (int i = 0; i < lkm; i++) {
+            if (!this.areas[i].equals(area)) { 
                 this.areas[j++] = this.areas[i];
+                continue;
+            }
+            this.areas[i] = null;
+        }
         this.lkm = j;
     }
     
