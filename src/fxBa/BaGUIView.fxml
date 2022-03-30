@@ -152,7 +152,7 @@
             <Button mnemonicParsing="true" onAction="#handleEdit" opacity="0.0" text="_E" />
          </children>
       </GridPane>
-   </bottom>
+   </bottom>		
    <top>
       <MenuBar maxHeight="-Infinity" BorderPane.alignment="CENTER">
         <menus>
