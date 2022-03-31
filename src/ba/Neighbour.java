@@ -7,7 +7,7 @@ import java.io.PrintStream;
  * @version 8.3.2022
  *
  */
-public class Neighbour implements Olio {
+public class Neighbour implements Tietue {
     private final int a1;
     private final int a2;
        

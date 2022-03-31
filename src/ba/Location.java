@@ -15,7 +15,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 21.2.2022
  *
  */
-public class Location implements Olio {
+public class Location implements Tietue {
 
     private int    lid  =  -1;
     private String name = "";

@@ -13,8 +13,8 @@ package ba;
  * <pre name="test">
  * #THROWS TilaException
  * Areas areas = new Areas();
- * Area a1 = new Area().setName("CC");
- * Area a2 = new Area().setName("DD");
+ * Area a1 = new Area().register().setName("Brodmann's Area 13");
+ * Area a2 = new Area().register().setName("Brodmann's Area 14");
  * areas.getSize() === 0;
  * areas.add(a1); areas.getSize() === 1;
  * areas.add(a2); areas.getSize() === 2;
@@ -22,9 +22,20 @@ package ba;
  * areas.get(1) === a2;
  * areas.get(1) == a1 === false;
  * areas.get(1) == a2 === true;
+ * areas.get("Brodmann's Area 13") == a1 === true;
+ * areas.get("Brodmann's Area 1"); areas.getSize() === 3;
+ * areas.get("Brodmann's Area 1") == areas.get(2) === true;
  * areas.get(3) === a1; #THROWS IndexOutOfBoundsException 
- * areas.add(new Area().setName("AA")); areas.getSize() === 4;
- * areas.add(new Area().setName("AB")); areas.getSize() === 5;
+ * areas.add(new Area().register().setName("Brodmann's Area 15")); areas.getSize() === 4;
+ * areas.add(new Area().register().setName("Brodmann's Area 16")); areas.getSize() === 5;
+ * areas.delete(a1); areas.getSize() === 4;
+ * areas.get(0) == a2 === true;
+ * areas.contains("brOdmAnn's area 13") === false;
+ * areas.contains("BrodmanN's ArEa 15") === true;
+ * areas.duplicateCheck(-1, " brOdManN'S ArEa 15   ") === true; // -1 toimii uuden alueen idnä 
+ * areas.getAreaForId(-1) === null;
+ * areas.getAreaForId(0) === null;
+ * areas.getAreaForId(1) == a2 === true;
  * </pre>
  */
 public class Areas implements TietorakenneJuoksevallaID {
@@ -73,7 +84,7 @@ public class Areas implements TietorakenneJuoksevallaID {
     public boolean duplicateCheck(int id, String name) { 
         for (int i = 0; i < this.getSize(); i++) {
             Area a = this.get(i);
-            if (a.getName().equalsIgnoreCase(name) && a.getID() != id) return true;
+            if (a.getName().equalsIgnoreCase(name.trim()) && a.getID() != id) return true;
         }
         return false;
     }
@@ -182,26 +193,6 @@ public class Areas implements TietorakenneJuoksevallaID {
         return new Area().parse(s);
     }
     
-    
-    /**
-     * @param area alue joka lisätään tai uudelleenkirjoitetaan
-     */
-    public void overWrite(Area area) {
-        for (int i = 0; i < this.areas.length; i++) {
-            if (this.areas[i].getID() == area.getID()) {
-                this.areas[i] = area;
-                this.altered = true;
-                return;
-            }
-        }
-        try {
-            this.add(area);
-        } catch (TilaException e) {
-            //
-        }
-        this.altered = true;
-    }
-
     
     /**
      * palutetaan alkutilanteeseen

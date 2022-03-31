@@ -15,5 +15,5 @@ public interface TietorakenneJuoksevallaID extends Tietorakenne {
      * @param s merkkijono josta tiedot pilkotaan
      * @return luodaan uusi
      */
-    public Olio newT(String s);
+    public Tietue newT(String s);
 }

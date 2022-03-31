@@ -32,18 +32,18 @@ public class Ba {
      * <pre name="test">
      * #THROWS TilaException
      * Ba ba = new Ba();
-     * Area a1 = new Area(), a2 = new Area();
+     * Area a1 = new Area().register().setName("Brodmann's Area 3");
+     * Area a2 = new Area().register().setName("Brodmann's Area 17");
      * a1.register(); a2.register();
      * ba.getAreaCount() === 0;
      * ba.add(a1); ba.getAreaCount() === 1;
      * ba.add(a2); ba.getAreaCount() === 2;
-     * ba.add(a1); ba.getAreaCount() === 3;
+     * ba.add(a1); #THROWS TilaException // alue on jo olemassa
      * ba.getArea(0) === a1;
      * ba.getArea(1) === a2;
-     * ba.getArea(2) === a1;
      * ba.getArea(3) === a1; #THROWS IndexOutOfBoundsException 
-     * ba.add(a1); ba.getAreaCount() === 4;
-     * ba.add(a1); ba.getAreaCount() === 5;
+     * ba.add(new Area().register().setName("Brodmann's Area 100")); ba.getAreaCount() === 3;
+     * ba.add(new Area().register().setName("Brodmann's Area 890")); ba.getAreaCount() === 4;
      * </pre>
      */
     public void add(Area area) throws TilaException {
@@ -58,18 +58,17 @@ public class Ba {
      * <pre name="test">
      * #THROWS TilaException
      * Ba ba = new Ba();
-     * Function f1 = new Function(), f2 = new Function();
-     * f1.register(); f2.register();
+     * Function f1 = new Function().register().setName("Working memory");
+     * Function f2 = new Function().register().setName("Declarative memory");   
      * ba.getFunctionCount() === 0;
      * ba.add(f1); ba.getFunctionCount() === 1;
      * ba.add(f2); ba.getFunctionCount() === 2;
-     * ba.add(f1); ba.getFunctionCount() === 3;
+     * ba.add(f1); #THROWS TilaException // funktio on jo olemassa
      * ba.getFunction(0) === f1;
      * ba.getFunction(1) === f2;
-     * ba.getFunction(2) === f1;
      * ba.getFunction(3) === f1; #THROWS IndexOutOfBoundsException 
-     * ba.add(f1); ba.getFunctionCount() === 4;
-     * ba.add(f1); ba.getFunctionCount() === 5;
+     * ba.add(new Function().register().setName("Sense of pain")); ba.getFunctionCount() === 3;
+     * ba.add(new Function().register().setName("Move hands")); ba.getFunctionCount() === 4;
      * </pre>
      */
     public void add(Function function) throws TilaException {
@@ -83,29 +82,36 @@ public class Ba {
      * @example
      * <pre name="test">
      * #THROWS TilaException
-     * try {
      *  Ba ba = new Ba();
-     *  Location l1 = new Location().register();
-     *  Location l2 = new Location().register();
-     *  Function f1 = new Function().register();
-     *  Function f2 = new Function().register();
-     *  Function f3 = new Function().register();
+     *  
+     *  Location l1 = new Location().setName("Motor cortex").setLid(1);
+     *  Location l2 = new Location().setName("Visual cortex").setLid(2);
      *  ba.add(l1);
      *  ba.add(l2);
+     *  
+     *  Function f1 = new Function().setName("Working memory").setFid(1);
+     *  Function f2 = new Function().setName("Declarative memory").setFid(2);   
+     *  Function f3 = new Function().setName("Move hands").setFid(3);
      *  ba.add(f1);
      *  ba.add(f2);
      *  ba.add(f3);
-     *  Lf lf1 = new Lf(1,2);
-     *  Lf lf2 = new Lf(2,5);
+     *  
+     *  Lf lf1 = new Lf(1,1);
+     *  Lf lf2 = new Lf(2,2);
      *  Lf lf3 = new Lf(1,3);
+     *  
      *  ba.getLfCount() === 0;
+     *  
      *  ba.add(lf1); ba.getLfCount() === 1;
      *  ba.add(lf2); ba.getLfCount() === 2;
-     *  ba.add(lf3); ba.getLfCount() === 3;
-     *  ba.add(new Lf(1,2)); #THROWS TilaException //jo olemasso oleva pari
-     *  ba.findLocationFor(5).getID() === 1;
-     *  } catch (TilaException e) {//
-     *  }
+     *  ba.add(lf3); ba.getLfCount() === 3; 
+     *  ba.add(new Lf(1,1)); #THROWS TilaException //jo olemasso oleva pari
+     *  
+     *  ba.findLocationFor(3).getID() === 1;
+     *  
+     *  var list = ba.findFunctions(1);
+     *  list.get(0).getName() === "Working memory"; 
+     *  list.get(1).getName() === "Move hands"; 
      * </pre>
      */
     public void add(Lf lf) throws TilaException{
@@ -121,18 +127,17 @@ public class Ba {
      * <pre name="test">
      * #THROWS TilaException
      * Ba ba = new Ba();
-     * Location l1 = new Location(), l2 = new Location();
-     * l1.register(); l2.register();
+     * Location l1 = new Location().register().setName("Motor cortex");
+     * Location l2 = new Location().register().setName("Visual cortex");   
      * ba.getLocationCount() === 0;
      * ba.add(l1); ba.getLocationCount() === 1;
      * ba.add(l2); ba.getLocationCount() === 2;
-     * ba.add(l1); ba.getLocationCount() === 3;
+     * ba.add(l1); #THROWS TilaException // funktio on jo olemassa
      * ba.getLocation(0) === l1;
      * ba.getLocation(1) === l2;
-     * ba.getLocation(2) === l1;
      * ba.getLocation(3) === l1; #THROWS IndexOutOfBoundsException 
-     * ba.add(l1); ba.getLocationCount() === 4;
-     * ba.add(l1); ba.getLocationCount() === 5;
+     * ba.add(new Location().register().setName("Temporal lobe")); ba.getLocationCount() === 3;
+     * ba.add(new Location().register().setName("Wernicke's area")); ba.getLocationCount() === 4;
      * </pre>
      */
     public void add(Location location) throws TilaException {
@@ -216,7 +221,6 @@ public class Ba {
     /**
      * @param lid lohko jonka tehtäviä etsitää
      * @return tehtävät joita lohko hoitaa 
-     * Kohta1 == T /\ kohta2 == T ==> Ohjelma toimii oikeellisesti
      */
     public ArrayList<Function> findFunctions(int lid) {
         ArrayList<Integer> ids = this.lfs.findFunctionIDs(lid); //Kohta 1
@@ -323,7 +327,7 @@ public class Ba {
     
     /**
      * @param name funktion nimi
-     * @return palauttaa funktion
+     * @return palauttaa funktion, jos nimellä ei ole olemassa olevaa luodaan uusi
      */
     public Function getFunction(String name) {
         return this.functions.get(name);
@@ -398,14 +402,6 @@ public class Ba {
         return this.neighbours.getSize();
     }
 
-    
- 
-    /**
-     * @param area alue joka uudelleen kirjoitetaan tai lisätään
-     */
-    public void overWrite(Area area) {
-        this.areas.overWrite(area); 
-    }
     
     /**
      * @param name hakemiston nimi josta luetaan

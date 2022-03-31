@@ -7,7 +7,7 @@ import java.io.PrintStream;
  * @version 8.3.2022
  *
  */ 
-public class Lf implements Olio {
+public class Lf implements Tietue {
     private final int location;
     private final int function;
        

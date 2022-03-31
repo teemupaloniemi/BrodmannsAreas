@@ -1,5 +1,6 @@
 package ba;
 
+import java.io.OutputStream;
 import java.io.PrintStream;
 
 import fi.jyu.mit.ohj2.Mjonot;
@@ -16,7 +17,7 @@ import kanta.CheckArea;
  * @version 21.2.2022
  *
  */
-public class Function implements Olio {
+public class Function implements Tietue {
 
     private int    fid  =  -1;
     private String name = "";
@@ -83,18 +84,18 @@ public class Function implements Olio {
     
     
     /**
-     * @param out tulostus tietovirta
-     * //@example
-     * //<pre name="test">
-     * //#import java.io.ByteArrayOutputStream;
-     * //ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-     * //Function f = new Function().fillFunctionInfo().register();
-     * //f.print(outContent);
-     * //outContent.toString() =R= "\\d\\+|[a-zA-Z]+" + System.lineSeparator();
-     * //</pre>
-     * Tee testit toimiviksi regexpilla
+     * @param os tulostus tietovirta
+     * @example
+     * <pre name="test">
+     * #import java.io.ByteArrayOutputStream;
+     * ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+     * Function f = new Function().register().fillFunctionInfo();
+     * f.print(outContent);
+     * outContent.toString() =R= "[0-9]+\\|.*" + System.lineSeparator();
+     * </pre>
      */
-    public void print(PrintStream out) {
+    public void print(OutputStream os) {
+        PrintStream out = new PrintStream(os);
         out.println(this.toString());
     }
     

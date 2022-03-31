@@ -18,7 +18,7 @@ public interface Tietorakenne {
      * @param i indeksi josta objektia haetaan 
      * @return objektin paikassa i 
      */
-    public Olio get(int i); 
+    public Tietue get(int i); 
     
     
     /**

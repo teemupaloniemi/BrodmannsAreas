@@ -12,7 +12,7 @@ import static kanta.CheckArea.*;
  * @author Teemu
  * @version 21.2.2022
  */
-public class Area implements Olio, Cloneable {
+public class Area implements Tietue, Cloneable {
 
     private int    aid  = -1;  // alueen indeksi numero
     private String name = "";  // alueen nimi
@@ -32,7 +32,7 @@ public class Area implements Olio, Cloneable {
      * @return alueen viite
      */
     public Area fillAreaInfo() {
-        this.name = "Brodmann's area " + rand(1, 52);  
+        this.name = "Brodmann's Area " + rand(1, 52);  
         int fakeLid = rand(0, 4);
         this.setLid(fakeLid);
         return this;
@@ -106,15 +106,14 @@ public class Area implements Olio, Cloneable {
     /**
      * @param os tulostus tietovirta
      * @return alueen viite
-     * //@example
-     * //<pre name="test">
-     * //#import java.io.ByteArrayOutputStream;
-     * //ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-     * //Area a = new Area().fillAreaInfo().register();
-     * //a.print(outContent);
-     * //outContent.toString() =R= "\\d\\+|Brodmann's Area \\d\\+|\\d\\+" + System.lineSeparator();
-     * //</pre>
-     * Tee testit toimiviksi regexpilla
+     * @example
+     * <pre name="test">
+     * #import java.io.ByteArrayOutputStream;
+     * ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+     * Area a = new Area().register().fillAreaInfo();
+     * a.print(outContent);
+     * outContent.toString() =R= "[0-9]+\\|Brodmann's\sArea\s[0-9]+\\|[0-9]+" + System.lineSeparator();
+     * </pre>
      */
     public Area print(OutputStream os) {
         PrintStream out = new PrintStream(os); 

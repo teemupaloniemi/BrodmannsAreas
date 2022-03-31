@@ -42,8 +42,7 @@ public class BaGUIController implements Initializable {
     @FXML private TextField locationText;
     @FXML private TextField searchField; 
     
-    @FXML private Button confirmButton;
-   
+    @FXML private Button confirmButton;   
     @FXML private Button addFunctionButton;
     @FXML private Button addNeighbourButton;
     @FXML private Button deleteFunctionButton;
@@ -154,7 +153,7 @@ public class BaGUIController implements Initializable {
     private String folder;
     
     /**
-     * @param ba luodaan Brodmannin alueet kanta
+     * @param ba "Brodmannin alueet" kanta joka luodaan
      * @param folder kansio josta luetaan
      */
     public void setBa(Ba ba, String folder) {
@@ -165,7 +164,8 @@ public class BaGUIController implements Initializable {
         try {
             this.ba.add(startLocation);
         } catch (TilaException e) {
-            //
+            // jos nimi on jo olemassa (eli luotu ensimmäisellä ajokerralla) 
+            // niin ei tarvitse puuttua asiaan se on jo oikealla paikalla
         }
         this.currentSearch = "";
         this.search(this.currentSearch); // etsitään
@@ -193,7 +193,7 @@ public class BaGUIController implements Initializable {
 
     /**
      * Täytetään alueen tiedot näyttöön
-     * TODO tämä näyttää hankalalta ylläpidettävältä, joku fiksumpi ratkaisu
+     * TODO fiksumpi ratkaisu
      */
     protected void write() {
         Area selectedArea = this.chooserAreas.getSelectedObject(); // otetaan listasta valittu alue
@@ -285,27 +285,27 @@ public class BaGUIController implements Initializable {
      * poistetaan naapuri
      */
     public void deleteNeighbour() {
-        if (this.chooserNeighbours.getSelectedObject() == null) return;
-        int i = this.chooserAreas.getSelectedIndex();
-        int a = this.chooserNeighbours.getSelectedObject().getID();
-        int b = this.chooserAreas.getSelectedObject().getID();
-        this.ba.deleteNeighbour(a,b);
-        this.search(this.currentSearch);
-        this.chooserAreas.setSelectedIndex(i);
-    }
-    
-    
-    /**
-     * poistetaan lohko funktio pari
-     */
-    public void deleteFunction() {
-        if (this.chooserFunctions.getSelectedObject() == null) return;
-        int i = this.chooserAreas.getSelectedIndex();
-        int l = this.chooserAreas.getSelectedObject().getLid();
-        int f = this.chooserFunctions.getSelectedObject().getID();
-        this.ba.deleteLf(l,f);
-        this.search(this.currentSearch);
-        this.chooserAreas.setSelectedIndex(i);
+        if (this.chooserNeighbours.getSelectedObject() == null) return;    // 
+                                                                           // 
+        int a = this.chooserNeighbours.getSelectedObject().getID();        // 
+        int b = this.chooserAreas.getSelectedObject().getID();             // 
+                                                                           // 
+        this.ba.deleteNeighbour(a,b);                                      // 
+        this.search(this.currentSearch);                                   // 
+    }                                                                      // 
+                                                                           // 
+                                                                           // 
+    /**                                                                    // Näyttää samalta ==> 
+     * poistetaan lohko funktio pari                                       // poistaminen saman rajapinnan kautta 
+     */                                                                    // 
+    public void deleteFunction() {                                         // 
+        if (this.chooserFunctions.getSelectedObject() == null) return;     // 
+                                                                           // 
+        int l = this.chooserAreas.getSelectedObject().getLid();            // 
+        int f = this.chooserFunctions.getSelectedObject().getID();         // 
+                                                                           // 
+        this.ba.deleteLf(l,f);                                             // 
+        this.search(this.currentSearch);                                   // 
     }
     
     
@@ -363,47 +363,54 @@ public class BaGUIController implements Initializable {
      */
     public void delete() {
         Area selectedArea = this.chooserAreas.getSelectedObject();
+        if (selectedArea == null) return;
         this.ba.delete(selectedArea);
         this.search(this.currentSearch);
     }
-        
+
+    
+    private void clearFields() {
+        this.chooserAreas.clear();
+        this.chooserFunctions.clear();
+        this.chooserNeighbours.clear();
+        this.nameText.clear();
+        this.locationText.clear();
+    }
+    
     
     /**
      * haetaan kauehdon ja hakuentän tiedoilla sopivat tiedot
      * @param search haku
      */
     public void search(String search) {
-        this.chooserAreas.clear();
-        this.chooserFunctions.clear();
-        this.chooserNeighbours.clear();
-        this.nameText.clear();
-        this.locationText.clear();
+        this.clearFields();
         int index = 0;
+        
         for (int i = 0; i < this.ba.getAreaCount(); i++) {
             Area area = this.ba.getArea(i);
             String name = area.getName();
+            
             if (condition == 1) name = this.ba.getLocationName(area.getLid());
-            if (condition == 2) {
-                var list = this.ba.findFunctions(area.getLid());
-                for (var x : list) {
-                    if (x.getName().toLowerCase().matches(".*" + search.toLowerCase() + ".*")) {
+            
+            if (condition == 2) 
+                for ( var function : this.ba.findFunctions(area.getLid()) ) 
+                    if (function.getName().toLowerCase().matches(".*" + search.toLowerCase() + ".*")) 
                         this.chooserAreas.add(area.getName(), area);
-                        break;
-                    }
-                }
-                continue;
-             }
+             
             if (name.toLowerCase().matches(".*" + search.toLowerCase() + ".*")) { 
                 index = i;
                 this.chooserAreas.add(area.getName(), area);
             }
         }
+        
         this.chooserAreas.setSelectedIndex(index); 
     }
     
     
     /**
-     * muokataan valittua aluetta
+     * Vaihdetaan muokkaustila joko päälle tai pois riippuen ohjelman tilasta,
+     * jos muokkaus päällä kusuminen kytkee sen pois, 
+     * jos ei päällä niin se laitetaan päälle.
      */
     private void edit() {
         if (this.clicked) { 
@@ -419,67 +426,72 @@ public class BaGUIController implements Initializable {
     private void confirmEdit() {
         Area selectedArea = this.chooserAreas.getSelectedObject();
         if (selectedArea == null) return;
+        
+        // Onko alue jo olemassa
         String futureName = this.nameText.getText();
         if (this.ba.duplicateCheck(selectedArea.getID(), futureName)) {
             Dialogs.showMessageDialog("Saman niminen alue on jo olemassa! " + futureName);
             return;
         }
+        
+        // Onko nimi oikein kirjoitettu
         try {
             selectedArea.setName(futureName);
         } catch (TilaException e) {
             Dialogs.showMessageDialog("Tarkista nimen kirjoitus! " + futureName);
         }
-        selectedArea.setLid(ba.getLocation(this.locationText.getText()).getID());
+        
+        // Tarkistetaan onko location olemassa ja jos ei niin luodaan sen niminen
+        Location location = ba.getLocation(this.locationText.getText());
+        selectedArea.setLid(location.getID());
         this.editOff();
     }
     
    
     private void editOn() {
-        this.nameText.getStyleClass().add("edit");
-        this.nameText.editableProperty().set(true);
-        this.locationText.getStyleClass().add("edit");
-        this.locationText.editableProperty().set(true);
-        this.confirmButton.visibleProperty().set(true);
-        this.addFunctionButton.visibleProperty().set(false);
-        this.addNeighbourButton.visibleProperty().set(false);
-        this.deleteFunctionButton.visibleProperty().set(false);
-        this.deleteNeighbourButton.visibleProperty().set(false);
-        this.newAreaButton.visibleProperty().set(false);
-    }
-    
-    
-    private void editOff() {
-        int i = this.chooserAreas.getSelectedIndex();
-        this.nameText.getStyleClass().removeAll("edit");
-        this.nameText.editableProperty().set(false);
-        this.locationText.getStyleClass().removeAll("edit");
-        this.locationText.editableProperty().set(false);
-        this.confirmButton.visibleProperty().set(false);
-        this.addFunctionButton.visibleProperty().set(true);
-        this.addNeighbourButton.visibleProperty().set(true);
-        this.deleteFunctionButton.visibleProperty().set(true);
-        this.deleteNeighbourButton.visibleProperty().set(true);
-        this.newAreaButton.visibleProperty().set(true);
-        this.search(this.currentSearch);
-        this.chooserAreas.setSelectedIndex(i);
-    }
+        this.nameText.getStyleClass().add("edit");                //
+        this.nameText.editableProperty().set(true);               //
+        this.locationText.getStyleClass().add("edit");            //
+        this.locationText.editableProperty().set(true);           //
+        this.confirmButton.visibleProperty().set(true);           //
+        this.addFunctionButton.visibleProperty().set(false);      //
+        this.addNeighbourButton.visibleProperty().set(false);     //
+        this.deleteFunctionButton.visibleProperty().set(false);   //
+        this.deleteNeighbourButton.visibleProperty().set(false);  //
+        this.newAreaButton.visibleProperty().set(false);          //
+    }                                                             //
+                                                                  //
+                                                                  //
+    private void editOff() {                                      // TODO taulukoista
+        int i = this.chooserAreas.getSelectedIndex();             //
+        this.nameText.getStyleClass().removeAll("edit");          //
+        this.nameText.editableProperty().set(false);              //
+        this.locationText.getStyleClass().removeAll("edit");      //
+        this.locationText.editableProperty().set(false);          //
+        this.confirmButton.visibleProperty().set(false);          //
+        this.addFunctionButton.visibleProperty().set(true);       //
+        this.addNeighbourButton.visibleProperty().set(true);      //
+        this.deleteFunctionButton.visibleProperty().set(true);    //
+        this.deleteNeighbourButton.visibleProperty().set(true);   //
+        this.newAreaButton.visibleProperty().set(true);           //
+        this.search(this.currentSearch);                          //
+        this.chooserAreas.setSelectedIndex(i);                    //
+    }                                                             
     
     
     private void print(boolean isSearch) {
         Area area = chooserAreas.getSelectedObject();
         if (area == null) return; 
         
-        StringBuilder areas = new StringBuilder();
-        
         if (isSearch) {
+            StringBuilder areas = new StringBuilder();
             for (var item : this.chooserAreas.getItems()) 
                 areas.append(ba.toString(item.getObject()));
             PrintViewController.print(areas.toString());
             return;
         }
         
-        areas.append(ba.toString(area));
-        PrintViewController.print(areas.toString());
+        PrintViewController.print(ba.toString(area));
     }
     
     
