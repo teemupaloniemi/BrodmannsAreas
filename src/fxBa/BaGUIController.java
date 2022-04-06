@@ -392,10 +392,16 @@ public class BaGUIController implements Initializable {
             
             if (condition == 1) name = this.ba.getLocationName(area.getLid());
             
-            if (condition == 2) 
-                for ( var function : this.ba.findFunctions(area.getLid()) ) 
-                    if (function.getName().toLowerCase().matches(".*" + search.toLowerCase() + ".*")) 
+            if (condition == 2) {
+                for ( var function : this.ba.findFunctions(area.getLid()) ) {
+                    if (function.getName().toLowerCase().matches(".*" + search.toLowerCase() + ".*")) { 
                         this.chooserAreas.add(area.getName(), area);
+                        break;
+                    }
+                }
+                continue;
+            }
+                
              
             if (name.toLowerCase().matches(".*" + search.toLowerCase() + ".*")) { 
                 index = i;
