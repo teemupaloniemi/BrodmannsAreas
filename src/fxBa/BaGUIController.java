@@ -364,6 +364,9 @@ public class BaGUIController implements Initializable {
     public void delete() {
         Area selectedArea = this.chooserAreas.getSelectedObject();
         if (selectedArea == null) return;
+        boolean accept = Dialogs.showQuestionDialog("Delete", "Delete: " + selectedArea.getName() + "?",
+                                  "Delete", "Don't Delete");
+        if (!accept) return;
         this.ba.delete(selectedArea);
         this.search(this.currentSearch);
     }
